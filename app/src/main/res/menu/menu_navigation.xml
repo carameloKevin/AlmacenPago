@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_usuario"
+            android:title="@string/ingresar_usuario"
+            android:icon="@android:drawable/ic_dialog_info"
+            />
+        <item
+            android:id="@+id/nav_ultimas_compras"
+            android:title="@string/ultimas_compras"
+            android:icon="@android:drawable/ic_menu_today"
+            />
+        <item
+            android:id="@+id/nav_saldo"
+            android:title="@string/saldo"
+            android:icon="@android:drawable/ic_dialog_alert"
+            />
+    </group>
+</menu>

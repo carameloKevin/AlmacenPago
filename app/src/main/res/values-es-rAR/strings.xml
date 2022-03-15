@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Almacen Pago</string>
+    <string name="ingresar_usuario">Usuario</string>
+    <string name="ultimas_compras">Comrpado</string>
+    <string name="saldo">Saldo</string>
+    <string name="user_name">Kevin Berg</string>
+    <string name="nav_abrir_drawer">Abrir cajon de navegacion</string>
+    <string name="nav_cerrar_drawer">Cerrar cajon de navegacion</string>
+</resources>

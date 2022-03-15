@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Almacen Pago</string>
+    <string name="ingresar_usuario">User</string>
+    <string name="ultimas_compras">Items Bought</string>
+    <string name="saldo">Balance</string>
+    <string name="user_name">Kevin Berg</string>
+    <string name="nav_abrir_drawer">Open Navigation Drawer</string>
+    <string name="nav_cerrar_drawer">Close Navigation Drawer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
