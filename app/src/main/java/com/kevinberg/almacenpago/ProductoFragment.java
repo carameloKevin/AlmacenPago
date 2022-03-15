@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 public class ProductoFragment extends Fragment {
 
-    static final int LARGO_TEST = 2;
+    private static final int LARGO_TEST = 2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

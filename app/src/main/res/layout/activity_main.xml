@@ -19,49 +19,12 @@
             android:id="@+id/toolbar"
             />
 
-
-        <!--
-        todo: Esto no va seguramente
-      <FrameLayout
-          android:id="@+id/frame_contenido_principal"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          />
-
-          -->
-
-      <androidx.coordinatorlayout.widget.CoordinatorLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          tools:context=".MainActivity">
-
-          <com.google.android.material.appbar.AppBarLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-
-              <androidx.appcompat.widget.Toolbar
-                  android:id="@+id/tabs"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  app:contentScrim="?attr/colorPrimary"
-                  app:layout_scrollFlags="scroll|enterAlways"/>
-
-              <com.google.android.material.tabs.TabLayout
-                  android:id="@+id/tab_layout"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content" />
-
-          </com.google.android.material.appbar.AppBarLayout>
-
-          <androidx.viewpager2.widget.ViewPager2 xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/pager"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-      </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <fragment
+            android:id="@+id/fragment_main"
+            android:name="com.kevinberg.almacenpago.ProductoFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
   </LinearLayout>
 
   <com.google.android.material.navigation.NavigationView
