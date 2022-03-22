@@ -1,9 +1,12 @@
 package com.kevinberg.almacenpago;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
 
@@ -23,6 +26,10 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
                 "IMAGE_RESOURCE_ID INTEGER," +
                 "DUENOID STRING);");
 
+        Log.d(TAG, "onCreate: AGREGANDO LOS DATOS");
+        insertProducto(sqLiteDatabase, "Iphone", "Es un celu", R.drawable.iphoine, 100, "Kevin01");
+        insertProducto(sqLiteDatabase, "Samsung", "Este es un samsung", R.drawable.samsung_phone, 99, "Axel01");
+        Log.d(TAG, "onCreate: DATOS AGREGADOS");
     }
 
 
@@ -33,11 +40,11 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
 
     private static void insertProducto(SQLiteDatabase db, String nombreProducto, String descripcion, int resourceId, double precio, String usuarioId){
         ContentValues productoValues = new ContentValues();
-        productoValues.put("NOMBRE", nombreProducto);
+        productoValues.put("NOMBREPROD", nombreProducto);
         productoValues.put("DESCRIPCION", descripcion);
         productoValues.put("IMAGE_RESOURCE_ID", resourceId);
         productoValues.put("PRECIO", precio);
-        productoValues.put("DEUNOID", usuarioId);
+        productoValues.put("DUENOID", usuarioId);
         db.insert("PRODUCTO", null, productoValues);
         }
 

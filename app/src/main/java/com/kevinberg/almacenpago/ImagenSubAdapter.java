@@ -76,7 +76,7 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
             @Override
             public void onClick(View view) {
                 if(listener != null){
-                    listener.onClick(position);
+                    listener.onClick(holder.getAbsoluteAdapterPosition());
                 }
             }
         });
