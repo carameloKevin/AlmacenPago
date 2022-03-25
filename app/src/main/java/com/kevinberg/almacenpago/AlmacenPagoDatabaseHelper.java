@@ -19,17 +19,29 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+
+        //Agrego tabla de Productos y un par de datos default
         sqLiteDatabase.execSQL("CREATE TABLE PRODUCTO(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "NOMBREPROD STRING," +
-                "DESCRIPCION TEXT," +
+                "DESCRIPCION STRING," +
                 "PRECIO DOUBLE," +
                 "IMAGE_RESOURCE_ID INTEGER," +
-                "DUENOID STRING);");
+                "EMAIL STRING);");
 
         Log.d(TAG, "onCreate: AGREGANDO LOS DATOS");
-        insertProducto(sqLiteDatabase, "Iphone", "Es un celu", R.drawable.iphone, 100, "Kevin01");
-        insertProducto(sqLiteDatabase, "Samsung", "Este es un samsung", R.drawable.samsung, 99, "Axel01");
+        insertProducto(sqLiteDatabase, "Iphone", "Es un celu", R.drawable.iphone, 100, "bergkevin1996@gmail.com");
+        insertProducto(sqLiteDatabase, "Samsung", "Este es un samsung", R.drawable.samsung, 99, "test@test.com");
         Log.d(TAG, "onCreate: DATOS AGREGADOS");
+
+        //Agrego tabla de usuarios y un par de usuarios default
+        sqLiteDatabase.execSQL("CREATE TABLE USUARIO(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "EMAIL STRING," +
+                "PASSWORD STRING," +
+                "NOMBRE STRING," +
+                "APELLIDO STRING);");
+
+        insertUsuario(sqLiteDatabase, "bergkevin1996@gmail.com", "1234", "Kevin", "Berg");
+        insertUsuario(sqLiteDatabase, "test@test.com", "1111", "YoSoy", "ElTest");
     }
 
 
@@ -43,10 +55,17 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
         productoValues.put("NOMBREPROD", nombreProducto);
         productoValues.put("DESCRIPCION", descripcion);
         productoValues.put("IMAGE_RESOURCE_ID", resourceId);
-        Log.d(TAG, "insertProducto: IMAGEN " + resourceId + " iphone "+ R.drawable.iphone);
         productoValues.put("PRECIO", precio);
-        productoValues.put("DUENOID", usuarioId);
+        productoValues.put("EMAIL", usuarioId);
         db.insert("PRODUCTO", null, productoValues);
         }
 
+    private static void insertUsuario(SQLiteDatabase db, String email, String password, String nombre, String apellido){
+        ContentValues productoValues = new ContentValues();
+        productoValues.put("EMAIL", email);
+        productoValues.put("PASSWORD", password);
+        productoValues.put("NOMBRE", nombre);
+        productoValues.put("APELLIDO", apellido);
+        db.insert("USUARIO", null, productoValues);
+    }
 }

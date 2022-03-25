@@ -7,4 +7,9 @@
     <string name="user_name">Kevin Berg</string>
     <string name="nav_abrir_drawer">Abrir cajon de navegacion</string>
     <string name="nav_cerrar_drawer">Cerrar cajon de navegacion</string>
+    <string name="login">Ingresar</string>
+    <string name="signup">Crear Cuenta</string>
+    <string name="insert_password">Inserte Constrasena</string>
+    <string name="insertEmail">Inserte Corre Electronico</string>
+    <string name="insert_password_again">Ingrese Contrasena de nuevo</string>
 </resources>
