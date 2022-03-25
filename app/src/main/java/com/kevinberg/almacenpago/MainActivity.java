@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //this.deleteDatabase("almacenPago"); //Linea para borrar la BD cuando cambio la id de las iamgenes
+        this.deleteDatabase("almacenPago"); //Linea para borrar la BD cuando cambio la id de las iamgenes
         //agrego la toolbar arriba del toodo
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //fragment = new UltimasComprasFragment();
                 break;
             case R.id.nav_usuario:
-                //fragment = new UsuarioFragment();
+                intent = new Intent(this, LoginActivity.class);
                 break;
         }
 
