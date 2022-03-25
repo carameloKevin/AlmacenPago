@@ -1,6 +1,9 @@
 package com.kevinberg.almacenpago;
 
+import static android.content.ContentValues.TAG;
+
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,10 +63,11 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//Asigno los datos que van en la card
+        //Asigno los datos que van en la card
         CardView cardView = holder.cardView;
 
         //Obtengo la ubicacion de XML donde va la imagen y se la asigno
+        Log.d(TAG, "onBindViewHolder: Imagenes en ImagenSubAdapter");
         ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
         Drawable drawable = ContextCompat.getDrawable(cardView.getContext(), imagenIds[position]);
         imageView.setImageDrawable(drawable);

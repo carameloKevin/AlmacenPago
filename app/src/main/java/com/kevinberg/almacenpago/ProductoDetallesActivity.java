@@ -35,12 +35,10 @@ public class ProductoDetallesActivity extends AppCompatActivity {
         int productoId = (Integer) getIntent().getExtras().get(EXTRA_PRODUCTO_ID);
         SQLiteOpenHelper almacenPagoDatabaseHelper = new AlmacenPagoDatabaseHelper(this);
         try{
-            Log.d(TAG, "onCreate: Estoy por abrir el "+ productoId);
             SQLiteDatabase db = almacenPagoDatabaseHelper.getReadableDatabase();
             Cursor cursor = db.query("PRODUCTO", new String[] {"NOMBREPROD","DESCRIPCION","PRECIO","IMAGE_RESOURCE_ID"}, "_id = ?", new String[] {Integer.toString(productoId)},null,null,null);
             Log.d(TAG, "onCreate: Estoy por entrar al if");
             if(cursor.moveToFirst()){
-                Log.d(TAG, "onCreate: ENTREE");
                 String nombreProducto = cursor.getString(0);
                 int imagenProducto = cursor.getInt(3);
 

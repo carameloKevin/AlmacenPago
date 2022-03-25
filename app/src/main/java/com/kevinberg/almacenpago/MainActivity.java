@@ -35,7 +35,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //agrego la toolbar arriba del todo
+        //this.deleteDatabase("almacenPago"); //Linea para borrar la BD cuando cambio la id de las iamgenes
+        //agrego la toolbar arriba del toodo
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -64,14 +65,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             if (cursor.moveToFirst()) {
                 //todo yo en este caso se que son 2, pero no me gusta
-                //Se deja en dos (O una cantidad que sepas que tenes) porque imagenSubAdapter falla si el mandas un arreglo con elementos null
+                //Se deja en dos (O una cantidad que sepas que tenes) porque imagenSubAdapter falla si el mandas un arreglo con alguno de los elementos null
                 tituloProducto = new String[2];
                 imagenIds = new int[2];
                 idProducto = new int[2];
                 // double[] precio = new Double[6]
                 int pos = 0;
                 do {
-                    Log.d(TAG, "onCreate: En la pos "+pos+" esta escribiendo el titulo "+ cursor.getString(0));
+                    Log.d(TAG, "onCreate: En la pos "+pos+" esta escribiendo el id "+ cursor.getString(0) +" titulo" + cursor.getString(1) + " imagne " + cursor.getString(2) + " iphone " + R.drawable.iphone);
                     idProducto[pos] = cursor.getInt(0);
                     tituloProducto[pos] = cursor.getString(1);
                     //precio[pos] = cursor.getString(1);

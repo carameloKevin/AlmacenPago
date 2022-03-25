@@ -27,8 +27,8 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
                 "DUENOID STRING);");
 
         Log.d(TAG, "onCreate: AGREGANDO LOS DATOS");
-        insertProducto(sqLiteDatabase, "Iphone", "Es un celu", R.drawable.iphoine, 100, "Kevin01");
-        insertProducto(sqLiteDatabase, "Samsung", "Este es un samsung", R.drawable.samsung_phone, 99, "Axel01");
+        insertProducto(sqLiteDatabase, "Iphone", "Es un celu", R.drawable.iphone, 100, "Kevin01");
+        insertProducto(sqLiteDatabase, "Samsung", "Este es un samsung", R.drawable.samsung, 99, "Axel01");
         Log.d(TAG, "onCreate: DATOS AGREGADOS");
     }
 
@@ -43,6 +43,7 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
         productoValues.put("NOMBREPROD", nombreProducto);
         productoValues.put("DESCRIPCION", descripcion);
         productoValues.put("IMAGE_RESOURCE_ID", resourceId);
+        Log.d(TAG, "insertProducto: IMAGEN " + resourceId + " iphone "+ R.drawable.iphone);
         productoValues.put("PRECIO", precio);
         productoValues.put("DUENOID", usuarioId);
         db.insert("PRODUCTO", null, productoValues);
