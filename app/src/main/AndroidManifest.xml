@@ -10,6 +10,9 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.AlmacenPago">
         <activity
+            android:name=".AgregarProductoActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoginActivity"
             android:exported="false" />
         <activity

@@ -12,4 +12,9 @@
     <string name="insert_password">Inserte Constrasena</string>
     <string name="insertEmail">Inserte Corre Electronico</string>
     <string name="insert_password_again">Ingrese Contrasena de nuevo</string>
+    <string name="insertNombreProducto">Ingrese nombre del producto</string>
+    <string name="insertDescripcionProducto">Ingrese una descripcion</string>
+    <string name="insertImage">Ingrese una imagen del producto</string>
+    <string name="insertPrice">Ingrese el precio</string>
+    <string name="button_insert_product">Publicar producto</string>
 </resources>

@@ -4,9 +4,12 @@ import static android.content.ContentValues.TAG;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
 
@@ -50,7 +53,7 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
         //Todavia no cambie la DB
     }
 
-    private static void insertProducto(SQLiteDatabase db, String nombreProducto, String descripcion, int resourceId, double precio, String usuarioId){
+    public  void insertProducto(SQLiteDatabase db, String nombreProducto, String descripcion, int resourceId, double precio, String usuarioId){
         ContentValues productoValues = new ContentValues();
         productoValues.put("NOMBREPROD", nombreProducto);
         productoValues.put("DESCRIPCION", descripcion);
@@ -60,12 +63,21 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
         db.insert("PRODUCTO", null, productoValues);
         }
 
-    private static void insertUsuario(SQLiteDatabase db, String email, String password, String nombre, String apellido){
+    public  void insertUsuario(SQLiteDatabase db, String email, String password, String nombre, String apellido){
         ContentValues productoValues = new ContentValues();
         productoValues.put("EMAIL", email);
         productoValues.put("PASSWORD", password);
         productoValues.put("NOMBRE", nombre);
         productoValues.put("APELLIDO", apellido);
         db.insert("USUARIO", null, productoValues);
+    }
+
+    public static boolean existeUsuario(SQLiteDatabase db, String email){
+        //Este metodo no sirve de mucho por ahora
+        boolean existe = false;
+        Cursor cursor = db.query("USUARIO", new String[]{"_ID", "EMAIL"}, "EMAIL=?", new String[]{email}, null, null, null);
+        existe = cursor.moveToFirst();
+        cursor.close();
+        return existe;
     }
 }

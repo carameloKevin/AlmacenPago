@@ -116,6 +116,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (id){
             case R.id.nav_saldo:
                 //fragment = new SaldoFragment();
+                //Todo para testear. Esto tendria que estar en la tooblar una vez logueado el usuario
+                intent = new Intent(this, AgregarProductoActivity.class);
                 break;
             case R.id.nav_ultimas_compras:
                 //fragment = new UltimasComprasFragment();

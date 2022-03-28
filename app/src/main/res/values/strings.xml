@@ -12,4 +12,9 @@
     <string name="insert_password">Insert Password</string>
     <string name="insertEmail">Insert Email</string>
     <string name="insert_password_again">Insert Password again</string>
+    <string name="insertNombreProducto">Insert the name of the product</string>
+    <string name="insertDescripcionProducto">Insert a description</string>
+    <string name="insertImage">Insert an image</string>
+    <string name="insertPrice">Insert the price</string>
+    <string name="button_insert_product">Publish Product</string>
 </resources>
