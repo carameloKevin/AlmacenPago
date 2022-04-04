@@ -27,7 +27,7 @@ public class ProductoFragment extends Fragment {
 
     String[] tituloProducto;
     double[] precioProducto;
-    int[] imagenIds;
+    String[] imagenIds;
     int[] productoIds;
 
     @Override
@@ -41,7 +41,8 @@ public class ProductoFragment extends Fragment {
         if(getArguments() != null) {
 
             tituloProducto = getArguments().getStringArray(EXTRA_ARRAY_TITULOS);
-            imagenIds = getArguments().getIntArray(EXTRA_ARRAY_IMAGENID);
+            //imagenIds = getArguments().getIntArray(EXTRA_ARRAY_IMAGENID);
+            imagenIds = getArguments().getStringArray(EXTRA_ARRAY_IMAGENID);
             productoIds = getArguments().getIntArray(EXTRA_ARRAY_IDS);
 
             ImagenSubAdapter adapter = new ImagenSubAdapter(tituloProducto, imagenIds);

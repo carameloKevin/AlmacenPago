@@ -2,7 +2,10 @@ package com.kevinberg.almacenpago;
 
 import static android.content.ContentValues.TAG;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +23,7 @@ import java.util.List;
 public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.ViewHolder> {
 
     private String[] subtitulos;
-    private int[] imagenIds;
+    private String[] imagenIds;
     private Listener listener;
 
 
@@ -47,7 +50,7 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
         }
     }
 
-    public ImagenSubAdapter(String[] subtitulos, int[] imagenIds){
+    public ImagenSubAdapter(String[] subtitulos, String[] imagenIds){
         //Le informo al adapter con que valores trabajar
         this.subtitulos = subtitulos;
         this.imagenIds = imagenIds;
@@ -68,10 +71,12 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
 
         //Obtengo la ubicacion de XML donde va la imagen y se la asigno
         Log.d(TAG, "onBindViewHolder: Imagenes en ImagenSubAdapter");
-        if(imagenIds[position] != 0) {
+        if(imagenIds[position] != null) {
+            Uri myUri = Uri.parse(imagenIds[position]);
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.get)
             ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
-            Drawable drawable = ContextCompat.getDrawable(cardView.getContext(), imagenIds[position]);
-            imageView.setImageDrawable(drawable);
+            imageView.setImageURI(myUri);
+
         }
         //Idem texto
         TextView textView = (TextView) cardView.findViewById(R.id.info_text);

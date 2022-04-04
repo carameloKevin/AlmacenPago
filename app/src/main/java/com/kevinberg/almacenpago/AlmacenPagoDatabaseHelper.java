@@ -30,12 +30,13 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
                 "PRECIO DOUBLE," +
                 "IMAGE_RESOURCE_ID INTEGER," +
                 "EMAIL STRING);");
-
+/*
+**  No va mas porque cargaba imagens como ResourceId que esta mal.
         Log.d(TAG, "onCreate: AGREGANDO LOS DATOS");
         insertProducto(sqLiteDatabase, "Iphone", "Es un celu", R.drawable.iphone, 100, "bergkevin1996@gmail.com");
         insertProducto(sqLiteDatabase, "Samsung", "Este es un samsung", R.drawable.samsung, 99, "test@test.com");
         Log.d(TAG, "onCreate: DATOS AGREGADOS");
-
+*/
         //Agrego tabla de usuarios y un par de usuarios default
         sqLiteDatabase.execSQL("CREATE TABLE USUARIO(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "EMAIL STRING," +
@@ -53,6 +54,8 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
         //Todavia no cambie la DB
     }
 
+    /*
+    No sirve mas porque ahora guardo URI que son string
     private  void insertProducto(SQLiteDatabase db, String nombreProducto, String descripcion, int resourceId, double precio, String usuarioId){
         ContentValues productoValues = new ContentValues();
         productoValues.put("NOMBREPROD", nombreProducto);
@@ -62,7 +65,7 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
         productoValues.put("EMAIL", usuarioId);
         db.insert("PRODUCTO", null, productoValues);
         }
-
+*/
 
     public  void insertProducto(SQLiteDatabase db, String nombreProducto, String descripcion, String uri, double precio, String usuarioId){
         ContentValues productoValues = new ContentValues();
