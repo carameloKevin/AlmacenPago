@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 public class ProductoDetallesActivity extends AppCompatActivity {
 
     public static final String EXTRA_PRODUCTO_ID = "productoId";
@@ -40,13 +42,21 @@ public class ProductoDetallesActivity extends AppCompatActivity {
             Log.d(TAG, "onCreate: Estoy por entrar al if");
             if(cursor.moveToFirst()){
                 String nombreProducto = cursor.getString(0);
+                String descripcionProducto = cursor.getString(1);
+                String precioProducto = cursor.getString(2);
                 int imagenProducto = cursor.getInt(3);
 
                 Log.d(TAG, "onCreate: Los datos que entoncre fueron " + nombreProducto);
                 //todo descripcion y precio en variables para mostrar
 
-                TextView textView = (TextView) findViewById(R.id.producto_texto);
-                textView.setText(nombreProducto);
+                TextView tvTitulo = (TextView) findViewById(R.id.producto_titulo);
+                tvTitulo.setText(nombreProducto);
+
+                TextView tvDescripcion = (TextView) findViewById(R.id.producto_descripcion);
+                tvDescripcion.setText(descripcionProducto);
+
+                TextView tvPrecio = (TextView) findViewById(R.id.producto_precio);
+                tvPrecio.setText("$" + precioProducto);
 
                 ImageView imageView = (ImageView) findViewById(R.id.producto_imagen);
                 imageView.setImageResource(imagenProducto);

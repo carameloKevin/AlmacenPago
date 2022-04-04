@@ -68,10 +68,11 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
 
         //Obtengo la ubicacion de XML donde va la imagen y se la asigno
         Log.d(TAG, "onBindViewHolder: Imagenes en ImagenSubAdapter");
-        ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
-        Drawable drawable = ContextCompat.getDrawable(cardView.getContext(), imagenIds[position]);
-        imageView.setImageDrawable(drawable);
-
+        if(imagenIds[position] != 0) {
+            ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
+            Drawable drawable = ContextCompat.getDrawable(cardView.getContext(), imagenIds[position]);
+            imageView.setImageDrawable(drawable);
+        }
         //Idem texto
         TextView textView = (TextView) cardView.findViewById(R.id.info_text);
         textView.setText(subtitulos[position]);

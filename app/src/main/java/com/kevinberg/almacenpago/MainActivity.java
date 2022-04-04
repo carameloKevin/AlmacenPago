@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.deleteDatabase("almacenPago"); //Linea para borrar la BD cuando cambio la id de las iamgenes
+        //this.deleteDatabase("almacenPago"); //Linea para borrar la BD cuando cambio la id de las iamgenes
         //agrego la toolbar arriba del toodo
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -61,14 +61,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int[] idProducto = new int[0];
         try {
             SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
-            Cursor cursor = db.query("PRODUCTO", new String[]{"_ID, NOMBREPROD", "IMAGE_RESOURCE_ID", "PRECIO"}, null, null, null, null, "_id DESC", "2");
+            Cursor cursor = db.query("PRODUCTO", new String[]{"_ID, NOMBREPROD", "IMAGE_RESOURCE_ID", "PRECIO"}, null, null, null, null, "_id DESC", "4");
 
             if (cursor.moveToFirst()) {
-                //todo yo en este caso se que son 2, pero no me gusta
-                //Se deja en dos (O una cantidad que sepas que tenes) porque imagenSubAdapter falla si el mandas un arreglo con alguno de los elementos null
-                tituloProducto = new String[2];
-                imagenIds = new int[2];
-                idProducto = new int[2];
+                //todo yo en este caso se que son X, pero no me gusta
+                //Se deja en dos (o igual que el Cursor de arriba) porque imagenSubAdapter falla si el mandas un arreglo con alguno de los elementos null
+                int x = 6;
+                tituloProducto = new String[x];
+                imagenIds = new int[x];
+                idProducto = new int[x];
                 // double[] precio = new Double[6]
                 int pos = 0;
                 do {

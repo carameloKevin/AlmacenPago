@@ -53,7 +53,7 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
         //Todavia no cambie la DB
     }
 
-    public  void insertProducto(SQLiteDatabase db, String nombreProducto, String descripcion, int resourceId, double precio, String usuarioId){
+    private  void insertProducto(SQLiteDatabase db, String nombreProducto, String descripcion, int resourceId, double precio, String usuarioId){
         ContentValues productoValues = new ContentValues();
         productoValues.put("NOMBREPROD", nombreProducto);
         productoValues.put("DESCRIPCION", descripcion);
@@ -62,6 +62,17 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
         productoValues.put("EMAIL", usuarioId);
         db.insert("PRODUCTO", null, productoValues);
         }
+
+
+    public  void insertProducto(SQLiteDatabase db, String nombreProducto, String descripcion, String uri, double precio, String usuarioId){
+        ContentValues productoValues = new ContentValues();
+        productoValues.put("NOMBREPROD", nombreProducto);
+        productoValues.put("DESCRIPCION", descripcion);
+        productoValues.put("IMAGE_RESOURCE_ID", uri);
+        productoValues.put("PRECIO", precio);
+        productoValues.put("EMAIL", usuarioId);
+        db.insert("PRODUCTO", null, productoValues);
+    }
 
     public  void insertUsuario(SQLiteDatabase db, String email, String password, String nombre, String apellido){
         ContentValues productoValues = new ContentValues();
