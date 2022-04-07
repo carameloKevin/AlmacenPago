@@ -18,4 +18,7 @@
     <string name="insertPrice">Ingrese el precio</string>
     <string name="button_insert_product">Publicar producto</string>
     <string name="insert_image">Seleccione una imagen</string>
+    <string name="logout">Logout</string>
+    <string name="hello_blank_fragment">Me tenes las bolas llenas blank fragment</string>
+    <string name="is_logged_in">ya esta logueado</string>
 </resources>

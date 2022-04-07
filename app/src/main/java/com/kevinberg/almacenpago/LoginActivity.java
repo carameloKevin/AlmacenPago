@@ -8,24 +8,45 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-public class LoginActivity extends AppCompatActivity {
+
+
+public class LoginActivity extends AppCompatActivity implements LogoutFragment.LogoutListener, LoginTabFragment.LoginListener {
+
+    private boolean isLoggedIn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(this);
-        ViewPager2 pager = (ViewPager2) findViewById(R.id.viewpager);
-        pager.setAdapter(pagerAdapter);
+        if(!isLoggedIn) {
+            SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(this);
+            ViewPager2 pager = (ViewPager2) findViewById(R.id.viewpager);
+            pager.setAdapter(pagerAdapter);
 
-        TabLayout tabLayout = findViewById(R.id.tab_layout);
-        new TabLayoutMediator(tabLayout, pager, ((tab, position) -> tab.setText(pagerAdapter.getPageTitle(position)))).attach();
+            TabLayout tabLayout = findViewById(R.id.tab_layout);
+            new TabLayoutMediator(tabLayout, pager, ((tab, position) -> tab.setText(pagerAdapter.getPageTitle(position)))).attach();
+        }else{
+            setContentView(R.layout.fragment_logout);
+        }
+    }
+
+    @Override
+    public void updateLoginStatus(boolean value) {
+        isLoggedIn = false;
+        finish();
+        startActivity(getIntent());
+    }
+
+    @Override
+    public void setLoginStatus(boolean value) {
+        isLoggedIn = true;
+        finish();
+        startActivity(getIntent());
     }
 
 

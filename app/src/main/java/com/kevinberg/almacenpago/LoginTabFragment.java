@@ -18,6 +18,11 @@ import android.widget.Toast;
 
 public class LoginTabFragment extends Fragment {
 
+    public interface LoginListener{
+        void setLoginStatus(boolean value);
+    }
+
+    private LoginListener listener;
     EditText etEmail, etPassword;
     TextView tvSuccess;
     Button loginButton;
@@ -47,6 +52,7 @@ public class LoginTabFragment extends Fragment {
                         Cursor cursor = db.query("USUARIO", new String[]{"_ID", "EMAIL", "PASSWORD"}, "EMAIL=? AND PASSWORD=?",new String[]{email, password},null,null,null);
                         if(cursor.moveToFirst()){
                             tvSuccess.setText("Exito!");
+                            listener.setLoginStatus(true);
                         }else{
                             tvSuccess.setText("Fallo");
                         }
