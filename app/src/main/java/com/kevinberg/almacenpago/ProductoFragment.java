@@ -45,7 +45,7 @@ public class ProductoFragment extends Fragment {
             imagenIds = getArguments().getStringArray(EXTRA_ARRAY_IMAGENID);
             productoIds = getArguments().getIntArray(EXTRA_ARRAY_IDS);
 
-            ImagenSubAdapter adapter = new ImagenSubAdapter(tituloProducto, imagenIds);
+            ImagenSubAdapter adapter = new ImagenSubAdapter(tituloProducto, imagenIds, this.getContext());
             productoRecycler.setAdapter(adapter);
             GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
             productoRecycler.setLayoutManager(layoutManager);

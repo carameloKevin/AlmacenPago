@@ -33,11 +33,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public class AgregarProductoActivity extends AppCompatActivity {
 
     private ActivityResultLauncher<String> seleccionarImagen;
-    private Uri imagenUri = null;
+    private File imageFile = null;
 
 
     @Override
@@ -63,8 +64,12 @@ public class AgregarProductoActivity extends AppCompatActivity {
                 new ActivityResultCallback<Uri>() {
                     @Override
                     public void onActivityResult(Uri result) {
-                        imagenUri = result;
-                        etImagen.setText(result.toString());
+                        try {
+                            copyFile(new File(result.getPath()), imageFile);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        etImagen.setText(result.toString()); //Show that i got the info
                     }
                 });
 
@@ -86,7 +91,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
                 descripcion = etDescripcionProducto.getText().toString();
                 email = etUsuario.getText().toString();
                 precio = Double.parseDouble(etPrecioProducto.getText().toString());
-                uri = imagenUri.toString();
+                uri = (Uri.fromFile(imageFile)).toString();
 
                 if(!nombre.isEmpty() && !descripcion.isEmpty() && !email.isEmpty() && precio !=0){
                     AlmacenPagoDatabaseHelper almacenPagoDatabaseHelper = new AlmacenPagoDatabaseHelper(AgregarProductoActivity.this);
@@ -115,4 +120,17 @@ public class AgregarProductoActivity extends AppCompatActivity {
         });
     }
 
+
+    public static void copyFile(File src, File dst) throws IOException {
+        try (InputStream in = new FileInputStream(src)) {
+            try (OutputStream out = new FileOutputStream(dst)) {
+                // Transfer bytes from in to out
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+            }
+        }
+    }
 }

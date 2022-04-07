@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -44,7 +45,7 @@ public class ProductoDetallesActivity extends AppCompatActivity {
                 String nombreProducto = cursor.getString(0);
                 String descripcionProducto = cursor.getString(1);
                 String precioProducto = cursor.getString(2);
-                int imagenProducto = cursor.getInt(3);
+                String imagenProducto = cursor.getString(3);
 
                 Log.d(TAG, "onCreate: Los datos que entoncre fueron " + nombreProducto);
                 //todo descripcion y precio en variables para mostrar
@@ -59,7 +60,7 @@ public class ProductoDetallesActivity extends AppCompatActivity {
                 tvPrecio.setText("$" + precioProducto);
 
                 ImageView imageView = (ImageView) findViewById(R.id.producto_imagen);
-                imageView.setImageResource(imagenProducto);
+                imageView.setImageURI(Uri.parse(imagenProducto));
                 //imageView.setImageDrawable(ContextCompat.getDrawable(this, imagenProducto));
                 imageView.setContentDescription(nombreProducto);
             }

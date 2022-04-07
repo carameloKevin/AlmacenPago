@@ -63,8 +63,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         try {
             SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
             Cursor cursor = db.query("PRODUCTO", new String[]{"_ID, NOMBREPROD", "IMAGE_RESOURCE_ID", "PRECIO"}, null, null, null, null, "_id DESC", "4");
+            Log.d(TAG, "onCreate: ACA ESTA POR VER QUE TIENE EL CURSRO en el cursor. Leyendolo");
 
             if (cursor.moveToFirst()) {
+                Log.d(TAG, "onCreate: Hay un elemento en el cursor. Leyendolo");
                 //todo yo en este caso se que son X, pero no me gusta
                 //Se deja en dos (o igual que el Cursor de arriba) porque imagenSubAdapter falla si el mandas un arreglo con alguno de los elementos null
                 int x = 6;
@@ -95,8 +97,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Bundle bundle = new Bundle();
         bundle.putIntArray(ProductoFragment.EXTRA_ARRAY_IDS, idProducto);
         bundle.putStringArray(ProductoFragment.EXTRA_ARRAY_TITULOS, tituloProducto);
-        //bundle.putDoubleArray(.......);
-        //bundle.putIntArray(ProductoFragment.EXTRA_ARRAY_IMAGENID, imagenIds);
         bundle.putStringArray(ProductoFragment.EXTRA_ARRAY_IMAGENID, imagenIds);
         productosFragment.setArguments(bundle);
 
@@ -152,5 +152,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else{
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
     }
 }
