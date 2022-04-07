@@ -2,7 +2,14 @@ package com.kevinberg.almacenpago;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,18 +17,31 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URI;
 import java.util.List;
 
 public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.ViewHolder> {
 
     private String[] subtitulos;
-    private int[] imagenIds;
+    private String[] imagenIds;
     private Listener listener;
+    private Context context;
 
 
     /*
@@ -45,12 +65,17 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
             super(v);
             cardView = v;
         }
+
+        public CardView getImage(){
+            return this.cardView;
+        }
     }
 
-    public ImagenSubAdapter(String[] subtitulos, int[] imagenIds){
+    public ImagenSubAdapter(String[] subtitulos, String[] imagenIds, Context context){
         //Le informo al adapter con que valores trabajar
         this.subtitulos = subtitulos;
         this.imagenIds = imagenIds;
+        this.context = context;
     }
 
     @NonNull
@@ -67,13 +92,33 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
         CardView cardView = holder.cardView;
 
         //Obtengo la ubicacion de XML donde va la imagen y se la asigno
-        Log.d(TAG, "onBindViewHolder: Imagenes en ImagenSubAdapter");
-        if(imagenIds[position] != 0) {
+
+        if(imagenIds[position] != null) {
+
             ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
-            Drawable drawable = ContextCompat.getDrawable(cardView.getContext(), imagenIds[position]);
-            imageView.setImageDrawable(drawable);
+            imageView.setImageDrawable(this.context.getDrawable(R.drawable.iphone));
+
         }
-        //Idem texto
+        /*
+            Uri uriParse = Uri.parse(imagenIds[position]);
+            Bitmap bitmap = null;
+
+
+            try {
+                //this.context.getContentResolver().takePersistableUriPermission(uriParse, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                //this.context.grantUriPermission(this.context.getPackageName(), uriParse, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                InputStream is = this.context.getContentResolver().openInputStream(uriParse);
+                bitmap = BitmapFactory.decodeStream(is);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
+            imageView.setImageBitmap(bitmap);
+        }
+
+        */
+
         TextView textView = (TextView) cardView.findViewById(R.id.info_text);
         textView.setText(subtitulos[position]);
 
@@ -97,3 +142,5 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
         this.listener = listener;
     }
 }
+
+

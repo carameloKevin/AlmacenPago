@@ -11,13 +11,18 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import org.w3c.dom.Text;
+
+import java.io.File;
 
 public class ProductoDetallesActivity extends AppCompatActivity {
 
@@ -44,7 +49,7 @@ public class ProductoDetallesActivity extends AppCompatActivity {
                 String nombreProducto = cursor.getString(0);
                 String descripcionProducto = cursor.getString(1);
                 String precioProducto = cursor.getString(2);
-                int imagenProducto = cursor.getInt(3);
+                String imagenProducto = cursor.getString(3);
 
                 Log.d(TAG, "onCreate: Los datos que entoncre fueron " + nombreProducto);
                 //todo descripcion y precio en variables para mostrar
@@ -59,7 +64,8 @@ public class ProductoDetallesActivity extends AppCompatActivity {
                 tvPrecio.setText("$" + precioProducto);
 
                 ImageView imageView = (ImageView) findViewById(R.id.producto_imagen);
-                imageView.setImageResource(imagenProducto);
+                Glide.with(this).load(new File(Uri.parse(imagenProducto).getPath())).into(imageView);
+                //imageView.setImageURI(Uri.parse(imagenProducto));
                 //imageView.setImageDrawable(ContextCompat.getDrawable(this, imagenProducto));
                 imageView.setContentDescription(nombreProducto);
             }

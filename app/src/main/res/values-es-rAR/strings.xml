@@ -17,4 +17,5 @@
     <string name="insertImage">Ingrese una imagen del producto</string>
     <string name="insertPrice">Ingrese el precio</string>
     <string name="button_insert_product">Publicar producto</string>
+    <string name="insert_image">Seleccione una imagen</string>
 </resources>
