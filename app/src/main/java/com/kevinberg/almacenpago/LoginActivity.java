@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity implements LogoutFragment.L
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        sharedPreferences = getApplicationContext().getSharedPreferences("Preferences", 0);
+        sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
         isLoggedIn = sharedPreferences.getBoolean("LOGIN", false);
 
         Fragment fragmetACargar = null;
@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity implements LogoutFragment.L
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("LOGIN", true);
         editor.commit();
-        Toast.makeText(this, "Usuario Login exitoso", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Login exitoso", Toast.LENGTH_SHORT).show();
         finish();
     }
 
@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity implements LogoutFragment.L
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove("LOGIN");
         editor.commit();
-        Toast.makeText(this, "Usuario Logout exitoso", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Logout exitoso", Toast.LENGTH_SHORT).show();
         finish();
     }
 

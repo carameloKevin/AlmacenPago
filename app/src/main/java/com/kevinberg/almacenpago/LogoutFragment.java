@@ -1,6 +1,7 @@
 package com.kevinberg.almacenpago;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,13 +23,14 @@ public class LogoutFragment extends Fragment {
     }
 
     private LogoutListener listener;
-
+    private SharedPreferences sharedPreferences;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Un fragment que muestra quien esta logueado y un botton de logout
+        sharedPreferences = this.getContext().getApplicationContext().getSharedPreferences("userdetails", 0);
 
-        String nombreUsuario = "Kevin";//savedInstanceState.getString(USER_NAME);
+        String nombreUsuario = sharedPreferences.getString("nombre", "Usuario");//savedInstanceState.getString(USER_NAME);
         View view = inflater.inflate(R.layout.fragment_logout, container, false);
 
         TextView isLoggedIn = view.findViewById(R.id.tv_isLoggedIn);
@@ -38,6 +40,10 @@ public class LogoutFragment extends Fragment {
         btLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SharedPreferences.Editor editor =sharedPreferences.edit();
+                editor.remove("email");
+                editor.remove("nombre");
+                editor.commit();
                 listener.setLogoutStatus();
             }
         });

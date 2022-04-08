@@ -1,6 +1,7 @@
 package com.kevinberg.almacenpago;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -28,6 +29,7 @@ public class LoginTabFragment extends Fragment {
     EditText etEmail, etPassword;
     TextView tvSuccess;
     Button loginButton;
+    private SharedPreferences sharedPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,6 +41,7 @@ public class LoginTabFragment extends Fragment {
         etPassword = view.findViewById(R.id.etPasswordLogin);
         loginButton = view.findViewById(R.id.button_login);
         tvSuccess = view.findViewById(R.id.textViewSuccess);
+        sharedPreferences = this.getContext().getApplicationContext().getSharedPreferences("userdetails", 0);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,8 +54,12 @@ public class LoginTabFragment extends Fragment {
 
                     try {
                         SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
-                        Cursor cursor = db.query("USUARIO", new String[]{"_ID", "EMAIL", "PASSWORD"}, "EMAIL=? AND PASSWORD=?",new String[]{email, password},null,null,null);
+                        Cursor cursor = db.query("USUARIO", new String[]{"_ID", "EMAIL", "PASSWORD", "NOMBRE"}, "EMAIL=? AND PASSWORD=?",new String[]{email, password},null,null,null);
                         if(cursor.moveToFirst()){
+                            SharedPreferences.Editor editor =sharedPreferences.edit();
+                            editor.putString("email", email);
+                            editor.putString("nombre", cursor.getString(3));
+                            editor.commit();
                             listener.setLoginStatus();
                         }else{
                             tvSuccess.setText("Fallo");
