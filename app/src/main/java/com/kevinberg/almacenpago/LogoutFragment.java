@@ -1,7 +1,9 @@
 package com.kevinberg.almacenpago;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -16,7 +18,7 @@ public class LogoutFragment extends Fragment {
     public final String USER_NAME = "username";
 
     public interface LogoutListener {
-        void updateLoginStatus(boolean value);
+        void setLogoutStatus();
     }
 
     private LogoutListener listener;
@@ -26,7 +28,7 @@ public class LogoutFragment extends Fragment {
                              Bundle savedInstanceState) {
         //Un fragment que muestra quien esta logueado y un botton de logout
 
-        String nombreUsuario = savedInstanceState.getString(USER_NAME);
+        String nombreUsuario = "Kevin";//savedInstanceState.getString(USER_NAME);
         View view = inflater.inflate(R.layout.fragment_logout, container, false);
 
         TextView isLoggedIn = view.findViewById(R.id.tv_isLoggedIn);
@@ -36,10 +38,16 @@ public class LogoutFragment extends Fragment {
         btLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.updateLoginStatus(false);
+                listener.setLogoutStatus();;
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.listener = (LogoutListener) context;
     }
 }

@@ -1,11 +1,13 @@
 package com.kevinberg.almacenpago;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -19,7 +21,7 @@ import android.widget.Toast;
 public class LoginTabFragment extends Fragment {
 
     public interface LoginListener{
-        void setLoginStatus(boolean value);
+        void setLoginStatus();
     }
 
     private LoginListener listener;
@@ -51,8 +53,8 @@ public class LoginTabFragment extends Fragment {
                         SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
                         Cursor cursor = db.query("USUARIO", new String[]{"_ID", "EMAIL", "PASSWORD"}, "EMAIL=? AND PASSWORD=?",new String[]{email, password},null,null,null);
                         if(cursor.moveToFirst()){
-                            tvSuccess.setText("Exito!");
-                            listener.setLoginStatus(true);
+                            Toast.makeText(getContext(), "Logueado con Exito", Toast.LENGTH_SHORT).show();
+                            listener.setLoginStatus();
                         }else{
                             tvSuccess.setText("Fallo");
                         }
@@ -66,4 +68,9 @@ public class LoginTabFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.listener = (LoginListener) context;
+    }
 }
