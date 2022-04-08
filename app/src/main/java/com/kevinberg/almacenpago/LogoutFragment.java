@@ -38,7 +38,7 @@ public class LogoutFragment extends Fragment {
         btLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.setLogoutStatus();;
+                listener.setLogoutStatus();
             }
         });
 

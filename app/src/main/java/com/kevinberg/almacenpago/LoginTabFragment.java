@@ -53,7 +53,6 @@ public class LoginTabFragment extends Fragment {
                         SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
                         Cursor cursor = db.query("USUARIO", new String[]{"_ID", "EMAIL", "PASSWORD"}, "EMAIL=? AND PASSWORD=?",new String[]{email, password},null,null,null);
                         if(cursor.moveToFirst()){
-                            Toast.makeText(getContext(), "Logueado con Exito", Toast.LENGTH_SHORT).show();
                             listener.setLoginStatus();
                         }else{
                             tvSuccess.setText("Fallo");
