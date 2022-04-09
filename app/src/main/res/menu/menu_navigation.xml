@@ -5,17 +5,17 @@
         <item
             android:id="@+id/nav_usuario"
             android:title="@string/ingresar_usuario"
-            android:icon="@android:drawable/ic_dialog_info"
+            android:icon="@drawable/usuario_24"
             />
         <item
             android:id="@+id/nav_ultimas_compras"
             android:title="@string/ultimas_compras"
-            android:icon="@android:drawable/ic_menu_today"
+            android:icon="@drawable/recibo_24"
             />
         <item
-            android:id="@+id/nav_saldo"
-            android:title="@string/saldo"
-            android:icon="@android:drawable/ic_dialog_alert"
+            android:id="@+id/nav_agregar_compra"
+            android:title="@string/agregar_producto"
+            android:icon="@drawable/mas_24"
             />
     </group>
 </menu>

@@ -20,6 +20,13 @@
     <string name="insert_image">Select an image</string>
     <string name="logout">Logout</string>
     <string name="is_logged_in">is already logged in</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="agregar_producto">Add new Product</string>
+    <string name="buy">Buy</string>
+    <string name="ingrese_clave_tarjeta">Input your credit card number</string>
+    <string name="ingrese_numero_tarjeta">Input your credit card key</string>
+    <string name="usted_esta_comprando">You are buying</string>
+    <string name="missing_info">Some info is missing!</string>
+    <string name="error_sql">Error with the Database</string>
+    <string name="compra_exitosa">Succesful purchase!</string>
+    <string name="must_be_logged_in">Must be Logged in to do tihs</string>
 </resources>

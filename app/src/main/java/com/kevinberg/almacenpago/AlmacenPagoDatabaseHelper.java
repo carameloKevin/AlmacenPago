@@ -30,19 +30,18 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
                 "PRECIO DOUBLE," +
                 "IMAGE_RESOURCE_ID INTEGER," +
                 "EMAIL STRING);");
-/*
-**  No va mas porque cargaba imagens como ResourceId que esta mal.
-        Log.d(TAG, "onCreate: AGREGANDO LOS DATOS");
-        insertProducto(sqLiteDatabase, "Iphone", "Es un celu", R.drawable.iphone, 100, "bergkevin1996@gmail.com");
-        insertProducto(sqLiteDatabase, "Samsung", "Este es un samsung", R.drawable.samsung, 99, "test@test.com");
-        Log.d(TAG, "onCreate: DATOS AGREGADOS");
-*/
+
         //Agrego tabla de usuarios y un par de usuarios default
         sqLiteDatabase.execSQL("CREATE TABLE USUARIO(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "EMAIL STRING," +
                 "PASSWORD STRING," +
                 "NOMBRE STRING," +
                 "APELLIDO STRING);");
+
+        //Agergo tabla de que compro cada usuario
+        sqLiteDatabase.execSQL("CREATE TABLE COMPRA(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "EMAILUSUARIO STRING," +
+                "IDPRODUCTO INTEGER);");
 
         insertUsuario(sqLiteDatabase, "bergkevin1996@gmail.com", "1234", "Kevin", "Berg");
         insertUsuario(sqLiteDatabase, "test@test.com", "1111", "YoSoy", "ElTest");
@@ -78,12 +77,19 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
     }
 
     public  void insertUsuario(SQLiteDatabase db, String email, String password, String nombre, String apellido){
-        ContentValues productoValues = new ContentValues();
-        productoValues.put("EMAIL", email);
-        productoValues.put("PASSWORD", password);
-        productoValues.put("NOMBRE", nombre);
-        productoValues.put("APELLIDO", apellido);
-        db.insert("USUARIO", null, productoValues);
+        ContentValues usuarioValues = new ContentValues();
+        usuarioValues.put("EMAIL", email);
+        usuarioValues.put("PASSWORD", password);
+        usuarioValues.put("NOMBRE", nombre);
+        usuarioValues.put("APELLIDO", apellido);
+        db.insert("USUARIO", null, usuarioValues);
+    }
+
+    public void insertCompra(SQLiteDatabase db, String email, Integer id){
+        ContentValues compraValue = new ContentValues();
+        compraValue.put("EMAILUSUARIO", email);
+        compraValue.put("IDPRODUCTO", id);
+        db.insert("COMPRA", null, compraValue);
     }
 
     public static boolean existeUsuario(SQLiteDatabase db, String email){

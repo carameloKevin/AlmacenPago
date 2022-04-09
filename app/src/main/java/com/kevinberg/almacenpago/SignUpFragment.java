@@ -56,6 +56,7 @@ public class SignUpFragment extends Fragment {
                             Toast.makeText(getContext(), "Ya existe un usuario con ese email", Toast.LENGTH_SHORT).show();
 
                         }else{
+
                             Toast.makeText(getContext(), "No existe otro usuario con ese nombre asi que todo bien!", Toast.LENGTH_SHORT).show();
                         }
                     }catch (SQLiteException e){

@@ -10,23 +10,18 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteQuery;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -112,9 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //Cambias dependiendo de que se selecciono
         switch (id){
-            case R.id.nav_saldo:
-                //fragment = new SaldoFragment();
-                //Todo para testear. Esto tendria que estar en la tooblar una vez logueado el usuario
+            case R.id.nav_agregar_compra:
                 intent = new Intent(this, AgregarProductoActivity.class);
                 break;
             case R.id.nav_ultimas_compras:
@@ -137,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
-        return true;
+        return false;
     }
 
     @Override
