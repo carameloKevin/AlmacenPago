@@ -47,7 +47,7 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
     /*
     Creo la interfaz listener para que despues el que vaya
     a usar esta clase le diga a esta clase que tiene que hacer
-    cuando tocan una carta
+    cuando tocan una CARTA
  */
     interface Listener{
         void onClick(int position);
