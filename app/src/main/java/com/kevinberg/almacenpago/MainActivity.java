@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_ultimas_compras:
                 //fragment = new UltimasComprasFragment();
+                intent = new Intent(this, ElementosCompradosActivity.class);
                 break;
             case R.id.nav_usuario:
                 intent = new Intent(this, LoginActivity.class);
