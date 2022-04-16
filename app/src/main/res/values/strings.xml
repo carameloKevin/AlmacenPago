@@ -6,11 +6,12 @@
     <string name="user_name">Kevin Berg</string>
     <string name="nav_abrir_drawer">Open Navigation Drawer</string>
     <string name="nav_cerrar_drawer">Close Navigation Drawer</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="login">Login</string>
     <string name="signup">Sign Up</string>
     <string name="insert_password">Insert Password</string>
     <string name="insertEmail">Insert Email</string>
+    <string name="insert_user_name">Insert your first name</string>
+    <string name="insert_user_surname">Insert your last name</string>
     <string name="insert_password_again">Insert Password again</string>
     <string name="insertNombreProducto">Insert the name of the product</string>
     <string name="insertDescripcionProducto">Insert a description</string>
@@ -28,5 +29,6 @@
     <string name="missing_info">Some info is missing!</string>
     <string name="error_sql">Error with the Database</string>
     <string name="compra_exitosa">Succesful purchase!</string>
-    <string name="must_be_logged_in">Must be Logged in to do tihs</string>
+    <string name="must_be_logged_in">You must be logged in to do this!</string>
+
 </resources>

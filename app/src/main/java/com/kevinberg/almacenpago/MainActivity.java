@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -19,11 +20,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Basicamente le agrego las funciones al drawer
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //Obtengo el header del navigation drawer para asignarle el nombre de usuario
+            View header = navigationView.getHeaderView(0);
+            TextView textUsuario = (TextView) header.findViewById(R.id.nav_nombreUsuario);
+            TextView textEmail = (TextView) header.findViewById(R.id.nav_emailUsuario);
+
+        sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
+            textUsuario.setText(sharedPreferences.getString("nombre", "Visitante"));
+            textEmail.setText(sharedPreferences.getString("email", "Visitante@Visitante.com"));
+
 
 
         //Obtengo una query y lo paso a los arreglos necesarios para el fragmento;
@@ -105,27 +120,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragment = null;
         Intent intent = null;
 
+        sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
+        boolean isLoggedIn = sharedPreferences.getBoolean("LOGIN", false);
+        boolean requiresLogin = false;
         //Cambias dependiendo de que se selecciono
         switch (id){
             case R.id.nav_agregar_compra:
+                requiresLogin = true;
                 intent = new Intent(this, AgregarProductoActivity.class);
                 break;
             case R.id.nav_ultimas_compras:
-                //fragment = new UltimasComprasFragment();
+                requiresLogin = true;
                 intent = new Intent(this, ElementosCompradosActivity.class);
                 break;
             case R.id.nav_usuario:
                 intent = new Intent(this, LoginActivity.class);
                 break;
         }
-
-        //cargo el fragmento o intent
-        if(fragment != null){
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            //ft.replace(R.id.content_frame, fragmenet)
-            //ft.commit();
-        }else{
+        if(!requiresLogin||(requiresLogin && isLoggedIn)) {
             startActivity(intent);
+        }else{
+            Toast.makeText(this, "Error. Estas logueado?", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -146,7 +161,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onResume() {
-
         super.onResume();
     }
 }

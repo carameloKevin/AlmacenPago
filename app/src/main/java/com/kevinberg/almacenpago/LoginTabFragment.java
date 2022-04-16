@@ -54,7 +54,7 @@ public class LoginTabFragment extends Fragment {
 
                     try {
                         SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
-                        Cursor cursor = db.query("USUARIO", new String[]{"_ID", "EMAIL", "PASSWORD", "NOMBRE"}, "EMAIL=? AND PASSWORD=?",new String[]{email, password},null,null,null);
+                        Cursor cursor = db.query("USUARIO", new String[]{"_ID", "EMAIL", "PASSWORD", "NOMBRE", "APELLIDO"}, "EMAIL=? AND PASSWORD=?",new String[]{email, password},null,null,null);
                         if(cursor.moveToFirst()){
                             SharedPreferences.Editor editor =sharedPreferences.edit();
                             editor.putString("email", email);

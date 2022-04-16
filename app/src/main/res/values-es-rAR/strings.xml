@@ -29,4 +29,7 @@
     <string name="missing_info">Alguna informacion esta faltando</string>
     <string name="error_sql">Hubo un error en la database</string>
     <string name="compra_exitosa">Compra exitosa!</string>
+    <string name="insert_user_name">Inserte su nombre</string>
+    <string name="insert_user_surname">Inserte su apellido</string>
+    <string name="must_be_logged_in">Tenes que estar logeado para poder hacer esto</string>
 </resources>

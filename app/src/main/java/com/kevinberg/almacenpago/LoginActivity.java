@@ -2,6 +2,7 @@ package com.kevinberg.almacenpago;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -28,6 +29,9 @@ public class LoginActivity extends AppCompatActivity implements LogoutFragment.L
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
         isLoggedIn = sharedPreferences.getBoolean("LOGIN", false);

@@ -41,6 +41,7 @@ public class ProductoDetallesActivity extends AppCompatActivity {
         //Muestro la toolbar y un boton para volver para arriba
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 

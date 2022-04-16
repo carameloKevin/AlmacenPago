@@ -14,12 +14,14 @@ import androidx.annotation.Nullable;
 public class CompradosListAdapater  extends ArrayAdapter {
     private String[] nombreProducto;
     private double[] precioProducto;
+    private int[] idProducto;
     private Integer[] imageId;
     private  Activity context;
 
-    public CompradosListAdapater(Activity context, String[] nombreProducto, double[] precioProducto, Integer[] imageId){
+    public CompradosListAdapater(Activity context,int[] idProducto, String[] nombreProducto, double[] precioProducto, Integer[] imageId){
         super(context, R.layout.row_item, nombreProducto);
         this.context = context;
+        this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.precioProducto = precioProducto;
         this.imageId = imageId;
