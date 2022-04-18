@@ -50,17 +50,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //Obtengo el header del navigation drawer para asignarle el nombre de usuario
-            View header = navigationView.getHeaderView(0);
-            TextView textUsuario = (TextView) header.findViewById(R.id.nav_nombreUsuario);
-            TextView textEmail = (TextView) header.findViewById(R.id.nav_emailUsuario);
+        cargarNombreUsuario();
+        cargarFragmentoProductos();
+    }
 
-        sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
-            textUsuario.setText(sharedPreferences.getString("nombre", "Visitante"));
-            textEmail.setText(sharedPreferences.getString("email", "Visitante@Visitante.com"));
-
-
-
+    private void cargarFragmentoProductos(){
         //Obtengo una query y lo paso a los arreglos necesarios para el fragmento;
         SQLiteOpenHelper almacenPagoDBHelper = new AlmacenPagoDatabaseHelper(this);
         String[] tituloProducto = new String[0];
@@ -110,7 +104,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ft.add(R.id.frame_layout_main, productosFragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
+    }
 
+    private void cargarNombreUsuario(){
+        //Obtengo el header y le cambio el texto donde va a el nombre del usuario
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        TextView textUsuario = (TextView) header.findViewById(R.id.nav_nombreUsuario);
+        TextView textEmail = (TextView) header.findViewById(R.id.nav_emailUsuario);
+        sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
+
+        textUsuario.setText(sharedPreferences.getString("nombre", "Visitante"));
+        textEmail.setText(sharedPreferences.getString("email", "Visitante@Visitante.com"));
     }
 
     @Override
@@ -162,5 +167,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
+        cargarFragmentoProductos();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        cargarNombreUsuario();
     }
 }

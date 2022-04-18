@@ -78,15 +78,6 @@ public class ElementosCompradosActivity extends ListActivity {
         CompradosListAdapater adapter = new CompradosListAdapater(this,idProducto, titulosProducto, precioProducto, imagenProducto);
         listView.setAdapter(adapter);
 
-        /*
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l){
-                Intent intent = new Intent(view.getContext(), ProductoDetallesActivity.class);
-                intent.putExtra(ProductoDetallesActivity.EXTRA_PRODUCTO_ID, idProducto[position]);
-            }
-        });
-        */
     }
 
     @Override
