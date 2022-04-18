@@ -73,20 +73,17 @@ public class AgregarProductoActivity extends AppCompatActivity {
          new ActivityResultCallback<Uri>() {
                 @Override
                 public void onActivityResult(Uri result) {
-                    getContentResolver().takePersistableUriPermission(result, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    getContentResolver().takePersistableUriPermission(result, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                    //getContentResolver().takePersistableUriPermission(result, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    //getContentResolver().takePersistableUriPermission(result, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                     ivImagen.setImageURI(result);
                     Log.d(TAG, "el path de la imagen es: " + result.getPath());
                     imageUri = result;
                     existeImagen = true;
 
+
+
                 }
             });
-        /*
-        seleccionarImagen = registerForActivityResult(
-                new ActivityResultContracts.GetContent(),
-
-*/
 
         btInputImage.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,6 +1,7 @@
 package com.kevinberg.almacenpago;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,10 @@ public class CompradosListAdapater  extends ArrayAdapter {
     private String[] nombreProducto;
     private double[] precioProducto;
     private int[] idProducto;
-    private Integer[] imageId;
+    private String[] imageId;
     private  Activity context;
 
-    public CompradosListAdapater(Activity context,int[] idProducto, String[] nombreProducto, double[] precioProducto, Integer[] imageId){
+    public CompradosListAdapater(Activity context,int[] idProducto, String[] nombreProducto, double[] precioProducto, String[] imageId){
         super(context, R.layout.row_item, nombreProducto);
         this.context = context;
         this.idProducto = idProducto;
@@ -42,7 +43,7 @@ public class CompradosListAdapater  extends ArrayAdapter {
 
         textViewNombreProducto.setText(nombreProducto[position]);
         textViewPrecioProducto.setText(String.valueOf(precioProducto[position]));
-        imgenProducto.setImageResource(R.drawable.iphone);//imageId[position]);
+        imgenProducto.setImageURI(Uri.parse(imageId[position]));
         return row;
     }
 }

@@ -96,7 +96,7 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
         if(imagenIds[position] != null) {
 
             ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
-            imageView.setImageDrawable(this.context.getDrawable(R.drawable.iphone));
+            imageView.setImageURI(Uri.parse(imagenIds[position]));
 
         }
         /*

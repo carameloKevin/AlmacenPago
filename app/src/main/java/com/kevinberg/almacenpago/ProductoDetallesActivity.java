@@ -51,7 +51,7 @@ public class ProductoDetallesActivity extends AppCompatActivity {
 
         int productoId = (Integer) getIntent().getExtras().get(EXTRA_PRODUCTO_ID);
         SQLiteOpenHelper almacenPagoDatabaseHelper = new AlmacenPagoDatabaseHelper(this);
-        String nombreProducto = "", descripcionProducto= "", precioProducto = "", imagenProducto = "";
+        String nombreProducto ="", descripcionProducto, precioProducto , imagenProducto ;
         try{
             SQLiteDatabase db = almacenPagoDatabaseHelper.getReadableDatabase();
             Cursor cursor = db.query("PRODUCTO", new String[] {"NOMBREPROD","DESCRIPCION","PRECIO","IMAGE_RESOURCE_ID"}, "_id = ?", new String[] {Integer.toString(productoId)},null,null,null);
@@ -75,11 +75,12 @@ public class ProductoDetallesActivity extends AppCompatActivity {
                 tvPrecio.setText("$" + precioProducto);
 
                 ImageView imageView = (ImageView) findViewById(R.id.producto_imagen);
-                //Glide.with(this).load(new File(Uri.parse(imagenProducto).getPath())).into(imageView);
-                //imageView.setImageURI(Uri.parse(imagenProducto));
-                imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.iphone));
+                imageView.setImageURI(Uri.parse(imagenProducto));
                 imageView.setContentDescription(nombreProducto);
+
             }
+            cursor.close();
+            db.close();
         }catch (SQLiteException e){
             Toast.makeText(this, "La DB no esta funcionando", Toast.LENGTH_SHORT).show();
         }
@@ -92,7 +93,7 @@ public class ProductoDetallesActivity extends AppCompatActivity {
         buyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(userEmail != "FALLO"){
+                if(!userEmail.equals("FALLO") ){
                     Intent intent = new Intent(view.getContext(), ComprarProductoActivity.class);
                     intent.putExtra(ComprarProductoActivity.EXTRA_PRODUCT_NAME, finalNombreProducto);
                     intent.putExtra(ComprarProductoActivity.EXTRA_ID_PRODUCTO, productoId);
