@@ -24,7 +24,7 @@ public class ElementosCompradosActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private String[] titulosProducto = new String[0];
     private double[] precioProducto = new double[0];
-    Integer[] imagenProducto = new Integer[0]; // <-- Al dope hasta que consiga hacer andar las imagenes
+    String[] imagenProducto = new String[0];
     int[] idProducto = new int[0];
 
 
@@ -38,7 +38,7 @@ public class ElementosCompradosActivity extends AppCompatActivity {
 
         TextView textView = new TextView(this);
         textView.setTypeface(Typeface.DEFAULT_BOLD);
-        textView.setText("Items Comprados");
+        textView.setText(this.getString(R.string.bought_products));
 
         //Email de usuario logeado
         sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
@@ -51,20 +51,20 @@ public class ElementosCompradosActivity extends AppCompatActivity {
             SQLiteDatabase db = almacenPagoDatabaseHelper.getReadableDatabase();
 
             //Primero obtengo todos los ids productos que compro
-            Cursor cursor = db.rawQuery("SELECT PRODUCTO._id, NOMBREPROD, PRECIO FROM USUARIO, COMPRA, PRODUCTO  WHERE USUARIO.EMAIL=? AND USUARIO.EMAIL=COMPRA.EMAILUSUARIO AND PRODUCTO._id=COMPRA.IDPRODUCTO" , new String[] {userEmail});
+            Cursor cursor = db.rawQuery("SELECT PRODUCTO._id, NOMBREPROD, PRECIO, IMAGE_RESOURCE_ID  FROM USUARIO, COMPRA, PRODUCTO  WHERE USUARIO.EMAIL=? AND USUARIO.EMAIL=COMPRA.EMAILUSUARIO AND PRODUCTO._id=COMPRA.IDPRODUCTO" , new String[] {userEmail});
             if(cursor.moveToFirst()) {
                 int largoCursor = cursor.getCount();
                 int pos = 0;
                 idProducto = new int[largoCursor];
                 titulosProducto = new String[largoCursor];
                 precioProducto = new double[largoCursor];
-                imagenProducto = new Integer[largoCursor];
+                imagenProducto = new String[largoCursor];
                 do{
                     //Obtengo todos los ids de los productos comprados por el usuario este
                     idProducto[pos]      = cursor.getInt(0);
                     titulosProducto[pos] = cursor.getString(1);
                     precioProducto[pos] = cursor.getDouble(2);
-                    imagenProducto[pos] = R.drawable.iphone;    //todo hardcode imagenes
+                    imagenProducto[pos] = cursor.getString(3); //R.drawable.iphone;    //todo hardcode imagenes
                     pos++;
                 }while(cursor.moveToNext());
                 cursor.close();
