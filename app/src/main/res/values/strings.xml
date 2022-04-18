@@ -6,18 +6,30 @@
     <string name="user_name">Kevin Berg</string>
     <string name="nav_abrir_drawer">Open Navigation Drawer</string>
     <string name="nav_cerrar_drawer">Close Navigation Drawer</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="login">Login</string>
     <string name="signup">Sign Up</string>
     <string name="insert_password">Insert Password</string>
     <string name="insertEmail">Insert Email</string>
+    <string name="insert_user_name">Insert your first name</string>
+    <string name="insert_user_surname">Insert your last name</string>
     <string name="insert_password_again">Insert Password again</string>
     <string name="insertNombreProducto">Insert the name of the product</string>
     <string name="insertDescripcionProducto">Insert a description</string>
     <string name="insertImage">Insert an image</string>
     <string name="insertPrice">Insert the price</string>
     <string name="button_insert_product">Publish Product</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="insert_image">Select an iamge</string>
+    <string name="insert_image">Select an image</string>
+    <string name="logout">Logout</string>
+    <string name="is_logged_in">is already logged in</string>
+    <string name="agregar_producto">Add new Product</string>
+    <string name="buy">Buy</string>
+    <string name="ingrese_clave_tarjeta">Input your credit card number</string>
+    <string name="ingrese_numero_tarjeta">Input your credit card key</string>
+    <string name="usted_esta_comprando">You are buying</string>
+    <string name="missing_info">Some info is missing!</string>
+    <string name="error_sql">Error with the Database</string>
+    <string name="compra_exitosa">Succesful purchase!</string>
+    <string name="must_be_logged_in">You must be logged in to do this!</string>
+    <string name="bought_products">Bought Products</string>
+
 </resources>

@@ -17,4 +17,19 @@
     <string name="insertImage">Ingrese una imagen del producto</string>
     <string name="insertPrice">Ingrese el precio</string>
     <string name="button_insert_product">Publicar producto</string>
+    <string name="insert_image">Seleccione una imagen</string>
+    <string name="logout">Logout</string>
+    <string name="hello_blank_fragment">Me tenes las bolas llenas blank fragment</string>
+    <string name="is_logged_in">ya esta logueado</string>
+    <string name="agregar_producto">Crear nuevo Producto</string>
+    <string name="buy">Comprar</string>
+    <string name="ingrese_clave_tarjeta">Ingrese el numero de su tarjeta de credito</string>
+    <string name="ingrese_numero_tarjeta">Ingrese su clave de tarjeta de credit</string>
+    <string name="usted_esta_comprando">Usted esta comprando</string>
+    <string name="missing_info">Alguna informacion esta faltando</string>
+    <string name="error_sql">Hubo un error en la database</string>
+    <string name="compra_exitosa">Compra exitosa!</string>
+    <string name="insert_user_name">Inserte su nombre</string>
+    <string name="insert_user_surname">Inserte su apellido</string>
+    <string name="must_be_logged_in">Tenes que estar logeado para poder hacer esto</string>
 </resources>

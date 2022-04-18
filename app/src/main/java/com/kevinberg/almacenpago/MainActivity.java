@@ -10,25 +10,25 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteQuery;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +50,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        cargarNombreUsuario();
+        cargarFragmentoProductos();
+    }
 
+    private void cargarFragmentoProductos(){
         //Obtengo una query y lo paso a los arreglos necesarios para el fragmento;
-        //String query = "SELECT NOMBREPROD, IMAGE_RESOURCE_ID, PRECIO FROM PRODUCTO ORDER BY column DESC LIMIT 6";
-        //todo: yo se que el limite es 6 y es en este caso asi, asi que lo hardcodeo, pero hay que verlo
         SQLiteOpenHelper almacenPagoDBHelper = new AlmacenPagoDatabaseHelper(this);
         String[] tituloProducto = new String[0];
         //double[] precio;
@@ -62,24 +64,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         double[] precioProducto = new double[0];
         try {
             SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
-            Cursor cursor = db.query("PRODUCTO", new String[]{"_ID, NOMBREPROD", "IMAGE_RESOURCE_ID", "PRECIO"}, null, null, null, null, "_id DESC", "4");
-            Log.d(TAG, "onCreate: ACA ESTA POR VER QUE TIENE EL CURSRO en el cursor. Leyendolo");
+
+            Cursor cursor = db.query("PRODUCTO", new String[]{"_ID, NOMBREPROD", "IMAGE_RESOURCE_ID", "PRECIO"}, null, null, null, null, "_id DESC", "10");;
 
             if (cursor.moveToFirst()) {
-                Log.d(TAG, "onCreate: Hay un elemento en el cursor. Leyendolo");
-                //todo yo en este caso se que son X, pero no me gusta
-                //Se deja en dos (o igual que el Cursor de arriba) porque imagenSubAdapter falla si el mandas un arreglo con alguno de los elementos null
-                int x = 6;
-                tituloProducto = new String[x];
-                imagenIds = new String[x];
-                idProducto = new int[x];
-                precioProducto = new double[x];
+                Log.d(TAG, "MainActivity - onCreate: Hay un elemento en el cursor. Leyendolo");
+
+                int largoCursor = cursor.getCount();
+                tituloProducto = new String[largoCursor];
+                imagenIds = new String[largoCursor];
+                idProducto = new int[largoCursor];
+                precioProducto = new double[largoCursor];
+
+
                 int pos = 0;
                 do {
                     idProducto[pos] = cursor.getInt(0);
                     tituloProducto[pos] = cursor.getString(1);
-                    precioProducto[pos] = Double.parseDouble(cursor.getString(3));
+
                     imagenIds[pos] = cursor.getString(2);
+                    precioProducto[pos] = Double.parseDouble(cursor.getString(3));
 
                     pos++;
                 } while (cursor.moveToNext());
@@ -104,7 +108,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ft.add(R.id.frame_layout_main, productosFragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
+    }
 
+    private void cargarNombreUsuario(){
+        //Obtengo el header y le cambio el texto donde va a el nombre del usuario
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        TextView textUsuario = (TextView) header.findViewById(R.id.nav_nombreUsuario);
+        TextView textEmail = (TextView) header.findViewById(R.id.nav_emailUsuario);
+        sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
+
+        textUsuario.setText(sharedPreferences.getString("nombre", "Visitante"));
+        textEmail.setText(sharedPreferences.getString("email", "Visitante@Visitante.com"));
     }
 
     @Override
@@ -114,34 +129,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragment = null;
         Intent intent = null;
 
+        sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
+        boolean isLoggedIn = sharedPreferences.getBoolean("LOGIN", false);
+        boolean requiresLogin = false;
         //Cambias dependiendo de que se selecciono
         switch (id){
-            case R.id.nav_saldo:
-                //fragment = new SaldoFragment();
-                //Todo para testear. Esto tendria que estar en la tooblar una vez logueado el usuario
+            case R.id.nav_agregar_compra:
+                requiresLogin = true;
                 intent = new Intent(this, AgregarProductoActivity.class);
                 break;
             case R.id.nav_ultimas_compras:
-                //fragment = new UltimasComprasFragment();
+                requiresLogin = true;
+                intent = new Intent(this, ElementosCompradosActivity.class);
                 break;
             case R.id.nav_usuario:
                 intent = new Intent(this, LoginActivity.class);
                 break;
         }
-
-        //cargo el fragmento o intent
-        if(fragment != null){
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            //ft.replace(R.id.content_frame, fragmenet)
-            //ft.commit();
-        }else{
+        if(!requiresLogin||(requiresLogin && isLoggedIn)) {
             startActivity(intent);
+        }else{
+            Toast.makeText(this, "Error. Estas logueado?", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
-        return true;
+        return false;
     }
 
     @Override
@@ -156,7 +170,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onResume() {
-
         super.onResume();
+        cargarFragmentoProductos();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        cargarNombreUsuario();
     }
 }

@@ -25,44 +25,50 @@ public class SignUpFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        EditText etEmail, etPassword, etPasswordVerification;
+        EditText etEmail, etPassword, etPasswordVerification, etNombre, etApellido;
         TextView tvSuccess;
         Button loginButton;
 
         View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
 
         etEmail = view.findViewById(R.id.etEmailAddressSignUp);
+        etNombre = view.findViewById(R.id.etUserName);
+        etApellido = view.findViewById(R.id.etUserSurname);
         etPassword = view.findViewById(R.id.etPasswordSignUp);
         etPasswordVerification = view.findViewById(R.id.etPassword2SignUp);
         loginButton = view.findViewById(R.id.button_sign_up);
-        tvSuccess = view.findViewById(R.id.textViewSuccess);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email, password, passwordVerification;
-                email = etEmail.getText().toString();
-                password = etPassword.getText().toString();
-                passwordVerification = etPasswordVerification.getText().toString();
+                String email, password, passwordVerification, nombre, apellido;
+                email = etEmail.getText().toString().trim();
+                password = etPassword.getText().toString().trim();
+                passwordVerification = etPasswordVerification.getText().toString().trim();
+                nombre = etNombre.getText().toString().trim();
+                apellido = etNombre.getText().toString().trim();
                 Log.d(TAG, "onClick: "+ email + " " + password + " " + passwordVerification);
-                if(!email.isEmpty() && !password.isEmpty() && passwordVerification.equals(password)){
-                    SQLiteOpenHelper almacenPagoDBHelper = new AlmacenPagoDatabaseHelper(getContext());
-
+                if(!email.isEmpty() && !password.isEmpty() && passwordVerification.equals(password) && !nombre.isEmpty() && !apellido.isEmpty()) {
+                    AlmacenPagoDatabaseHelper almacenPagoDBHelper = new AlmacenPagoDatabaseHelper(getContext());
+                    SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
                     try {
-                        SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
-                        Cursor cursor = db.query("USUARIO", new String[]{"_ID", "EMAIL"}, "EMAIL=?",new String[]{email},null,null,null);
-                        if(cursor.moveToFirst()){
+                        Cursor cursor = db.query("USUARIO", new String[]{"_ID", "EMAIL"}, "EMAIL=?", new String[]{email}, null, null, null);
+                        if (cursor.moveToFirst()) {
                             //Si encuentro un usuario en la lista significa que ya existe, dah
                             Toast.makeText(getContext(), "Ya existe un usuario con ese email", Toast.LENGTH_SHORT).show();
-
-                        }else{
-                            Toast.makeText(getContext(), "No existe otro usuario con ese nombre asi que todo bien!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            db.close();
+                            db = almacenPagoDBHelper.getWritableDatabase();
+                            almacenPagoDBHelper.insertUsuario(db, email, password, nombre, apellido);
+                            Toast.makeText(getContext(), "Usuario creado exitosamente!", Toast.LENGTH_SHORT).show();
                         }
-                    }catch (SQLiteException e){
+                    } catch (SQLiteException e) {
                         Toast.makeText(getContext(), "Error en la BD al intentar recuperar el usuario", Toast.LENGTH_SHORT).show();
+                    } finally {
+                        db.close();
                     }
                 }else{
-                    Toast.makeText(getContext(), "Alguno de los campos no esta bien, verifique los datos ingresados", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Verifique los datos ingresados", Toast.LENGTH_SHORT).show();
             }
         }});
 

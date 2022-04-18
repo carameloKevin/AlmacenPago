@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
@@ -46,7 +47,7 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
     /*
     Creo la interfaz listener para que despues el que vaya
     a usar esta clase le diga a esta clase que tiene que hacer
-    cuando tocan una carta
+    cuando tocan una CARTA
  */
     interface Listener{
         void onClick(int position);
@@ -91,24 +92,14 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
         CardView cardView = holder.cardView;
 
         //Obtengo la ubicacion de XML donde va la imagen y se la asigno
+
+
         if(imagenIds[position] != null) {
 
-            Uri uriParse = Uri.parse(imagenIds[position]);
-            Bitmap bitmap = null;
-            Log.d(TAG, "onBindViewHolder: " + uriParse.getPath());
-            try {
-                this.context.grantUriPermission(this.context.getPackageName(), uriParse, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                InputStream is = this.context.getContentResolver().openInputStream(uriParse);
-                bitmap = BitmapFactory.decodeStream(is);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-
             ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
-            imageView.setImageBitmap(bitmap);
-            //imageView.setImageBitmap(BitmapFactory.decodeFile((uriParse.getPath())));
-            //Glide.with(this.context).load(file).into(imageView);
-        }
+            imageView.setImageURI(Uri.parse(imagenIds[position]));
+
+
         TextView textView = (TextView) cardView.findViewById(R.id.info_text);
         textView.setText(subtitulos[position]);
 
