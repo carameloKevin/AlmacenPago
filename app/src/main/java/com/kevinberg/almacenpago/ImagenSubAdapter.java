@@ -94,26 +94,26 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
         //Obtengo la ubicacion de XML donde va la imagen y se la asigno
 
 
-        if(imagenIds[position] != null) {
+        if (imagenIds[position] != null) {
 
             ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
             imageView.setImageURI(Uri.parse(imagenIds[position]));
 
 
-        TextView textView = (TextView) cardView.findViewById(R.id.info_text);
-        textView.setText(subtitulos[position]);
+            TextView textView = (TextView) cardView.findViewById(R.id.info_text);
+            textView.setText(subtitulos[position]);
 
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(listener != null){
-                    listener.onClick(holder.getAbsoluteAdapterPosition());
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        listener.onClick(holder.getAbsoluteAdapterPosition());
+                    }
                 }
-            }
-        });
+            });
+        }
+
     }
-
-
     @Override
     public int getItemCount() {
         return subtitulos.length;
