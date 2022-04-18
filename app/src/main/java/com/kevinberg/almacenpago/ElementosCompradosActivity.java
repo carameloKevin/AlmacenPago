@@ -51,7 +51,6 @@ public class ElementosCompradosActivity extends AppCompatActivity {
             SQLiteDatabase db = almacenPagoDatabaseHelper.getReadableDatabase();
 
             //Primero obtengo todos los ids productos que compro
-            //Cursor cursor = db.rawQuery("SELECT IDPRODUCTO FROM USUARIO INNER JOIN COMPRA ON EMAILUSUARIO=EMAIL WHERE EMAIL=?" , new String[] {userEmail});
             Cursor cursor = db.rawQuery("SELECT PRODUCTO._id, NOMBREPROD, PRECIO FROM USUARIO, COMPRA, PRODUCTO  WHERE USUARIO.EMAIL=? AND USUARIO.EMAIL=COMPRA.EMAILUSUARIO AND PRODUCTO._id=COMPRA.IDPRODUCTO" , new String[] {userEmail});
             if(cursor.moveToFirst()) {
                 int largoCursor = cursor.getCount();
@@ -66,6 +65,7 @@ public class ElementosCompradosActivity extends AppCompatActivity {
                     titulosProducto[pos] = cursor.getString(1);
                     precioProducto[pos] = cursor.getDouble(2);
                     imagenProducto[pos] = R.drawable.iphone;    //todo hardcode imagenes
+                    pos++;
                 }while(cursor.moveToNext());
                 cursor.close();
                 db.close();
