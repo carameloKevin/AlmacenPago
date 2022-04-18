@@ -80,8 +80,6 @@ public class AgregarProductoActivity extends AppCompatActivity {
                     imageUri = result;
                     existeImagen = true;
 
-
-
                 }
             });
 
