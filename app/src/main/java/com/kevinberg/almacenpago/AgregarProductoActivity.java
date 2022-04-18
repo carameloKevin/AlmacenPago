@@ -49,6 +49,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
     private String fullPathUri = "";
     private SharedPreferences sharedPreferences;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EditText etNombreProducto, etDescripcionProducto, etPrecioProducto, etUsuario;
@@ -69,6 +70,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
 
 
 
+
         seleccionarImagen = registerForActivityResult(new ActivityResultContracts.OpenDocument(),
          new ActivityResultCallback<Uri>() {
                 @Override
@@ -82,6 +84,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
 
                 }
             });
+
 
         btInputImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +108,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
                 descripcion = etDescripcionProducto.getText().toString();
                 email = sharedPreferences.getString("EMAIL", "wrongEmail"); //No deberia haber podido llegar hasta aca si no esta logueado;
                 precio = Double.parseDouble(etPrecioProducto.getText().toString());
+
                 if(imageUri != null){
                     uri = imageUri.toString();
                 }
@@ -136,17 +140,4 @@ public class AgregarProductoActivity extends AppCompatActivity {
         });
     }
 
-/*
-    public static void copyFile(File src, File dst) throws IOException {
-        try (InputStream in = new FileInputStream(src)) {
-            try (OutputStream out = new FileOutputStream(dst)) {
-                // Transfer bytes from in to out
-                byte[] buf = new byte[1024];
-                int len;
-                while ((len = in.read(buf)) > 0) {
-                    out.write(buf, 0, len);
-                }
-            }
-        }
-    */
 }

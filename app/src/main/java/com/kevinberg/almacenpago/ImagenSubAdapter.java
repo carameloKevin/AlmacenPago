@@ -93,31 +93,12 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
 
         //Obtengo la ubicacion de XML donde va la imagen y se la asigno
 
+
         if(imagenIds[position] != null) {
 
             ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
             imageView.setImageURI(Uri.parse(imagenIds[position]));
 
-        }
-        /*
-            Uri uriParse = Uri.parse(imagenIds[position]);
-            Bitmap bitmap = null;
-
-
-            try {
-                //this.context.getContentResolver().takePersistableUriPermission(uriParse, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                //this.context.grantUriPermission(this.context.getPackageName(), uriParse, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                InputStream is = this.context.getContentResolver().openInputStream(uriParse);
-                bitmap = BitmapFactory.decodeStream(is);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-
-            ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
-            imageView.setImageBitmap(bitmap);
-        }
-
-        */
 
         TextView textView = (TextView) cardView.findViewById(R.id.info_text);
         textView.setText(subtitulos[position]);

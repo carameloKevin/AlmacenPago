@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         double[] precioProducto = new double[0];
         try {
             SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
+
             Cursor cursor = db.query("PRODUCTO", new String[]{"_ID, NOMBREPROD", "IMAGE_RESOURCE_ID", "PRECIO"}, null, null, null, null, "_id DESC", "10");;
 
             if (cursor.moveToFirst()) {
@@ -74,10 +75,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 imagenIds = new String[largoCursor];
                 idProducto = new int[largoCursor];
                 precioProducto = new double[largoCursor];
+
+
                 int pos = 0;
                 do {
                     idProducto[pos] = cursor.getInt(0);
                     tituloProducto[pos] = cursor.getString(1);
+
                     imagenIds[pos] = cursor.getString(2);
                     precioProducto[pos] = Double.parseDouble(cursor.getString(3));
 

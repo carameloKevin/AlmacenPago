@@ -57,10 +57,12 @@ public class ProductoDetallesActivity extends AppCompatActivity {
             Cursor cursor = db.query("PRODUCTO", new String[] {"NOMBREPROD","DESCRIPCION","PRECIO","IMAGE_RESOURCE_ID"}, "_id = ?", new String[] {Integer.toString(productoId)},null,null,null);
             Log.d(TAG, "onCreate: Estoy por entrar al if");
             if(cursor.moveToFirst()){
+
                  nombreProducto = cursor.getString(0);
                  descripcionProducto = cursor.getString(1);
                  precioProducto = cursor.getString(2);
                  imagenProducto = cursor.getString(3);
+
 
                 Log.d(TAG, "onCreate: Los datos que entoncre fueron " + nombreProducto);
                 //todo descripcion y precio en variables para mostrar
@@ -76,6 +78,7 @@ public class ProductoDetallesActivity extends AppCompatActivity {
 
                 ImageView imageView = (ImageView) findViewById(R.id.producto_imagen);
                 imageView.setImageURI(Uri.parse(imagenProducto));
+
                 imageView.setContentDescription(nombreProducto);
 
             }
