@@ -19,10 +19,10 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
-public class ElementosCompradosActivity extends ListActivity {
+public class ElementosCompradosActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
-    private String[] titulosProducto = new String[0];;
+    private String[] titulosProducto = new String[0];
     private double[] precioProducto = new double[0];
     Integer[] imagenProducto = new Integer[0]; // <-- Al dope hasta que consiga hacer andar las imagenes
     int[] idProducto = new int[0];
@@ -33,11 +33,9 @@ public class ElementosCompradosActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_elementos_comprados);
 
-        /* Esto no puede ser porque use un ListActivity. Tengo que cambiar la herencia;
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSuppportActionBar(toolbar);
-        */
+        setSupportActionBar(toolbar);
+
         TextView textView = new TextView(this);
         textView.setTypeface(Typeface.DEFAULT_BOLD);
         textView.setText("Items Comprados");
@@ -69,6 +67,8 @@ public class ElementosCompradosActivity extends ListActivity {
                     precioProducto[pos] = cursor.getDouble(2);
                     imagenProducto[pos] = R.drawable.iphone;    //todo hardcode imagenes
                 }while(cursor.moveToNext());
+                cursor.close();
+                db.close();
             }
         }catch (SQLiteException e){
             Toast.makeText(this, "Error en la BD al intentar recueprar la lista de compras del usuario", Toast.LENGTH_SHORT).show();
@@ -78,13 +78,14 @@ public class ElementosCompradosActivity extends ListActivity {
         CompradosListAdapater adapter = new CompradosListAdapater(this,idProducto, titulosProducto, precioProducto, imagenProducto);
         listView.setAdapter(adapter);
 
-    }
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Intent intent = new Intent(view.getContext(), ProductoDetallesActivity.class);
+                intent.putExtra(ProductoDetallesActivity.EXTRA_PRODUCTO_ID, idProducto[position]);
+                startActivity(intent);
+            }
+        });
 
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-        Intent intent = new Intent(this, ProductoDetallesActivity.class);
-        intent.putExtra(ProductoDetallesActivity.EXTRA_PRODUCTO_ID, idProducto[position]);
-        startActivity(intent);
     }
 }
