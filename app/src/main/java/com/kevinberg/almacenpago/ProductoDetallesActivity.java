@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -32,11 +33,18 @@ public class ProductoDetallesActivity extends AppCompatActivity {
 
     public static final String EXTRA_PRODUCTO_ID = "productoId";
     SharedPreferences sharedPreferences;
+    String nombreProducto ="", descripcionProducto, precioProducto , imagenProducto, emailVendedor ;
+    Integer idProducto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_producto_detalles);
+
+        //Datos de si el usuario esta logueado o no
+        sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
+        String userEmail = sharedPreferences.getString("email", "FALLO");
+        boolean isLoggedIn = sharedPreferences.getBoolean("LOGIN", false);
 
         //Muestro la toolbar y un boton para volver para arriba
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -47,25 +55,23 @@ public class ProductoDetallesActivity extends AppCompatActivity {
 
         //Busco el boton de comprar y le agrego funcionalidad
         Button buyButton = (Button)  findViewById(R.id.bt_buy);
-
+        Button deleteProductButton = (Button) findViewById(R.id.bt_delete_item);
 
         int productoId = (Integer) getIntent().getExtras().get(EXTRA_PRODUCTO_ID);
         SQLiteOpenHelper almacenPagoDatabaseHelper = new AlmacenPagoDatabaseHelper(this);
-        String nombreProducto ="", descripcionProducto, precioProducto , imagenProducto ;
+
         try{
             SQLiteDatabase db = almacenPagoDatabaseHelper.getReadableDatabase();
-            Cursor cursor = db.query("PRODUCTO", new String[] {"NOMBREPROD","DESCRIPCION","PRECIO","IMAGE_RESOURCE_ID"}, "_id = ?", new String[] {Integer.toString(productoId)},null,null,null);
-            Log.d(TAG, "onCreate: Estoy por entrar al if");
+            Cursor cursor = db.query("PRODUCTO", new String[] {"_ID, NOMBREPROD","DESCRIPCION","PRECIO","IMAGE_RESOURCE_ID, EMAIL"}, "_id = ?", new String[] {Integer.toString(productoId)},null,null,null);
+
             if(cursor.moveToFirst()){
 
-                 nombreProducto = cursor.getString(0);
-                 descripcionProducto = cursor.getString(1);
-                 precioProducto = cursor.getString(2);
-                 imagenProducto = cursor.getString(3);
-
-
-                Log.d(TAG, "onCreate: Los datos que entoncre fueron " + nombreProducto);
-                //todo descripcion y precio en variables para mostrar
+                idProducto = cursor.getInt(0);
+                nombreProducto = cursor.getString(1);
+                descripcionProducto = cursor.getString(2);
+                precioProducto = cursor.getString(3);
+                imagenProducto = cursor.getString(4);
+                emailVendedor = cursor.getString(5);
 
                 TextView tvTitulo = (TextView) findViewById(R.id.producto_titulo);
                 tvTitulo.setText(nombreProducto);
@@ -81,6 +87,10 @@ public class ProductoDetallesActivity extends AppCompatActivity {
 
                 imageView.setContentDescription(nombreProducto);
 
+                //No muestro el Unbuy si el usuario no esta logeado o no publico este producto
+                if(!isLoggedIn && !emailVendedor.equals(userEmail)) {
+                    deleteProductButton.setVisibility(View.GONE);
+                }
             }
             cursor.close();
             db.close();
@@ -90,8 +100,21 @@ public class ProductoDetallesActivity extends AppCompatActivity {
 
         String finalNombreProducto = nombreProducto;
 
-        sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
-        String userEmail = sharedPreferences.getString("email", "FALLO");
+        deleteProductButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Activity act = (Activity) view.getContext();
+                SQLiteOpenHelper almacenPagoDatabaseHelper = new AlmacenPagoDatabaseHelper(act);
+                try{
+                    SQLiteDatabase db = almacenPagoDatabaseHelper.getReadableDatabase();
+                    db.delete("PRODUCTO", "_ID="+idProducto,null);
+                    db.close();
+                    act.finish();
+                }catch (SQLiteException e) {
+                    Toast.makeText(ProductoDetallesActivity.this, "Error en la DB", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         buyButton.setOnClickListener(new View.OnClickListener() {
             @Override

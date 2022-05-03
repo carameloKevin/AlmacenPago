@@ -31,5 +31,6 @@
     <string name="compra_exitosa">Succesful purchase!</string>
     <string name="must_be_logged_in">You must be logged in to do this!</string>
     <string name="bought_products">Bought Products</string>
+    <string name="delete_product">Stop selling this product</string>
 
 </resources>
