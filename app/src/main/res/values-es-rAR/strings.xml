@@ -32,4 +32,12 @@
     <string name="insert_user_name">Inserte su nombre</string>
     <string name="insert_user_surname">Inserte su apellido</string>
     <string name="must_be_logged_in">Tenes que estar logeado para poder hacer esto</string>
+    <string name="ya_existe_producto">\"Ya existe un este mismo producto creado por este usuario!\"</string>
+    <string name="delete_product">Dejar de vender este producto</string>
+    <string name="bought_products">Productos comprados</string>
+    <string name="producto_agregado_exito">Producto agregado con exito!</string>
+    <string name="campos_incompletos">Algunos campos estan incompletos</string>
+    <string name="login_exitoso">Ingreso a la cuenta con exito!</string>
+    <string name="logut_exitoso">Salida de la cuenta exitosamente!</string>
+    <string name="error_is_not_login">Error. Estas Loggeado?</string>
 </resources>

@@ -64,14 +64,14 @@ public class ElementosCompradosActivity extends AppCompatActivity {
                     idProducto[pos]      = cursor.getInt(0);
                     titulosProducto[pos] = cursor.getString(1);
                     precioProducto[pos] = cursor.getDouble(2);
-                    imagenProducto[pos] = cursor.getString(3); //R.drawable.iphone;    //todo hardcode imagenes
+                    imagenProducto[pos] = cursor.getString(3);
                     pos++;
                 }while(cursor.moveToNext());
                 cursor.close();
                 db.close();
             }
         }catch (SQLiteException e){
-            Toast.makeText(this, "Error en la BD al intentar recueprar la lista de compras del usuario", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.error_sql), Toast.LENGTH_SHORT).show();
         }
 
         ListView listView = (ListView) findViewById(android.R.id.list);

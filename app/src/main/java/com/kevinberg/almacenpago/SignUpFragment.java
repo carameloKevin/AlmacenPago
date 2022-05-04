@@ -26,7 +26,6 @@ public class SignUpFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         EditText etEmail, etPassword, etPasswordVerification, etNombre, etApellido;
-        TextView tvSuccess;
         Button loginButton;
 
         View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
@@ -46,7 +45,7 @@ public class SignUpFragment extends Fragment {
                 password = etPassword.getText().toString().trim();
                 passwordVerification = etPasswordVerification.getText().toString().trim();
                 nombre = etNombre.getText().toString().trim();
-                apellido = etNombre.getText().toString().trim();
+                apellido = etApellido.getText().toString().trim();
                 Log.d(TAG, "onClick: "+ email + " " + password + " " + passwordVerification);
                 if(!email.isEmpty() && !password.isEmpty() && passwordVerification.equals(password) && !nombre.isEmpty() && !apellido.isEmpty()) {
                     AlmacenPagoDatabaseHelper almacenPagoDBHelper = new AlmacenPagoDatabaseHelper(getContext());
@@ -55,20 +54,20 @@ public class SignUpFragment extends Fragment {
                         Cursor cursor = db.query("USUARIO", new String[]{"_ID", "EMAIL"}, "EMAIL=?", new String[]{email}, null, null, null);
                         if (cursor.moveToFirst()) {
                             //Si encuentro un usuario en la lista significa que ya existe, dah
-                            Toast.makeText(getContext(), "Ya existe un usuario con ese email", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), getString(R.string.user_alredy_exists), Toast.LENGTH_SHORT).show();
                         } else {
                             db.close();
                             db = almacenPagoDBHelper.getWritableDatabase();
                             almacenPagoDBHelper.insertUsuario(db, email, password, nombre, apellido);
-                            Toast.makeText(getContext(), "Usuario creado exitosamente!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), getString(R.string.user_created_success), Toast.LENGTH_SHORT).show();
                         }
                     } catch (SQLiteException e) {
-                        Toast.makeText(getContext(), "Error en la BD al intentar recuperar el usuario", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.error_sql), Toast.LENGTH_SHORT).show();
                     } finally {
                         db.close();
                     }
                 }else{
-                    Toast.makeText(getContext(), "Verifique los datos ingresados", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.verify_input), Toast.LENGTH_SHORT).show();
             }
         }});
 

@@ -21,7 +21,7 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Fragmento que contiene el viewer y una tab. Solia estar en LoginActivity, pero como tengo que mostrar otro fragmento si el usuario esta logueado, se movio todo aca.
+        // Fragmento que contiene el viewer y una tab. Solia estar en LoginActivity, pero como tengo que mostrar otro fragmento si el usuario esta logueado, se movio toodo aca.
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
         LoginFragment.SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(this.getActivity());

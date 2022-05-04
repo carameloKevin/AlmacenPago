@@ -52,7 +52,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        EditText etNombreProducto, etDescripcionProducto, etPrecioProducto, etUsuario;
+        EditText etNombreProducto, etDescripcionProducto, etPrecioProducto;
         ImageView ivImagen;
         Button btInput, btInputImage;
         existeImagen = false;
@@ -60,7 +60,6 @@ public class AgregarProductoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_producto);
 
-        //todo agregar imagen
         etNombreProducto = findViewById(R.id.etNombreProducto);
         etDescripcionProducto = findViewById(R.id.etDescripcionProducto);
         etPrecioProducto = findViewById(R.id.etPrecio);
@@ -68,9 +67,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
         btInput = findViewById(R.id.btLoad);
         btInputImage = findViewById(R.id.button_add_image);
 
-
-
-
+        //Esto genera la actividad que abre una nueva pantalla donde se selecciona la imagen
         seleccionarImagen = registerForActivityResult(new ActivityResultContracts.OpenDocument(),
          new ActivityResultCallback<Uri>() {
                 @Override
@@ -81,7 +78,6 @@ public class AgregarProductoActivity extends AppCompatActivity {
                     Log.d(TAG, "el path de la imagen es: " + result.getPath());
                     imageUri = result;
                     existeImagen = true;
-
                 }
             });
 
@@ -97,44 +93,47 @@ public class AgregarProductoActivity extends AppCompatActivity {
         btInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String nombre, descripcion, email;
+                String uri = null;
+                double precio;
 
                 //Para obtener el email
                 sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
 
-                String nombre, descripcion, email;
-                String uri = "";
-                double precio;
+                //Obtengo los datos de los EditText que ingreso el usuario
                 nombre = etNombreProducto.getText().toString();
                 descripcion = etDescripcionProducto.getText().toString();
-                email = sharedPreferences.getString("EMAIL", "wrongEmail"); //No deberia haber podido llegar hasta aca si no esta logueado;
+                email = sharedPreferences.getString("EMAIL", "wrongEmail"); //No deberia haber podido llegar hasta aca si no esta logueado
                 precio = Double.parseDouble(etPrecioProducto.getText().toString());
 
                 if(imageUri != null){
+                    //Esto se tiene que cargar en la registerForActivityResult, aca solo lo formateo para guardar en BD
                     uri = imageUri.toString();
                 }
 
                 if(!nombre.isEmpty() && !descripcion.isEmpty() && precio !=0){
+                    //Creo un nuevo helper para que me ayude a cargar y obtener los datos
                     AlmacenPagoDatabaseHelper almacenPagoDatabaseHelper = new AlmacenPagoDatabaseHelper(AgregarProductoActivity.this);
                     try{
-                        //verifico que no haya un producto con el mismo nombre y el mismo usuario. No es de los mejores chequeos, pero bueno
+                        //verifico que no haya un producto con el mismo nombre y el mismo usuario. No es de los mejores chequeos, pero sirve para la pequena escala que manejo
                         SQLiteDatabase db = almacenPagoDatabaseHelper.getReadableDatabase();
                             Cursor cursor = db.query("PRODUCTO", new String[]{"_ID", "NOMBREPROD", "EMAIL"}, "NOMBREPROD=? AND EMAIL=?",new String[]{nombre, email},null,null,null);
                             if(cursor.moveToFirst()){
-                                Toast.makeText(AgregarProductoActivity.this, "Ya existe un mismo producto creado por este usuario!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AgregarProductoActivity.this, getString(R.string.ya_existe_producto), Toast.LENGTH_SHORT).show();
                             }else{
                                 Log.d(TAG, "AgregarProductoActivity onClick: Intentando insertar producto");
                                 db.close();
                                 db = almacenPagoDatabaseHelper.getWritableDatabase();
                                 almacenPagoDatabaseHelper.insertProducto(db,nombre, descripcion, uri, precio, email);
-                                Toast.makeText(AgregarProductoActivity.this, "Producto Agregado con exito", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AgregarProductoActivity.this, getString(R.string.producto_agregado_exito), Toast.LENGTH_SHORT).show();
                             }
                             cursor.close();
                             db.close();
                     }catch (SQLiteException e){
-                        Toast.makeText(AgregarProductoActivity.this, "Hubo un problema con la BD", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AgregarProductoActivity.this, getString(R.string.error_sql), Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(AgregarProductoActivity.this, "Faltan datos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AgregarProductoActivity.this, getString(R.string.campos_incompletos), Toast.LENGTH_SHORT).show();
                 }
             }
         });

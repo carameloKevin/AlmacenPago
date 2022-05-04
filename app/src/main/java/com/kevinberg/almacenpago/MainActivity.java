@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         try {
             SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
 
-            Cursor cursor = db.query("PRODUCTO", new String[]{"_ID, NOMBREPROD", "IMAGE_RESOURCE_ID", "PRECIO"}, null, null, null, null, "_id DESC", "10");;
+            Cursor cursor = db.query("PRODUCTO", new String[]{"_ID, NOMBREPROD", "IMAGE_RESOURCE_ID", "PRECIO"}, null, null, null, null, "_id DESC", "10");
 
             if (cursor.moveToFirst()) {
                 Log.d(TAG, "MainActivity - onCreate: Hay un elemento en el cursor. Leyendolo");
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             cursor.close();
             db.close();
         } catch (SQLiteException e) {
-            Toast.makeText(this, "Error en la base de datos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.error_sql), Toast.LENGTH_SHORT).show();
         }
 
         //Agrego un ProductoFragment al frame layout. Cuando creo el fragment le envio tambien el bundle con los datos
@@ -132,12 +132,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
         boolean isLoggedIn = sharedPreferences.getBoolean("LOGIN", false);
         boolean requiresLogin = false;
-        //Cambias dependiendo de que se selecciono
+        //Cambia dependiendo de que se selecciono
         switch (id){
-            case R.id.nav_agregar_compra:
-                requiresLogin = true;
-                intent = new Intent(this, AgregarProductoActivity.class);
-                break;
             case R.id.nav_ultimas_compras:
                 requiresLogin = true;
                 intent = new Intent(this, ElementosCompradosActivity.class);
@@ -145,11 +141,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_usuario:
                 intent = new Intent(this, LoginActivity.class);
                 break;
+            case R.id.nav_agregar_compra:
+                requiresLogin = true;
+                intent = new Intent(this, AgregarProductoActivity.class);
+                break;
         }
         if(!requiresLogin||(requiresLogin && isLoggedIn)) {
             startActivity(intent);
         }else{
-            Toast.makeText(this, "Error. Estas logueado?", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.error_is_not_login), Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -177,7 +177,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onRestart() {
         super.onRestart();
-
         cargarNombreUsuario();
     }
 }

@@ -21,7 +21,6 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 public class LoginActivity extends AppCompatActivity implements LogoutFragment.LogoutListener, LoginTabFragment.LoginListener {
 
-    private static final String TAG = "Somethin";
     private boolean isLoggedIn;
     private SharedPreferences sharedPreferences;
 
@@ -36,14 +35,13 @@ public class LoginActivity extends AppCompatActivity implements LogoutFragment.L
         sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
         isLoggedIn = sharedPreferences.getBoolean("LOGIN", false);
 
+        //Dependiendo si esta logueado o no muestro un fragmento o otro
         Fragment fragmetACargar = null;
         if(!isLoggedIn) {
             fragmetACargar = new LoginFragment();
         }else{
-            //todo agregar bundle con el nombre del usuario
             fragmetACargar = new LogoutFragment();
         }
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_frame, fragmetACargar);
         ft.commit();
@@ -51,19 +49,21 @@ public class LoginActivity extends AppCompatActivity implements LogoutFragment.L
 
     @Override
     public void setLoginStatus() {
+        //Esto existe para poder hacer Finish() y cerrar la actividad al terminar
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("LOGIN", true);
         editor.commit();
-        Toast.makeText(this, "Login exitoso", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.login_exitoso), Toast.LENGTH_SHORT).show();
         finish();
     }
 
     @Override
     public void setLogoutStatus() {
+        //Esto existe para poder hacer Finish() y cerrar la actividad al terminar
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove("LOGIN");
         editor.commit();
-        Toast.makeText(this, "Logout exitoso", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.logut_exitoso), Toast.LENGTH_SHORT).show();
         finish();
     }
 

@@ -23,10 +23,6 @@ public class ComprarProductoActivity extends AppCompatActivity {
     public static final String EXTRA_EMAIL_STRING = "email";
     public static final String EXTRA_PRODUCT_NAME = "producto";
     public static final String EXTRA_ID_PRODUCTO = "id_producto";
-    //private final Drawable EXTRA_IMAGE_RESOURCE = getDrawable(R.drawable.iphone);
-    private  Drawable IMAGEN_PROCUTO;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +36,6 @@ public class ComprarProductoActivity extends AppCompatActivity {
         EditText numeroTarjeta = (EditText) findViewById(R.id.et_numero_tarjeta);
         EditText claveTarjeta = (EditText) findViewById(R.id.et_clave_tarjeta);
         Button buyButton = (Button) findViewById(R.id.bt_finish_buy);
-        IMAGEN_PROCUTO = getDrawable(R.drawable.iphone);
 
         etTituloProducto.setText(getString(R.string.usted_esta_comprando)); //savedInstanceState.getString(EXTRA_PRODUCT_NAME)
         etEmailUsuario.setText(extras.getString(EXTRA_EMAIL_STRING));

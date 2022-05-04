@@ -1,15 +1,12 @@
 package com.kevinberg.almacenpago;
 
-import static android.content.ContentValues.TAG;
+
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-import android.widget.Toast;
 
 public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
 
@@ -25,22 +22,22 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
 
         //Agrego tabla de Productos y un par de datos default
         sqLiteDatabase.execSQL("CREATE TABLE PRODUCTO(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "NOMBREPROD STRING," +
-                "DESCRIPCION STRING," +
+                "NOMBREPROD TEXT," +
+                "DESCRIPCION TEXT," +
                 "PRECIO DOUBLE," +
                 "IMAGE_RESOURCE_ID INTEGER," +
-                "EMAIL STRING);");
+                "EMAIL TEXT);");
 
         //Agrego tabla de usuarios y un par de usuarios default
         sqLiteDatabase.execSQL("CREATE TABLE USUARIO(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "EMAIL STRING," +
-                "PASSWORD STRING," +
-                "NOMBRE STRING," +
-                "APELLIDO STRING);");
+                "EMAIL TEXT," +
+                "PASSWORD TEXT," +
+                "NOMBRE TEXT," +
+                "APELLIDO TEXT);");
 
         //Agergo tabla de que compro cada usuario
         sqLiteDatabase.execSQL("CREATE TABLE COMPRA(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "EMAILUSUARIO STRING," +
+                "EMAILUSUARIO TEXT," +
                 "IDPRODUCTO INTEGER);");
 
         insertUsuario(sqLiteDatabase, "bergkevin1996@gmail.com", "1234", "Kevin", "Berg");
@@ -50,21 +47,8 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        //Todavia no cambie la DB
+        //No lo uso porque soy flojo y rompo todo
     }
-
-    /*
-    No sirve mas porque ahora guardo URI que son string
-    private  void insertProducto(SQLiteDatabase db, String nombreProducto, String descripcion, int resourceId, double precio, String usuarioId){
-        ContentValues productoValues = new ContentValues();
-        productoValues.put("NOMBREPROD", nombreProducto);
-        productoValues.put("DESCRIPCION", descripcion);
-        productoValues.put("IMAGE_RESOURCE_ID", resourceId);
-        productoValues.put("PRECIO", precio);
-        productoValues.put("EMAIL", usuarioId);
-        db.insert("PRODUCTO", null, productoValues);
-        }
-*/
 
     public  void insertProducto(SQLiteDatabase db, String nombreProducto, String descripcion, String uri, double precio, String usuarioId){
         ContentValues productoValues = new ContentValues();
@@ -92,12 +76,4 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
         db.insert("COMPRA", null, compraValue);
     }
 
-    public static boolean existeUsuario(SQLiteDatabase db, String email){
-        //Este metodo no sirve de mucho por ahora
-        boolean existe = false;
-        Cursor cursor = db.query("USUARIO", new String[]{"_ID", "EMAIL"}, "EMAIL=?", new String[]{email}, null, null, null);
-        existe = cursor.moveToFirst();
-        cursor.close();
-        return existe;
-    }
 }

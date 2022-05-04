@@ -39,11 +39,17 @@ public class CompradosListAdapater  extends ArrayAdapter {
         }
         TextView textViewNombreProducto =   (TextView) row.findViewById(R.id.textViewNombreProducto);
         TextView textViewPrecioProducto =   (TextView) row.findViewById(R.id.textViewPrecioProducto);
-        ImageView imgenProducto =           (ImageView) row.findViewById(R.id.imageViewProducto);
+        ImageView imagenProducto =          (ImageView) row.findViewById(R.id.imageViewProducto);
 
         textViewNombreProducto.setText(nombreProducto[position]);
         textViewPrecioProducto.setText(String.valueOf(precioProducto[position]));
-        imgenProducto.setImageURI(Uri.parse(imageId[position]));
+
+        if(imageId[position] != null) {
+            imagenProducto.setImageURI(Uri.parse(imageId[position]));
+        }else{
+            //Si no tiene imagne uso una por defecto
+            imagenProducto.setImageDrawable(getContext().getResources().getDrawable(R.drawable.no_image_available));
+        }
         return row;
     }
 }

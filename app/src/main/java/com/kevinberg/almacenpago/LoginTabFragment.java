@@ -27,7 +27,6 @@ public class LoginTabFragment extends Fragment {
 
     private LoginListener listener;
     EditText etEmail, etPassword;
-    TextView tvSuccess;
     Button loginButton;
     private SharedPreferences sharedPreferences;
 
@@ -40,7 +39,6 @@ public class LoginTabFragment extends Fragment {
         etEmail = view.findViewById(R.id.etEmailAddressLogin);
         etPassword = view.findViewById(R.id.etPasswordLogin);
         loginButton = view.findViewById(R.id.button_login);
-        tvSuccess = view.findViewById(R.id.textViewSuccess);
         sharedPreferences = this.getContext().getApplicationContext().getSharedPreferences("userdetails", 0);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -56,16 +54,15 @@ public class LoginTabFragment extends Fragment {
                         SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
                         Cursor cursor = db.query("USUARIO", new String[]{"_ID", "EMAIL", "PASSWORD", "NOMBRE", "APELLIDO"}, "EMAIL=? AND PASSWORD=?",new String[]{email, password},null,null,null);
                         if(cursor.moveToFirst()){
-                            SharedPreferences.Editor editor =sharedPreferences.edit();
+                            //Email y nombre en los datos compartidos. Tambien le digo al padre que setee el estado de login
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("email", email);
                             editor.putString("nombre", cursor.getString(3));
                             editor.commit();
                             listener.setLoginStatus();
-                        }else{
-                            tvSuccess.setText("Fallo");
                         }
                     }catch (SQLiteException e){
-                        Toast.makeText(getContext(), "Error en la BD al intentar recuperar el usuario", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.error_sql), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
