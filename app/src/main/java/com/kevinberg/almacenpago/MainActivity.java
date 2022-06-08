@@ -19,6 +19,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -35,10 +36,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //this.deleteDatabase("almacenPago"); //Linea para borrar la BD cuando cambio la id de las imagenes
+        this.deleteDatabase("almacenPago"); //Linea para borrar la BD cuando cambio la id de las imagenes
         //agrego la toolbar arriba del toodo
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         //--Drawer--
         //Seleccion el drawer y le digo que ponga el simbolo en la toolbar
@@ -81,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 do {
                     idProducto[pos] = cursor.getInt(0);
                     tituloProducto[pos] = cursor.getString(1);
-
                     imagenIds[pos] = cursor.getString(2);
                     precioProducto[pos] = Double.parseDouble(cursor.getString(3));
 
@@ -118,8 +119,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView textEmail = (TextView) header.findViewById(R.id.nav_emailUsuario);
         sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
 
-        textUsuario.setText(sharedPreferences.getString("nombre", "Visitante"));
-        textEmail.setText(sharedPreferences.getString("email", "Visitante@Visitante.com"));
+        textUsuario.setText(sharedPreferences.getString("nombre", "Invitado"));
+        textEmail.setText(sharedPreferences.getString("email", ""));
     }
 
     @Override

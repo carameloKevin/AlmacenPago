@@ -2,19 +2,27 @@ package com.kevinberg.almacenpago;
 
 
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 
 public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "almacenPago";
     private static final int DB_VERSION = 1;
+    //Especificamente para cargar datos de drawable
+    private static Context context;
 
     AlmacenPagoDatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
+        //para cargar imagenes de drawable
+        this.context = context;
     }
 
     @Override
@@ -40,8 +48,21 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
                 "EMAILUSUARIO TEXT," +
                 "IDPRODUCTO INTEGER);");
 
+        /*
+        // Datos cargados cuando se crea la BD
+         */
+
         insertUsuario(sqLiteDatabase, "bergkevin1996@gmail.com", "1234", "Kevin", "Berg");
         insertUsuario(sqLiteDatabase, "test@test.com", "1111", "YoSoy", "ElTest");
+        Resources res = context.getResources();
+        int resID = R.drawable.pringles;
+        Uri uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + res.getResourcePackageName(resID)+"/"+ res.getResourceTypeName(resID) + "/" + res.getResourceEntryName(resID));
+
+        insertProducto(sqLiteDatabase, "Papas Fritas", "Tubo de papas fritas 500grm", uri.toString(), 100, "bergkevin1996@gmail.com");
+
+        resID = R.drawable.samsung;
+        uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + res.getResourcePackageName(resID)+"/"+ res.getResourceTypeName(resID) + "/" + res.getResourceEntryName(resID));
+        insertProducto(sqLiteDatabase, "Celular Samsung", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "bergkevin1996@gmail.com");
     }
 
 

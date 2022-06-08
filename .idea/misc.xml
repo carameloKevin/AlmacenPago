@@ -3,8 +3,25 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Library/Documents/AndroidProjects/AlmacenPago/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.236" />
         <entry key="..\:/Library/Documents/AndroidProjects/AlmacenPago/app/src/main/res/layout/activity_agregar_producto.xml" value="0.36666666666666664" />
+        <entry key="..\:/Library/Documents/AndroidProjects/AlmacenPago/app/src/main/res/layout/activity_comprar_producto.xml" value="0.24547101449275363" />
+        <entry key="..\:/Library/Documents/AndroidProjects/AlmacenPago/app/src/main/res/layout/activity_elementos_comprados.xml" value="0.24547101449275363" />
+        <entry key="..\:/Library/Documents/AndroidProjects/AlmacenPago/app/src/main/res/layout/activity_login.xml" value="0.24547101449275363" />
+        <entry key="..\:/Library/Documents/AndroidProjects/AlmacenPago/app/src/main/res/layout/activity_logo_screen.xml" value="0.24547101449275363" />
+        <entry key="..\:/Library/Documents/AndroidProjects/AlmacenPago/app/src/main/res/layout/activity_main.xml" value="0.24547101449275363" />
+        <entry key="..\:/Library/Documents/AndroidProjects/AlmacenPago/app/src/main/res/layout/activity_producto_detalles.xml" value="0.24547101449275363" />
+        <entry key="..\:/Library/Documents/AndroidProjects/AlmacenPago/app/src/main/res/layout/card_subtitulo_imagen.xml" value="0.1118659420289855" />
+        <entry key="..\:/Library/Documents/AndroidProjects/AlmacenPago/app/src/main/res/layout/fragment_login.xml" value="0.24547101449275363" />
         <entry key="..\:/Library/Documents/AndroidProjects/AlmacenPago/app/src/main/res/layout/fragment_login_tab.xml" value="0.18802083333333333" />
+        <entry key="..\:/Library/Documents/AndroidProjects/AlmacenPago/app/src/main/res/layout/fragment_logout.xml" value="0.14427083333333332" />
+        <entry key="..\:/Library/Documents/AndroidProjects/AlmacenPago/app/src/main/res/layout/fragment_producto.xml" value="0.14427083333333332" />
+        <entry key="..\:/Library/Documents/AndroidProjects/AlmacenPago/app/src/main/res/layout/fragment_sign_up.xml" value="0.14427083333333332" />
+        <entry key="..\:/Library/Documents/AndroidProjects/AlmacenPago/app/src/main/res/layout/nav_header.xml" value="0.24547101449275363" />
+        <entry key="..\:/Library/Documents/AndroidProjects/AlmacenPago/app/src/main/res/layout/row_item.xml" value="0.23777173913043478" />
+        <entry key="..\:/Library/Documents/AndroidProjects/AlmacenPago/app/src/main/res/layout/toolbar_main.xml" value="0.24547101449275363" />
+        <entry key="..\:/Library/Documents/AndroidProjects/AlmacenPago/app/src/main/res/menu/menu_navigation.xml" value="0.25" />
+        <entry key="..\:/Library/Documents/AndroidProjects/AlmacenPago/app/src/main/res/menu/menu_toolbar.xml" value="0.25" />
       </map>
     </option>
   </component>

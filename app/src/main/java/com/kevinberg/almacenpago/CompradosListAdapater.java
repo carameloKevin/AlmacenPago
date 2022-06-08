@@ -2,6 +2,7 @@ package com.kevinberg.almacenpago;
 
 import android.app.Activity;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 public class CompradosListAdapater  extends ArrayAdapter {
+    private final String TAG = "CompradosListAdapater";
+
     private String[] nombreProducto;
     private double[] precioProducto;
     private int[] idProducto;
@@ -34,6 +39,7 @@ public class CompradosListAdapater  extends ArrayAdapter {
         //return super.getView(position, convertView, parent);
         View row = convertView;
         LayoutInflater inflater = context.getLayoutInflater();
+        Log.d(TAG, "CompradosListAdapter getView: Estoy por mostrar el elemento " + nombreProducto[position]);
         if(convertView == null){
             row = inflater.inflate(R.layout.row_item, null, true);
         }
@@ -44,11 +50,9 @@ public class CompradosListAdapater  extends ArrayAdapter {
         textViewNombreProducto.setText(nombreProducto[position]);
         textViewPrecioProducto.setText(String.valueOf(precioProducto[position]));
 
-        if(imageId[position] != null) {
+        if(imageId[position].equalsIgnoreCase("")) {
+            Log.d(TAG, "CompradosListAdapter getView: imageId[pos] tiene algo, asi que lo muestro");
             imagenProducto.setImageURI(Uri.parse(imageId[position]));
-        }else{
-            //Si no tiene imagne uso una por defecto
-            imagenProducto.setImageDrawable(getContext().getResources().getDrawable(R.drawable.no_image_available));
         }
         return row;
     }

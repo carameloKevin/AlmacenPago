@@ -19,7 +19,6 @@
     <string name="button_insert_product">Publicar producto</string>
     <string name="insert_image">Seleccione una imagen</string>
     <string name="logout">Logout</string>
-    <string name="hello_blank_fragment">Me tenes las bolas llenas blank fragment</string>
     <string name="is_logged_in">ya esta logueado</string>
     <string name="agregar_producto">Crear nuevo Producto</string>
     <string name="buy">Comprar</string>
@@ -40,4 +39,7 @@
     <string name="login_exitoso">Ingreso a la cuenta con exito!</string>
     <string name="logut_exitoso">Salida de la cuenta exitosamente!</string>
     <string name="error_is_not_login">Error. Estas Loggeado?</string>
+    <string name="user_alredy_exists">Ya existe este usuario!</string>
+    <string name="user_created_success">Usuario creado exitosamente</string>
+    <string name="verify_input">Verificar los campos</string>
 </resources>

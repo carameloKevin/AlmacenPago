@@ -4,47 +4,34 @@ import static android.content.ContentValues.TAG;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
+
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.PathUtils;
 
-import android.content.Context;
+
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.FileUtils;
-import android.provider.MediaStore;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+
 
 public class AgregarProductoActivity extends AppCompatActivity {
 
     private ActivityResultLauncher<String[]> seleccionarImagen;
     private File imageFile = null;
-    private boolean existeImagen;
     private Uri imageUri;
     private String fullPathUri = "";
     private SharedPreferences sharedPreferences;
@@ -55,7 +42,6 @@ public class AgregarProductoActivity extends AppCompatActivity {
         EditText etNombreProducto, etDescripcionProducto, etPrecioProducto;
         ImageView ivImagen;
         Button btInput, btInputImage;
-        existeImagen = false;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_producto);
@@ -77,7 +63,6 @@ public class AgregarProductoActivity extends AppCompatActivity {
                     ivImagen.setImageURI(result);
                     Log.d(TAG, "el path de la imagen es: " + result.getPath());
                     imageUri = result;
-                    existeImagen = true;
                 }
             });
 
@@ -94,7 +79,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String nombre, descripcion, email;
-                String uri = null;
+                String uri = "";
                 double precio;
 
                 //Para obtener el email
@@ -111,7 +96,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
                     uri = imageUri.toString();
                 }
 
-                if(!nombre.isEmpty() && !descripcion.isEmpty() && precio !=0){
+                if(!nombre.isEmpty() && !descripcion.isEmpty() && precio >0 && !uri.isEmpty()){
                     //Creo un nuevo helper para que me ayude a cargar y obtener los datos
                     AlmacenPagoDatabaseHelper almacenPagoDatabaseHelper = new AlmacenPagoDatabaseHelper(AgregarProductoActivity.this);
                     try{
