@@ -58,7 +58,7 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
         int resID = R.drawable.pringles;
         Uri uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + res.getResourcePackageName(resID)+"/"+ res.getResourceTypeName(resID) + "/" + res.getResourceEntryName(resID));
 
-        insertProducto(sqLiteDatabase, "Papas Fritas", "Tubo de papas fritas 500grm", uri.toString(), 100, "bergkevin1996@gmail.com");
+        insertProducto(sqLiteDatabase, "Papas Fritas", "Tubo de papas fritas 500grm", uri.toString(), 100, "test@test.com");
 
         resID = R.drawable.samsung;
         uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + res.getResourcePackageName(resID)+"/"+ res.getResourceTypeName(resID) + "/" + res.getResourceEntryName(resID));
