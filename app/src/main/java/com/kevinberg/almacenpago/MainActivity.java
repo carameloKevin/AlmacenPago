@@ -18,10 +18,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +33,8 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private SharedPreferences sharedPreferences;
+    //private boolean etBuscadorCreado = false;
+    private EditText textoBuscador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
 
         //--Drawer--
         //Seleccion el drawer y le digo que ponga el simbolo en la toolbar
@@ -96,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         //Agrego un ProductoFragment al frame layout. Cuando creo el fragment le envio tambien el bundle con los datos
+
         Fragment productosFragment = new ProductoFragment();
 
         //bundle con los datos con los que trabajar
@@ -106,7 +113,62 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         productosFragment.setArguments(bundle);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.frame_layout_main, productosFragment);
+        ft.replace(R.id.frame_layout_main, productosFragment);  //Uso replace en vez de add para que no se vean las imagenes repetidas en el fondo
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.commit();
+    }
+    private void cargarFragmentoProductos(String tituloProd){
+        //Obtengo una query y lo paso a los arreglos necesarios para el fragmento;
+        SQLiteOpenHelper almacenPagoDBHelper = new AlmacenPagoDatabaseHelper(this);
+        String[] tituloProducto = new String[0];
+        //double[] precio;
+        String[] imagenIds = new String[0];
+        int[] idProducto = new int[0];
+        double[] precioProducto = new double[0];
+        try {
+            SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
+
+            Cursor cursor = db.query("PRODUCTO", new String[]{"_ID, NOMBREPROD", "IMAGE_RESOURCE_ID", "PRECIO"}, "NOMBREPROD LIKE ?", new String[]{"%"+ tituloProd + "%"}, null, null, "_id DESC", "10");
+
+            if (cursor.moveToFirst()) {
+                Log.d(TAG, "MainActivity - onCreate: Hay un elemento en el cursor. Leyendolo");
+
+                int largoCursor = cursor.getCount();
+                tituloProducto = new String[largoCursor];
+                imagenIds = new String[largoCursor];
+                idProducto = new int[largoCursor];
+                precioProducto = new double[largoCursor];
+
+
+                int pos = 0;
+                do {
+                    idProducto[pos] = cursor.getInt(0);
+                    tituloProducto[pos] = cursor.getString(1);
+                    imagenIds[pos] = cursor.getString(2);
+                    precioProducto[pos] = Double.parseDouble(cursor.getString(3));
+
+                    pos++;
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+            db.close();
+        } catch (SQLiteException e) {
+            Toast.makeText(this, getString(R.string.error_sql), Toast.LENGTH_SHORT).show();
+        }
+
+        //Agrego un ProductoFragment al frame layout. Cuando creo el fragment le envio tambien el bundle con los datos
+
+        Fragment productosFragment = new ProductoFragment();
+
+        //bundle con los datos con los que trabajar
+        Bundle bundle = new Bundle();
+        bundle.putIntArray(ProductoFragment.EXTRA_ARRAY_IDS, idProducto);
+        bundle.putStringArray(ProductoFragment.EXTRA_ARRAY_TITULOS, tituloProducto);
+        bundle.putStringArray(ProductoFragment.EXTRA_ARRAY_IMAGENID, imagenIds);
+        productosFragment.setArguments(bundle);
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame_layout_main, productosFragment);  //Uso replace en vez de add para que no se vean las imagenes repetidas en el fondo
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
     }
@@ -179,5 +241,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onRestart() {
         super.onRestart();
         cargarNombreUsuario();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.action_search && textoBuscador == null){
+            textoBuscador = new EditText(this);
+            textoBuscador.setLayoutParams(new Toolbar.LayoutParams(Toolbar.LayoutParams.FILL_PARENT, Toolbar.LayoutParams.WRAP_CONTENT));
+            Toolbar layout = findViewById(R.id.toolbar);
+            layout.addView(textoBuscador);
+
+            textoBuscador.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                   //Toast.makeText(MainActivity.this, editable.toString(), Toast.LENGTH_SHORT).show();
+                    cargarFragmentoProductos(editable.toString());
+                }
+            });
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

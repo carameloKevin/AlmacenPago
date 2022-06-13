@@ -63,6 +63,11 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
         resID = R.drawable.samsung;
         uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + res.getResourcePackageName(resID)+"/"+ res.getResourceTypeName(resID) + "/" + res.getResourceEntryName(resID));
         insertProducto(sqLiteDatabase, "Celular Samsung", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "bergkevin1996@gmail.com");
+        insertProducto(sqLiteDatabase, "Celular Samsung", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "1bergkevin1996@gmail.com");
+        insertProducto(sqLiteDatabase, "Celular Samsung", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "2bergkevin1996@gmail.com");
+        insertProducto(sqLiteDatabase, "Celular Samsung", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "3bergkevin1996@gmail.com");
+        insertProducto(sqLiteDatabase, "Celular Samsung", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "4bergkevin1996@gmail.com");
+        insertProducto(sqLiteDatabase, "Celular Samsung", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "4bergkevin1996@gmail.com");
     }
 
 
