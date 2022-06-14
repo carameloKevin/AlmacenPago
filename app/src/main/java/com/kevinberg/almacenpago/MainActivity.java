@@ -208,6 +208,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 requiresLogin = true;
                 intent = new Intent(this, AgregarProductoActivity.class);
                 break;
+            case R.id.nav_favoritos:
+                requiresLogin = true;
+                intent = new Intent(this, FavoritosActivity.class);
+                break;
         }
         if(!requiresLogin||(requiresLogin && isLoggedIn)) {
             startActivity(intent);

@@ -48,8 +48,16 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
                 "EMAILUSUARIO TEXT," +
                 "IDPRODUCTO INTEGER);");
 
+        //Agergo tabla de favoritos de cada usuario
+        sqLiteDatabase.execSQL("CREATE TABLE FAVORITO(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "IDPRODUCTO INTEGER," +
+                "EMAILUSUARIO TEXT);");
+
+
         /*
-        // Datos cargados cuando se crea la BD
+        / Datos cargados cuando se crea la BD.
+        / Si queres volver a cargarlos tenes que eliminar la BD
+        / Tecnicamente se deberia hacer con el UPDATE, pero es mucho trabajo para nada
          */
 
         insertUsuario(sqLiteDatabase, "bergkevin1996@gmail.com", "1234", "Kevin", "Berg");
@@ -62,12 +70,12 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
 
         resID = R.drawable.samsung;
         uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + res.getResourcePackageName(resID)+"/"+ res.getResourceTypeName(resID) + "/" + res.getResourceEntryName(resID));
-        insertProducto(sqLiteDatabase, "Celular Samsung", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "bergkevin1996@gmail.com");
-        insertProducto(sqLiteDatabase, "Celular Samsung", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "1bergkevin1996@gmail.com");
-        insertProducto(sqLiteDatabase, "Celular Samsung", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "2bergkevin1996@gmail.com");
-        insertProducto(sqLiteDatabase, "Celular Samsung", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "3bergkevin1996@gmail.com");
-        insertProducto(sqLiteDatabase, "Celular Samsung", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "4bergkevin1996@gmail.com");
-        insertProducto(sqLiteDatabase, "Celular Samsung", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "4bergkevin1996@gmail.com");
+        insertProducto(sqLiteDatabase, "Celular Samsung01", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "bergkevin1996@gmail.com");
+        insertProducto(sqLiteDatabase, "Celular Samsung02", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "1bergkevin1996@gmail.com");
+        insertProducto(sqLiteDatabase, "Celular Samsung03", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "2bergkevin1996@gmail.com");
+        insertProducto(sqLiteDatabase, "Celular Samsung04", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "3bergkevin1996@gmail.com");
+        insertProducto(sqLiteDatabase, "Celular Samsung05", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "4bergkevin1996@gmail.com");
+        insertProducto(sqLiteDatabase, "Celular Samsung06", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "4bergkevin1996@gmail.com");
     }
 
 
@@ -76,7 +84,7 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
         //No lo uso porque soy flojo y rompo todo
     }
 
-    public  void insertProducto(SQLiteDatabase db, String nombreProducto, String descripcion, String uri, double precio, String usuarioId){
+    public void insertProducto(SQLiteDatabase db, String nombreProducto, String descripcion, String uri, double precio, String usuarioId){
         ContentValues productoValues = new ContentValues();
         productoValues.put("NOMBREPROD", nombreProducto);
         productoValues.put("DESCRIPCION", descripcion);
@@ -100,6 +108,13 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
         compraValue.put("EMAILUSUARIO", email);
         compraValue.put("IDPRODUCTO", id);
         db.insert("COMPRA", null, compraValue);
+    }
+
+    public void insertFavorito(SQLiteDatabase db, Integer idProd, String email){
+        ContentValues favValue = new ContentValues();
+        favValue.put("EMAILUSUARIO", email);
+        favValue.put("IDPRODUCTO", idProd);
+        db.insert("FAVORITO", null, favValue);
     }
 
 }

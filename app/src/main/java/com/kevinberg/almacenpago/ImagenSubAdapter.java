@@ -56,9 +56,6 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
     public static class ViewHolder extends RecyclerView.ViewHolder{
         //El ViewHolder describe la View y metadata de un item. Te da su ubicacion dentro del recylcerview;
 
-       /*---
-       Porque puede acceder a esta variable si es privada? Se accede en onBindViewHolder
-        ---*/
         private CardView cardView;
 
         public ViewHolder(CardView v){
@@ -92,7 +89,6 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
         CardView cardView = holder.cardView;
 
         //Obtengo la ubicacion de XML donde va la imagen y se la asigno
-
 
         if (imagenIds[position] != null) {
 

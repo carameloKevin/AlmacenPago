@@ -41,5 +41,6 @@
     <string name="user_alredy_exists">User alredy exists!</string>
     <string name="user_created_success">User created succesfully</string>
     <string name="verify_input">Verify input</string>
+    <string name="favorito">Star</string>
 
 </resources>

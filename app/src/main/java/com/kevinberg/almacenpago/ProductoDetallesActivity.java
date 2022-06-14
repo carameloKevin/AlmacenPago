@@ -14,7 +14,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -28,6 +27,7 @@ import android.widget.Toast;
 public class ProductoDetallesActivity extends AppCompatActivity {
 
     public static final String EXTRA_PRODUCTO_ID = "productoId";
+    private final String NOT_LOGGED_IN = "FALLO";
     SharedPreferences sharedPreferences;
     String nombreProducto ="", descripcionProducto, precioProducto , imagenProducto, emailVendedor ;
     Integer idProducto;
@@ -39,7 +39,7 @@ public class ProductoDetallesActivity extends AppCompatActivity {
 
         //Datos de si el usuario esta logueado o no
         sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
-        String userEmail = sharedPreferences.getString("email", "FALLO");
+        String userEmail = sharedPreferences.getString("email", NOT_LOGGED_IN);
         boolean isLoggedIn = sharedPreferences.getBoolean("LOGIN", false);
 
         //Muestro la toolbar y un boton para volver para arriba
@@ -49,9 +49,10 @@ public class ProductoDetallesActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        //Busco el boton de comprar y le agrego funcionalidad
+        //Busco los botones y les agrego sus funcionalidades
         Button buyButton = (Button)  findViewById(R.id.bt_buy);
         Button deleteProductButton = (Button) findViewById(R.id.bt_delete_item);
+        Button favButton = (Button) findViewById(R.id.bt_fav);
 
         int productoId = (Integer) getIntent().getExtras().get(EXTRA_PRODUCTO_ID);
         SQLiteOpenHelper almacenPagoDatabaseHelper = new AlmacenPagoDatabaseHelper(this);
@@ -103,7 +104,7 @@ public class ProductoDetallesActivity extends AppCompatActivity {
                 Activity act = (Activity) view.getContext();
                 SQLiteOpenHelper almacenPagoDatabaseHelper = new AlmacenPagoDatabaseHelper(act);
                 try{
-                    SQLiteDatabase db = almacenPagoDatabaseHelper.getReadableDatabase();
+                    SQLiteDatabase db = almacenPagoDatabaseHelper.getWritableDatabase();
                     db.delete("PRODUCTO", "_ID="+idProducto,null);
                     db.close();
                     act.finish();
@@ -116,13 +117,34 @@ public class ProductoDetallesActivity extends AppCompatActivity {
         buyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!userEmail.equals("FALLO") ){
+                if(!userEmail.equals(NOT_LOGGED_IN) ){
                     Intent intent = new Intent(view.getContext(), ComprarProductoActivity.class);
                     intent.putExtra(ComprarProductoActivity.EXTRA_PRODUCT_NAME, finalNombreProducto);
                     intent.putExtra(ComprarProductoActivity.EXTRA_ID_PRODUCTO, productoId);
                     intent.putExtra(ComprarProductoActivity.EXTRA_EMAIL_STRING, userEmail);
 
                     startActivity(intent);
+                }else{
+                    Toast.makeText(ProductoDetallesActivity.this, getString(R.string.must_be_logged_in), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        favButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!userEmail.equals(NOT_LOGGED_IN) ){
+                    Activity act = (Activity) view.getContext();
+                    AlmacenPagoDatabaseHelper almacenPagoDatabaseHelper = new AlmacenPagoDatabaseHelper(act);
+                    try{
+                        SQLiteDatabase db = almacenPagoDatabaseHelper.getWritableDatabase();
+                        almacenPagoDatabaseHelper.insertFavorito(db,idProducto ,userEmail); //Tecnicamente podria tener problemas por meter un productovacio, pero como llego a eso?
+                        db.close();
+                        act.finish();
+                    }catch (SQLiteException e){
+                        Toast.makeText(ProductoDetallesActivity.this, getString(R.string.error_sql), Toast.LENGTH_SHORT).show();
+                    }
+                    Toast.makeText(ProductoDetallesActivity.this, "Producto agregado a favoritos!", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(ProductoDetallesActivity.this, getString(R.string.must_be_logged_in), Toast.LENGTH_SHORT).show();
                 }
