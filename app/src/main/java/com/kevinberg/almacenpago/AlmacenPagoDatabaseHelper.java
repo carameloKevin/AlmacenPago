@@ -66,16 +66,16 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
         int resID = R.drawable.pringles;
         Uri uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + res.getResourcePackageName(resID)+"/"+ res.getResourceTypeName(resID) + "/" + res.getResourceEntryName(resID));
 
-        insertProducto(sqLiteDatabase, "Papas Fritas", "Tubo de papas fritas 500grm", uri.toString(), 100, "test@test.com");
+        insertProducto(sqLiteDatabase, "Papas Fritas", "Tubo de papas fritas 500grm", uri.toString(), 100, "bergkevin1996@gmail.com");
 
         resID = R.drawable.samsung;
         uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + res.getResourcePackageName(resID)+"/"+ res.getResourceTypeName(resID) + "/" + res.getResourceEntryName(resID));
         insertProducto(sqLiteDatabase, "Celular Samsung01", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "bergkevin1996@gmail.com");
-        insertProducto(sqLiteDatabase, "Celular Samsung02", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "1bergkevin1996@gmail.com");
-        insertProducto(sqLiteDatabase, "Celular Samsung03", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "2bergkevin1996@gmail.com");
-        insertProducto(sqLiteDatabase, "Celular Samsung04", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "3bergkevin1996@gmail.com");
-        insertProducto(sqLiteDatabase, "Celular Samsung05", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "4bergkevin1996@gmail.com");
-        insertProducto(sqLiteDatabase, "Celular Samsung06", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "4bergkevin1996@gmail.com");
+        insertProducto(sqLiteDatabase, "Celular Samsung02", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "bergkevin19961@gmail.com");
+        insertProducto(sqLiteDatabase, "Celular Samsung03", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "bergkevin19962@gmail.com");
+        insertProducto(sqLiteDatabase, "Celular Samsung04", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "bergkevin19963@gmail.com");
+        insertProducto(sqLiteDatabase, "Celular Samsung05", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "bergkevin19964@gmail.com");
+        insertProducto(sqLiteDatabase, "Celular Samsung06", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 100, "test@test.com");
     }
 
 

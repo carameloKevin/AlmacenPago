@@ -94,5 +94,18 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/bt_buy"
         app:layout_constraintStart_toEndOf="@+id/bt_buy" />
 
+    <TextView
+        android:id="@+id/tv_dueno_producto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_horizontal"
+        android:text="@string/error_is_not_login"
+        android:textColor="#0000ff"
+        app:layout_constraintEnd_toEndOf="@+id/bt_delete_item"
+        app:layout_constraintTop_toBottomOf="@+id/bt_delete_item" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

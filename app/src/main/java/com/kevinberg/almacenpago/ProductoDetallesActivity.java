@@ -42,12 +42,14 @@ public class ProductoDetallesActivity extends AppCompatActivity {
         String userEmail = sharedPreferences.getString("email", NOT_LOGGED_IN);
         boolean isLoggedIn = sharedPreferences.getBoolean("LOGIN", false);
 
+
         //Muestro la toolbar y un boton para volver para arriba
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         //Busco los botones y les agrego sus funcionalidades
         Button buyButton = (Button)  findViewById(R.id.bt_buy);
@@ -95,6 +97,10 @@ public class ProductoDetallesActivity extends AppCompatActivity {
         }catch (SQLiteException e){
             Toast.makeText(this, getString(R.string.error_sql), Toast.LENGTH_SHORT).show();
         }
+
+        //Nombre de dueno en textview
+        TextView nombreDueno = (TextView) findViewById(R.id.tv_dueno_producto);
+        nombreDueno.setText(emailVendedor);
 
         String finalNombreProducto = nombreProducto;
 
@@ -148,6 +154,17 @@ public class ProductoDetallesActivity extends AppCompatActivity {
                 }else{
                     Toast.makeText(ProductoDetallesActivity.this, getString(R.string.must_be_logged_in), Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        nombreDueno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                    Intent intent = new Intent(view.getContext(), UsuarioDetallesActivity.class);
+                    TextView v = (TextView) view;
+                    intent.putExtra(UsuarioDetallesActivity.EMAIL_USUARIO, v.getText());
+                    startActivity(intent);
             }
         });
 
