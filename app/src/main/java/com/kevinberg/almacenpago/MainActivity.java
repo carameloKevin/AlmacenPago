@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.deleteDatabase("almacenPago"); //Linea para borrar la BD cuando cambio la id de las imagenes
+        //this.deleteDatabase("almacenPago"); //Linea para borrar la BD cuando cambio la id de las imagenes
         //agrego la toolbar arriba del toodo
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -59,9 +59,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         cargarNombreUsuario();
-        cargarFragmentoProductos();
+        cargarFragmentoProductos("");
     }
 
+    /*
     private void cargarFragmentoProductos(){
         //Obtengo una query y lo paso a los arreglos necesarios para el fragmento;
         SQLiteOpenHelper almacenPagoDBHelper = new AlmacenPagoDatabaseHelper(this);
@@ -117,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
     }
+     */
     private void cargarFragmentoProductos(String tituloProd){
         //Obtengo una query y lo paso a los arreglos necesarios para el fragmento;
         SQLiteOpenHelper almacenPagoDBHelper = new AlmacenPagoDatabaseHelper(this);
@@ -238,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-        cargarFragmentoProductos();
+        cargarFragmentoProductos("");
     }
 
     @Override

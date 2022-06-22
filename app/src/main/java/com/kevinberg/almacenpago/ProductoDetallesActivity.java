@@ -88,7 +88,7 @@ public class ProductoDetallesActivity extends AppCompatActivity {
                 imageView.setContentDescription(nombreProducto);
 
                 //No muestro el Unbuy si el usuario no esta logeado o no publico este producto
-                if(!isLoggedIn && !emailVendedor.equals(userEmail)) {
+                if(!emailVendedor.equals(userEmail)) {
                     deleteProductButton.setVisibility(View.GONE);
                 }
             }

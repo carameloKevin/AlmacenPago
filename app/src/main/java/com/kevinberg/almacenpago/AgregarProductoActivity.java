@@ -88,7 +88,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
                 //Obtengo los datos de los EditText que ingreso el usuario
                 nombre = etNombreProducto.getText().toString();
                 descripcion = etDescripcionProducto.getText().toString();
-                email = sharedPreferences.getString("EMAIL", "wrongEmail"); //No deberia haber podido llegar hasta aca si no esta logueado
+                email = sharedPreferences.getString("email", "wrongEmail"); //No deberia haber podido llegar hasta aca si no esta logueado
                 precio = Double.parseDouble(etPrecioProducto.getText().toString());
 
                 if(imageUri != null){
