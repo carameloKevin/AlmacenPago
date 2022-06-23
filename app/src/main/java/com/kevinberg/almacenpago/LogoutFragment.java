@@ -37,9 +37,9 @@ public class LogoutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Un fragment que muestra quien esta logueado y un botton de logout
-        sharedPreferences = this.getContext().getApplicationContext().getSharedPreferences(MainActivity.SHAREDPREFS_DATOS_USUARIO 0);
+        sharedPreferences = this.getContext().getApplicationContext().getSharedPreferences(MainActivity.SHAREDPREFS_DATOS_USUARIO, 0);
 
-        String nombreUsuario = sharedPreferences.getString("nombre", "Usuario");//savedInstanceState.getString(USER_NAME);
+        String nombreUsuario = sharedPreferences.getString(MainActivity.SHAREDPREFS_NOMBRE_USUARIO, "Usuario");//savedInstanceState.getString(USER_NAME);
         View view = inflater.inflate(R.layout.fragment_logout, container, false);
 
         TextView isLoggedIn = view.findViewById(R.id.tv_isLoggedIn);
