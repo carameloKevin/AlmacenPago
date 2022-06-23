@@ -31,9 +31,12 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+    public static final String SHAREDPREFS_DATOS_USUARIO = "userdetails";
+    public static final String SHAREDPREFS_EMAIL_USUARIO = "email";
+    public static final String SHAREDPREFS_NOMBRE_USUARIO = "nombre";
+    public static final String SHAREDPREFS_LOGIN    = "LOGIN";
 
     private SharedPreferences sharedPreferences;
-    //private boolean etBuscadorCreado = false;
     private EditText textoBuscador;
 
     @Override
@@ -62,68 +65,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         cargarFragmentoProductos("");
     }
 
-    /*
-    private void cargarFragmentoProductos(){
-        //Obtengo una query y lo paso a los arreglos necesarios para el fragmento;
-        SQLiteOpenHelper almacenPagoDBHelper = new AlmacenPagoDatabaseHelper(this);
-        String[] tituloProducto = new String[0];
-        //double[] precio;
-        String[] imagenIds = new String[0];
-        int[] idProducto = new int[0];
-        double[] precioProducto = new double[0];
-        try {
-            SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
 
-            Cursor cursor = db.query("PRODUCTO", new String[]{"_ID, NOMBREPROD", "IMAGE_RESOURCE_ID", "PRECIO"}, null, null, null, null, "_id DESC", "10");
-
-            if (cursor.moveToFirst()) {
-                Log.d(TAG, "MainActivity - onCreate: Hay un elemento en el cursor. Leyendolo");
-
-                int largoCursor = cursor.getCount();
-                tituloProducto = new String[largoCursor];
-                imagenIds = new String[largoCursor];
-                idProducto = new int[largoCursor];
-                precioProducto = new double[largoCursor];
-
-
-                int pos = 0;
-                do {
-                    idProducto[pos] = cursor.getInt(0);
-                    tituloProducto[pos] = cursor.getString(1);
-                    imagenIds[pos] = cursor.getString(2);
-                    precioProducto[pos] = Double.parseDouble(cursor.getString(3));
-
-                    pos++;
-                } while (cursor.moveToNext());
-            }
-            cursor.close();
-            db.close();
-        } catch (SQLiteException e) {
-            Toast.makeText(this, getString(R.string.error_sql), Toast.LENGTH_SHORT).show();
-        }
-
-        //Agrego un ProductoFragment al frame layout. Cuando creo el fragment le envio tambien el bundle con los datos
-
-        Fragment productosFragment = new ProductoFragment();
-
-        //bundle con los datos con los que trabajar
-        Bundle bundle = new Bundle();
-        bundle.putIntArray(ProductoFragment.EXTRA_ARRAY_IDS, idProducto);
-        bundle.putStringArray(ProductoFragment.EXTRA_ARRAY_TITULOS, tituloProducto);
-        bundle.putStringArray(ProductoFragment.EXTRA_ARRAY_IMAGENID, imagenIds);
-        productosFragment.setArguments(bundle);
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frame_layout_main, productosFragment);  //Uso replace en vez de add para que no se vean las imagenes repetidas en el fondo
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        ft.commit();
-    }
-     */
     private void cargarFragmentoProductos(String tituloProd){
+        //Si se pasa el tituloProd vacio se obtiene todo
         //Obtengo una query y lo paso a los arreglos necesarios para el fragmento;
         SQLiteOpenHelper almacenPagoDBHelper = new AlmacenPagoDatabaseHelper(this);
         String[] tituloProducto = new String[0];
-        //double[] precio;
         String[] imagenIds = new String[0];
         int[] idProducto = new int[0];
         double[] precioProducto = new double[0];
@@ -133,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Cursor cursor = db.query("PRODUCTO", new String[]{"_ID, NOMBREPROD", "IMAGE_RESOURCE_ID", "PRECIO"}, "NOMBREPROD LIKE ?", new String[]{"%"+ tituloProd + "%"}, null, null, "_id DESC", "10");
 
             if (cursor.moveToFirst()) {
-                Log.d(TAG, "MainActivity - onCreate: Hay un elemento en el cursor. Leyendolo");
+                Log.d(TAG, "MainActivity - onCreate: Hay elemento/s en el cursor. Leyendolo");
 
                 int largoCursor = cursor.getCount();
                 tituloProducto = new String[largoCursor];
@@ -141,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 idProducto = new int[largoCursor];
                 precioProducto = new double[largoCursor];
 
-
+                //Cargo todos los elementos para pasarlos al adapter
                 int pos = 0;
                 do {
                     idProducto[pos] = cursor.getInt(0);
@@ -159,10 +106,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         //Agrego un ProductoFragment al frame layout. Cuando creo el fragment le envio tambien el bundle con los datos
-
         Fragment productosFragment = new ProductoFragment();
 
-        //bundle con los datos con los que trabajar
+        //bundle con los datos con los que trabajar el adapter
         Bundle bundle = new Bundle();
         bundle.putIntArray(ProductoFragment.EXTRA_ARRAY_IDS, idProducto);
         bundle.putStringArray(ProductoFragment.EXTRA_ARRAY_TITULOS, tituloProducto);
@@ -183,18 +129,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView textEmail = (TextView) header.findViewById(R.id.nav_emailUsuario);
         sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
 
-        textUsuario.setText(sharedPreferences.getString("nombre", "Invitado"));
-        textEmail.setText(sharedPreferences.getString("email", ""));
+        textUsuario.setText(sharedPreferences.getString(SHAREDPREFS_NOMBRE_USUARIO, "Invitado"));
+        textEmail.setText(sharedPreferences.getString(SHAREDPREFS_EMAIL_USUARIO, ""));
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        //Que hacer cuando se selecciona un elemento
         //Obtengo el id del item que selecciono y abro el fragmento/actividad
         int id = item.getItemId();
         Fragment fragment = null;
         Intent intent = null;
 
-        sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
+        //Obtengo si esta el usuario logeado. Supongo que se podria hacer verificando si hay un email y no un "FALLO"
+        sharedPreferences = getApplicationContext().getSharedPreferences(SHAREDPREFS_DATOS_USUARIO, 0);
         boolean isLoggedIn = sharedPreferences.getBoolean("LOGIN", false);
         boolean requiresLogin = false;
         //Cambia dependiendo de que se selecciono
@@ -215,12 +163,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 intent = new Intent(this, FavoritosActivity.class);
                 break;
         }
-        if(!requiresLogin||(requiresLogin && isLoggedIn)) {
+        //Si no pide login que pase. Si esta logueado entonces siempre puede pasar
+        if(!requiresLogin||isLoggedIn) {
             startActivity(intent);
         }else{
             Toast.makeText(this, getString(R.string.error_is_not_login), Toast.LENGTH_SHORT).show();
         }
 
+        //cierro el drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
@@ -229,6 +179,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
+        //Si apreto para atras y esta el drawer, cerralo. Si no, hace lo que haga super
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if(drawer.isDrawerOpen(GravityCompat.START)){
             drawer.closeDrawer(GravityCompat.START);
@@ -239,12 +190,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onResume() {
+        //Recarga los productos cuando resumas
         super.onResume();
         cargarFragmentoProductos("");
     }
 
     @Override
     protected void onRestart() {
+        //Recarga el usuario si es que tenes a alguien en shared preferences
         super.onRestart();
         cargarNombreUsuario();
     }
@@ -257,8 +210,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        //Hay un solo item en la toolbar, el buscador
         int id = item.getItemId();
-        if(id == R.id.action_search && textoBuscador == null){
+        if(id == R.id.action_search && textoBuscador == null){  //Verifico que no este creado ya
             textoBuscador = new EditText(this);
             textoBuscador.setLayoutParams(new Toolbar.LayoutParams(Toolbar.LayoutParams.FILL_PARENT, Toolbar.LayoutParams.WRAP_CONTENT));
             Toolbar layout = findViewById(R.id.toolbar);
@@ -267,17 +221,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             textoBuscador.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
                 }
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
                 }
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                   //Toast.makeText(MainActivity.this, editable.toString(), Toast.LENGTH_SHORT).show();
                     cargarFragmentoProductos(editable.toString());
                 }
             });

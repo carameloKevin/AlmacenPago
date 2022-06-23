@@ -39,7 +39,7 @@ public class LoginTabFragment extends Fragment {
         etEmail = view.findViewById(R.id.etEmailAddressLogin);
         etPassword = view.findViewById(R.id.etPasswordLogin);
         loginButton = view.findViewById(R.id.button_login);
-        sharedPreferences = this.getContext().getApplicationContext().getSharedPreferences("userdetails", 0);
+        sharedPreferences = this.getContext().getApplicationContext().getSharedPreferences(MainActivity.SHAREDPREFS_DATOS_USUARIO, 0);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,17 +47,17 @@ public class LoginTabFragment extends Fragment {
                 String email, password;
                 email = etEmail.getText().toString();
                 password = etPassword.getText().toString();
-                if(email != null && password != null){
-                    SQLiteOpenHelper almacenPagoDBHelper = new AlmacenPagoDatabaseHelper(getContext());
+                if(!email.equals("") && !password.equals("")){
 
+                    SQLiteOpenHelper almacenPagoDBHelper = new AlmacenPagoDatabaseHelper(getContext());
                     try {
                         SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
                         Cursor cursor = db.query("USUARIO", new String[]{"_ID", "EMAIL", "PASSWORD", "NOMBRE", "APELLIDO"}, "EMAIL=? AND PASSWORD=?",new String[]{email, password},null,null,null);
                         if(cursor.moveToFirst()){
                             //Email y nombre en los datos compartidos. Tambien le digo al padre que setee el estado de login
                             SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("email", email);
-                            editor.putString("nombre", cursor.getString(3));
+                            editor.putString(MainActivity.SHAREDPREFS_EMAIL_USUARIO, email);
+                            editor.putString(MainActivity.SHAREDPREFS_NOMBRE_USUARIO, cursor.getString(3));
                             editor.commit();
                             listener.setLoginStatus();
                         }

@@ -37,7 +37,7 @@ public class ProductoFragment extends Fragment {
         //Este fragmento toma los datos de cada producto y los muestra en cartas. Tiene que funcionar con los elementos que le digan de arriba
         RecyclerView productoRecycler = (RecyclerView) inflater.inflate(R.layout.fragment_producto, container, false);
 
-        //Si me mandaron los datos creo la lista, si nos se lo saltea y deevuelve el RecyclerView vacio
+        //Si me mandaron los datos creo la lista, si no se lo saltea y devuelve el RecyclerView vacio
         if(getArguments() != null) {
 
             tituloProducto = getArguments().getStringArray(EXTRA_ARRAY_TITULOS);

@@ -14,6 +14,7 @@ public class LogoScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Espera unos segundos y pasa a la mainactivity, absolutamente nada mas
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logo_screen);
 

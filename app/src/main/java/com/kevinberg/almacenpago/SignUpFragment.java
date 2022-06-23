@@ -46,6 +46,7 @@ public class SignUpFragment extends Fragment {
                 passwordVerification = etPasswordVerification.getText().toString().trim();
                 nombre = etNombre.getText().toString().trim();
                 apellido = etApellido.getText().toString().trim();
+
                 Log.d(TAG, "onClick: "+ email + " " + password + " " + passwordVerification);
                 if(!email.isEmpty() && !password.isEmpty() && passwordVerification.equals(password) && !nombre.isEmpty() && !apellido.isEmpty()) {
                     AlmacenPagoDatabaseHelper almacenPagoDBHelper = new AlmacenPagoDatabaseHelper(getContext());

@@ -83,12 +83,12 @@ public class AgregarProductoActivity extends AppCompatActivity {
                 double precio;
 
                 //Para obtener el email
-                sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
+                sharedPreferences = getApplicationContext().getSharedPreferences(MainActivity.SHAREDPREFS_DATOS_USUARIO, 0);
 
                 //Obtengo los datos de los EditText que ingreso el usuario
                 nombre = etNombreProducto.getText().toString();
                 descripcion = etDescripcionProducto.getText().toString();
-                email = sharedPreferences.getString("email", "wrongEmail"); //No deberia haber podido llegar hasta aca si no esta logueado
+                email = sharedPreferences.getString(MainActivity.SHAREDPREFS_EMAIL_USUARIO, "wrongEmail"); //No deberia haber podido llegar hasta aca si no esta logueado
                 precio = Double.parseDouble(etPrecioProducto.getText().toString());
 
                 if(imageUri != null){

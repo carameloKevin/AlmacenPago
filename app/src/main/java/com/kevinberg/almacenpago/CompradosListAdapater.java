@@ -43,17 +43,14 @@ public class CompradosListAdapater  extends ArrayAdapter {
         if(convertView == null){
             row = inflater.inflate(R.layout.row_item, null, true);
         }
-        TextView textViewNombreProducto =   (TextView) row.findViewById(R.id.textViewNombreProducto);
-        TextView textViewPrecioProducto =   (TextView) row.findViewById(R.id.textViewPrecioProducto);
-        ImageView imagenProducto =          (ImageView) row.findViewById(R.id.imageViewProducto);
+        TextView textViewNombreProducto =   row.findViewById(R.id.textViewNombreProducto);
+        TextView textViewPrecioProducto =   row.findViewById(R.id.textViewPrecioProducto);
+        ImageView imagenProducto =          row.findViewById(R.id.imageViewProducto);
 
         textViewNombreProducto.setText(nombreProducto[position]);
         textViewPrecioProducto.setText(String.valueOf(precioProducto[position]));
 
-        if(imageId[position].equalsIgnoreCase("")) {
-            Log.d(TAG, "CompradosListAdapter getView: imageId[pos] tiene algo, asi que lo muestro");
-            imagenProducto.setImageURI(Uri.parse(imageId[position]));
-        }
+        imagenProducto.setImageURI(Uri.parse(imageId[position]));
         return row;
     }
 }

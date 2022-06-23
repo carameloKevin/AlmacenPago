@@ -26,17 +26,19 @@ public class LoginActivity extends AppCompatActivity implements LogoutFragment.L
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Esta actividad es para contener a los dos fragmentos de Login y logout. Si, admito que el nombre es confuso, pero me da cosa refactor
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //Como siempre una toolbar al dope
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
-        isLoggedIn = sharedPreferences.getBoolean("LOGIN", false);
+        sharedPreferences = getApplicationContext().getSharedPreferences(MainActivity.SHAREDPREFS_DATOS_USUARIO, 0);
+        isLoggedIn = sharedPreferences.getBoolean(MainActivity.SHAREDPREFS_LOGIN, false);
 
         //Dependiendo si esta logueado o no muestro un fragmento o otro
-        Fragment fragmetACargar = null;
+        Fragment fragmetACargar;
         if(!isLoggedIn) {
             fragmetACargar = new LoginFragment();
         }else{
@@ -50,6 +52,7 @@ public class LoginActivity extends AppCompatActivity implements LogoutFragment.L
     @Override
     public void setLoginStatus() {
         //Esto existe para poder hacer Finish() y cerrar la actividad al terminar
+        //Parece repetido, pero son de dos interfaces distintas y ligeramente distintas
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("LOGIN", true);
         editor.commit();
@@ -60,6 +63,7 @@ public class LoginActivity extends AppCompatActivity implements LogoutFragment.L
     @Override
     public void setLogoutStatus() {
         //Esto existe para poder hacer Finish() y cerrar la actividad al terminar
+        //Parece repetido, pero son de dos interfaces distintas y ligeramente distintas
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove("LOGIN");
         editor.commit();

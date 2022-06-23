@@ -28,20 +28,20 @@
     <string name="usted_esta_comprando">You are buying</string>
     <string name="missing_info">Some info is missing!</string>
     <string name="error_sql">Error with the Database</string>
-    <string name="compra_exitosa">Succesful purchase!</string>
+    <string name="compra_exitosa">Successful purchase!</string>
     <string name="must_be_logged_in">You must be logged in to do this!</string>
     <string name="bought_products">Bought Products</string>
     <string name="delete_product">Stop selling this product</string>
     <string name="ya_existe_producto">Product alredy exists!</string>
-    <string name="producto_agregado_exito">Product added succesfully</string>
+    <string name="producto_agregado_exito">Product added successfully</string>
     <string name="campos_incompletos">Some fields are incomplete</string>
-    <string name="login_exitoso">Succesful Login</string>
-    <string name="logut_exitoso">Succesful logout</string>
+    <string name="login_exitoso">Successful Login</string>
+    <string name="logut_exitoso">Successful logout</string>
     <string name="error_is_not_login">Error. Are you Logged In?</string>
     <string name="user_alredy_exists">User alredy exists!</string>
-    <string name="user_created_success">User created succesfully</string>
+    <string name="user_created_success">User created successfully</string>
     <string name="verify_input">Verify input</string>
     <string name="favorito">Star</string>
-
+    <string name="added_fav">"Added to favorites!"</string>
 
 </resources>

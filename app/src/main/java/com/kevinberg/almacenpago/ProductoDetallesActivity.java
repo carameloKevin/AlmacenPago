@@ -28,9 +28,9 @@ public class ProductoDetallesActivity extends AppCompatActivity {
 
     public static final String EXTRA_PRODUCTO_ID = "productoId";
     private final String NOT_LOGGED_IN = "FALLO";
-    SharedPreferences sharedPreferences;
-    String nombreProducto ="", descripcionProducto, precioProducto , imagenProducto, emailVendedor ;
-    Integer idProducto;
+    private SharedPreferences sharedPreferences;
+    private String nombreProducto ="", descripcionProducto, precioProducto , imagenProducto, emailVendedor ;
+    private Integer idProducto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +38,17 @@ public class ProductoDetallesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_producto_detalles);
 
         //Datos de si el usuario esta logueado o no
-        sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
-        String userEmail = sharedPreferences.getString("email", NOT_LOGGED_IN);
+        sharedPreferences = getApplicationContext().getSharedPreferences(MainActivity.SHAREDPREFS_DATOS_USUARIO, 0);
+        String userEmail = sharedPreferences.getString(MainActivity.SHAREDPREFS_EMAIL_USUARIO, NOT_LOGGED_IN);
         boolean isLoggedIn = sharedPreferences.getBoolean("LOGIN", false);
-
 
         //Muestro la toolbar y un boton para volver para arriba
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //A la toolbar que recien cree le agrego el boton para volver para arriba
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-
 
         //Busco los botones y les agrego sus funcionalidades
         Button buyButton = (Button)  findViewById(R.id.bt_buy);
@@ -63,8 +62,8 @@ public class ProductoDetallesActivity extends AppCompatActivity {
             SQLiteDatabase db = almacenPagoDatabaseHelper.getReadableDatabase();
             Cursor cursor = db.query("PRODUCTO", new String[] {"_ID, NOMBREPROD","DESCRIPCION","PRECIO","IMAGE_RESOURCE_ID, EMAIL"}, "_id = ?", new String[] {Integer.toString(productoId)},null,null,null);
 
+            //Si existe el producto obtengo todo
             if(cursor.moveToFirst()){
-
                 idProducto = cursor.getInt(0);
                 nombreProducto = cursor.getString(1);
                 descripcionProducto = cursor.getString(2);
@@ -72,6 +71,7 @@ public class ProductoDetallesActivity extends AppCompatActivity {
                 imagenProducto = cursor.getString(4);
                 emailVendedor = cursor.getString(5);
 
+                //Le asigno el valor a cada elemento
                 TextView tvTitulo = (TextView) findViewById(R.id.producto_titulo);
                 tvTitulo.setText(nombreProducto);
 
@@ -104,6 +104,7 @@ public class ProductoDetallesActivity extends AppCompatActivity {
 
         String finalNombreProducto = nombreProducto;
 
+        //Agrego funcion al Delete
         deleteProductButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,22 +121,27 @@ public class ProductoDetallesActivity extends AppCompatActivity {
             }
         });
 
+        //Funciones del boton comprar
         buyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(!userEmail.equals(NOT_LOGGED_IN) ){
-                    Intent intent = new Intent(view.getContext(), ComprarProductoActivity.class);
+                    Activity act = (Activity) view.getContext();
+                    Intent intent = new Intent(act, ComprarProductoActivity.class);
                     intent.putExtra(ComprarProductoActivity.EXTRA_PRODUCT_NAME, finalNombreProducto);
                     intent.putExtra(ComprarProductoActivity.EXTRA_ID_PRODUCTO, productoId);
                     intent.putExtra(ComprarProductoActivity.EXTRA_EMAIL_STRING, userEmail);
 
                     startActivity(intent);
+                    act.finish();
+
                 }else{
                     Toast.makeText(ProductoDetallesActivity.this, getString(R.string.must_be_logged_in), Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
+        //Funcion del boton Favorito
         favButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,11 +152,10 @@ public class ProductoDetallesActivity extends AppCompatActivity {
                         SQLiteDatabase db = almacenPagoDatabaseHelper.getWritableDatabase();
                         almacenPagoDatabaseHelper.insertFavorito(db,idProducto ,userEmail); //Tecnicamente podria tener problemas por meter un productovacio, pero como llego a eso?
                         db.close();
-                        act.finish();
                     }catch (SQLiteException e){
                         Toast.makeText(ProductoDetallesActivity.this, getString(R.string.error_sql), Toast.LENGTH_SHORT).show();
                     }
-                    Toast.makeText(ProductoDetallesActivity.this, "Producto agregado a favoritos!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProductoDetallesActivity.this, getString(R.string.added_fav), Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(ProductoDetallesActivity.this, getString(R.string.must_be_logged_in), Toast.LENGTH_SHORT).show();
                 }

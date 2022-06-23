@@ -23,15 +23,15 @@ public class FavoritosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favoritos);
+
         //Para tener los datos del usuario logueado
-        sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
-        String userEmail = sharedPreferences.getString("email", NOT_LOGGED_IN);
+        sharedPreferences = getApplicationContext().getSharedPreferences(MainActivity.SHAREDPREFS_DATOS_USUARIO, 0);
+        String userEmail = sharedPreferences.getString(MainActivity.SHAREDPREFS_NOMBRE_USUARIO, NOT_LOGGED_IN);
         //idem a cargarFragmentProducto de MainActivity pero adaptado
 
         //Obtengo una query y lo paso a los arreglos necesarios para el fragmento;
         SQLiteOpenHelper almacenPagoDBHelper = new AlmacenPagoDatabaseHelper(this);
         String[] tituloProducto = new String[0];
-        //double[] precio;
         String[] imagenIds = new String[0];
         int[] idProducto = new int[0];
         double[] precioProducto = new double[0];
@@ -50,7 +50,6 @@ public class FavoritosActivity extends AppCompatActivity {
                 idProducto = new int[largoCursor];
                 precioProducto = new double[largoCursor];
 
-
                 int pos = 0;
                 do {
                     idProducto[pos] = cursor.getInt(0);
@@ -68,7 +67,6 @@ public class FavoritosActivity extends AppCompatActivity {
         }
 
         //Agrego un ProductoFragment al frame layout. Cuando creo el fragment le envio tambien el bundle con los datos
-
         Fragment productosFragment = new ProductoFragment();
 
         //bundle con los datos con los que trabajar

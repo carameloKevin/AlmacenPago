@@ -41,8 +41,8 @@ public class ElementosCompradosActivity extends AppCompatActivity {
         textView.setText(this.getString(R.string.bought_products));
 
         //Email de usuario logeado
-        sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
-        String userEmail = sharedPreferences.getString("email", "wrongEmail");
+        sharedPreferences = getApplicationContext().getSharedPreferences(MainActivity.SHAREDPREFS_DATOS_USUARIO, 0);
+        String userEmail = sharedPreferences.getString(MainActivity.SHAREDPREFS_EMAIL_USUARIO, "wrongEmail");
 
         //Acceso a Base de datos
         AlmacenPagoDatabaseHelper almacenPagoDatabaseHelper = new AlmacenPagoDatabaseHelper(this);

@@ -31,7 +31,7 @@
     <string name="insert_user_name">Inserte su nombre</string>
     <string name="insert_user_surname">Inserte su apellido</string>
     <string name="must_be_logged_in">Tenes que estar logeado para poder hacer esto</string>
-    <string name="ya_existe_producto">\"Ya existe un este mismo producto creado por este usuario!\"</string>
+    <string name="ya_existe_producto">"Ya existe un este mismo producto creado por este usuario!"</string>
     <string name="delete_product">Dejar de vender este producto</string>
     <string name="bought_products">Productos comprados</string>
     <string name="producto_agregado_exito">Producto agregado con exito!</string>
@@ -43,4 +43,5 @@
     <string name="user_created_success">Usuario creado exitosamente</string>
     <string name="verify_input">Verificar los campos</string>
     <string name="favorito">Favorito</string>
+    <string name="added_fav">Producto agregado a favoritos!</string>
 </resources>

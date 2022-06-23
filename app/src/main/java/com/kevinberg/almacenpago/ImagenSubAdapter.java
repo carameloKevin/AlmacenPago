@@ -89,12 +89,11 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
         CardView cardView = holder.cardView;
 
         //Obtengo la ubicacion de XML donde va la imagen y se la asigno
-
         if (imagenIds[position] != null) {
 
             ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
             Log.e(TAG, "onBindViewHolder: Cargando imagen " + imagenIds[position]);
-            if(imagenIds[position] != "") {
+            if(imagenIds[position].equals("")) {
                 imageView.setImageURI(Uri.parse(imagenIds[position]));
             }else{
                 imageView.setImageDrawable(ContextCompat.getDrawable(this.context, R.drawable.no_image));

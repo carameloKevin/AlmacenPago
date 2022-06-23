@@ -37,7 +37,7 @@ public class LogoutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Un fragment que muestra quien esta logueado y un botton de logout
-        sharedPreferences = this.getContext().getApplicationContext().getSharedPreferences("userdetails", 0);
+        sharedPreferences = this.getContext().getApplicationContext().getSharedPreferences(MainActivity.SHAREDPREFS_DATOS_USUARIO 0);
 
         String nombreUsuario = sharedPreferences.getString("nombre", "Usuario");//savedInstanceState.getString(USER_NAME);
         View view = inflater.inflate(R.layout.fragment_logout, container, false);
@@ -63,11 +63,10 @@ public class LogoutFragment extends Fragment {
     }
 
     private void cargarFragmentoProductos(){
-        //Copiado y pegado de MainActivity
+        //Copiado y pegado de MainActivity, codigo CASI repetido
         //Obtengo una query y lo paso a los arreglos necesarios para el fragmento;
         SQLiteOpenHelper almacenPagoDBHelper = new AlmacenPagoDatabaseHelper(this.getContext());
         String[] tituloProducto = new String[0];
-        //double[] precio;
         String[] imagenIds = new String[0];
         int[] idProducto = new int[0];
         double[] precioProducto = new double[0];
@@ -77,6 +76,7 @@ public class LogoutFragment extends Fragment {
             sharedPreferences = this.getContext().getApplicationContext().getSharedPreferences("userdetails", 0);
             String emailUsuario = sharedPreferences.getString("email", "null");
 
+            //Unico gran cambiio
             Cursor cursor = db.query("PRODUCTO", new String[]{"_ID, NOMBREPROD", "IMAGE_RESOURCE_ID", "PRECIO"}, "EMAIL = ?", new String[] {emailUsuario}, null, null, "_id DESC", "10");
 
             if (cursor.moveToFirst()) {

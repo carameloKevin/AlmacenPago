@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.app.Activity;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -30,7 +31,7 @@ public class ComprarProductoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_comprar_producto);
         Bundle extras = getIntent().getExtras();
 
-        //Lee los campos de la tarjeta y confirma la compra. Lo deberia agregar a una lista de los productos que compro un usurio, asi que nueva tabal\
+        //Lee los campos de la tarjeta y confirma la compra. Lo deberia agregar a una lista de los productos que compro un usurio, asi que nueva tabla
         TextView etTituloProducto = (TextView) findViewById(R.id.tv_item_en_compra);
         TextView etEmailUsuario = (TextView) findViewById(R.id.tv_email_usuario);
         EditText numeroTarjeta = (EditText) findViewById(R.id.et_numero_tarjeta);
@@ -60,6 +61,8 @@ public class ComprarProductoActivity extends AppCompatActivity {
                         db.close();
                     }
                 }
+                Activity act =(Activity) view.getContext();
+                act.finish();
             }
         });
     }
