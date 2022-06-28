@@ -43,5 +43,10 @@
     <string name="verify_input">Verify input</string>
     <string name="favorito">Star</string>
     <string name="added_fav">"Added to favorites!"</string>
+    <string name="insert_stock">Insert stock</string>
+    <string name="cantidad">Available ammount</string>
+    <string name="input_value">Input Value</string>
+    <string name="seller_area">Seller Area</string>
+    <string name="add_stock">Add Stock</string>
 
 </resources>

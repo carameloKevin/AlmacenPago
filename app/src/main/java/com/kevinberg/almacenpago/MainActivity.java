@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //this.deleteDatabase("almacenPago"); //Linea para borrar la BD cuando cambio la id de las imagenes
+        this.deleteDatabase("almacenPago"); //Linea para borrar la BD cuando cambio la id de las imagenes
         //agrego la toolbar arriba del toodo
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         try {
             SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
 
-            Cursor cursor = db.query("PRODUCTO", new String[]{"_ID, NOMBREPROD", "IMAGE_RESOURCE_ID", "PRECIO"}, "NOMBREPROD LIKE ?", new String[]{"%"+ tituloProd + "%"}, null, null, "_id DESC", "10");
+            Cursor cursor = db.query("PRODUCTO", new String[]{"_idProducto, nombreProd", "image_resource_id", "precio"}, "nombreProd LIKE ?", new String[]{"%"+ tituloProd + "%"}, null, null, "_idProducto ASC", "10");
 
             if (cursor.moveToFirst()) {
                 Log.d(TAG, "MainActivity - onCreate: Hay elemento/s en el cursor. Leyendolo");
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View header = navigationView.getHeaderView(0);
         TextView textUsuario = (TextView) header.findViewById(R.id.nav_nombreUsuario);
         TextView textEmail = (TextView) header.findViewById(R.id.nav_emailUsuario);
-        sharedPreferences = getApplicationContext().getSharedPreferences("userdetails", 0);
+        sharedPreferences = getApplicationContext().getSharedPreferences(SHAREDPREFS_DATOS_USUARIO, 0);
 
         textUsuario.setText(sharedPreferences.getString(SHAREDPREFS_NOMBRE_USUARIO, "Invitado"));
         textEmail.setText(sharedPreferences.getString(SHAREDPREFS_EMAIL_USUARIO, ""));

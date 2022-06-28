@@ -93,7 +93,7 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
 
             ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
             Log.e(TAG, "onBindViewHolder: Cargando imagen " + imagenIds[position]);
-            if(imagenIds[position].equals("")) {
+            if(!imagenIds[position].equals("")) {
                 imageView.setImageURI(Uri.parse(imagenIds[position]));
             }else{
                 imageView.setImageDrawable(ContextCompat.getDrawable(this.context, R.drawable.no_image));

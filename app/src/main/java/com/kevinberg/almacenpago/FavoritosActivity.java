@@ -26,7 +26,7 @@ public class FavoritosActivity extends AppCompatActivity {
 
         //Para tener los datos del usuario logueado
         sharedPreferences = getApplicationContext().getSharedPreferences(MainActivity.SHAREDPREFS_DATOS_USUARIO, 0);
-        String userEmail = sharedPreferences.getString(MainActivity.SHAREDPREFS_NOMBRE_USUARIO, NOT_LOGGED_IN);
+        String userEmail = sharedPreferences.getString(MainActivity.SHAREDPREFS_EMAIL_USUARIO, NOT_LOGGED_IN);
         //idem a cargarFragmentProducto de MainActivity pero adaptado
 
         //Obtengo una query y lo paso a los arreglos necesarios para el fragmento;
@@ -38,9 +38,30 @@ public class FavoritosActivity extends AppCompatActivity {
         try {
             SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
 
-            //obtengo la lista de los favoritos del usuario logueado
-            Cursor cursor = db.rawQuery("SELECT PRODUCTO._id, NOMBREPROD, PRECIO, IMAGE_RESOURCE_ID  FROM PRODUCTO, FAVORITO  WHERE FAVORITO.EMAILUSUARIO=? AND PRODUCTO._id=FAVORITO.IDPRODUCTO" , new String[] {userEmail});
+            /*
+            sqLiteDatabase.execSQL("CREATE TABLE PRODUCTO(_idProducto INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "nombreProd TEXT," +
+                    "descripcion TEXT," +
+                    "precio DOUBLE," +
+                    "image_resource_id INTEGER," +
+                    "emailVendedor TEXT," +
+                    "stock INTEGER," +
+                    "aLaVenta INTEGER," +
+                    "FOREIGN KEY(emailVendedor) REFERENCES USUARIO(email));");
 
+            //Agergo tabla de que compro cada usuario
+            sqLiteDatabase.execSQL("CREATE TABLE COMPRA(fecha DATE PRIMARY KEY," +
+                    "idProducto INTEGER," +
+                    "emailUsuario TEXT," +
+                    "stock INTEGER," +
+                    "FOREIGN KEY(emailUsuario) REFERENCES USUARIO(email)," +
+                    "FOREIGN KEY(idProducto) REFERENCES PRODUCTO(_idProducto));");
+            */
+
+
+            //obtengo la lista de los favoritos del usuario logueado
+            Cursor cursor = db.rawQuery("SELECT idProducto, nombreProd, precio, image_resource_id  FROM PRODUCTO, FAVORITO  WHERE FAVORITO.emailUsuario=? AND PRODUCTO._idProducto=FAVORITO.idProducto" , new String[] {userEmail});
+            Log.d(TAG, "onCreate: Llegue "+ cursor.getCount());
             if (cursor.moveToFirst()) {
                 Log.d(TAG, "FavoritosActivity - onCreate: Hay un elemento en el cursor.");
 

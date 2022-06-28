@@ -39,7 +39,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        EditText etNombreProducto, etDescripcionProducto, etPrecioProducto;
+        EditText etNombreProducto, etDescripcionProducto, etPrecioProducto, etStock;
         ImageView ivImagen;
         Button btInput, btInputImage;
 
@@ -49,6 +49,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
         etNombreProducto = findViewById(R.id.etNombreProducto);
         etDescripcionProducto = findViewById(R.id.etDescripcionProducto);
         etPrecioProducto = findViewById(R.id.etPrecio);
+        etStock = findViewById(R.id.etStock);
         ivImagen = findViewById(R.id.iv_imagen_producto);
         btInput = findViewById(R.id.btLoad);
         btInputImage = findViewById(R.id.button_add_image);
@@ -81,6 +82,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
                 String nombre, descripcion, email;
                 String uri = "";
                 double precio;
+                int stock = 0;
 
                 //Para obtener el email
                 sharedPreferences = getApplicationContext().getSharedPreferences(MainActivity.SHAREDPREFS_DATOS_USUARIO, 0);
@@ -90,6 +92,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
                 descripcion = etDescripcionProducto.getText().toString();
                 email = sharedPreferences.getString(MainActivity.SHAREDPREFS_EMAIL_USUARIO, "wrongEmail"); //No deberia haber podido llegar hasta aca si no esta logueado
                 precio = Double.parseDouble(etPrecioProducto.getText().toString());
+                stock = Integer.getInteger(etStock.getText().toString());
 
                 if(imageUri != null){
                     //Esto se tiene que cargar en la registerForActivityResult, aca solo lo formateo para guardar en BD
@@ -109,7 +112,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
                                 Log.d(TAG, "AgregarProductoActivity onClick: Intentando insertar producto");
                                 db.close();
                                 db = almacenPagoDatabaseHelper.getWritableDatabase();
-                                almacenPagoDatabaseHelper.insertProducto(db,nombre, descripcion, uri, precio, email);
+                                almacenPagoDatabaseHelper.insertProducto(db,nombre, descripcion, uri, precio,stock, email, true);
                                 Toast.makeText(AgregarProductoActivity.this, getString(R.string.producto_agregado_exito), Toast.LENGTH_SHORT).show();
                             }
                             cursor.close();

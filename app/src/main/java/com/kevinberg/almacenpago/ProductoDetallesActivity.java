@@ -5,9 +5,11 @@ package com.kevinberg.almacenpago;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.Group;
 
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -17,8 +19,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.text.Editable;
+import android.text.Layout;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,8 +35,10 @@ public class ProductoDetallesActivity extends AppCompatActivity {
     public static final String EXTRA_PRODUCTO_ID = "productoId";
     private final String NOT_LOGGED_IN = "FALLO";
     private SharedPreferences sharedPreferences;
-    private String nombreProducto ="", descripcionProducto, precioProducto , imagenProducto, emailVendedor ;
-    private Integer idProducto;
+    private String nombreProducto ="", descripcionProducto, precioProducto , imagenProducto, emailVendedor;
+    private EditText etCantProd;
+    private Integer idProducto, stock, aLaVenta, cantCompra = -1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +62,17 @@ public class ProductoDetallesActivity extends AppCompatActivity {
         Button buyButton = (Button)  findViewById(R.id.bt_buy);
         Button deleteProductButton = (Button) findViewById(R.id.bt_delete_item);
         Button favButton = (Button) findViewById(R.id.bt_fav);
+        Button addStockButton = (Button) findViewById(R.id.bt_add_stock);
+        //
+
 
         int productoId = (Integer) getIntent().getExtras().get(EXTRA_PRODUCTO_ID);
         SQLiteOpenHelper almacenPagoDatabaseHelper = new AlmacenPagoDatabaseHelper(this);
 
         try{
             SQLiteDatabase db = almacenPagoDatabaseHelper.getReadableDatabase();
-            Cursor cursor = db.query("PRODUCTO", new String[] {"_ID, NOMBREPROD","DESCRIPCION","PRECIO","IMAGE_RESOURCE_ID, EMAIL"}, "_id = ?", new String[] {Integer.toString(productoId)},null,null,null);
+            Cursor cursor = db.query("PRODUCTO", new String[] {"_idProducto, nombreProd","descripcion","precio","image_resource_id, emailVendedor, stock, aLaVenta"}, "_idProducto = ?", new String[] {Integer.toString(productoId)},null,null,null);
+
 
             //Si existe el producto obtengo todo
             if(cursor.moveToFirst()){
@@ -70,6 +82,8 @@ public class ProductoDetallesActivity extends AppCompatActivity {
                 precioProducto = cursor.getString(3);
                 imagenProducto = cursor.getString(4);
                 emailVendedor = cursor.getString(5);
+                stock = cursor.getInt(6);
+                aLaVenta = cursor.getInt(7);
 
                 //Le asigno el valor a cada elemento
                 TextView tvTitulo = (TextView) findViewById(R.id.producto_titulo);
@@ -87,9 +101,24 @@ public class ProductoDetallesActivity extends AppCompatActivity {
 
                 imageView.setContentDescription(nombreProducto);
 
-                //No muestro el Unbuy si el usuario no esta logeado o no publico este producto
-                if(!emailVendedor.equals(userEmail)) {
+                etCantProd = (EditText) findViewById(R.id.etStockDisponible);
+                etCantProd.setHint(""+stock);
+
+                TextView tvSellerArea = findViewById(R.id.tv_area_seller);
+                EditText etStockToAdd = findViewById(R.id.etAgregarStock);
+
+
+                /*No muestro el area del vendedor si el usuario (no esta logeado o no publico este producto) y
+                * si la publicacion no esta quitada de la venta
+                * No puedo usar una LinearLayout para agrupar esto. Hay una cosa
+                * llamada GROUPS, pero no me funciono bien y se me rompio el layout
+                * Tengo que probar hacer una ContraintLayout dentro de esta
+                */
+                if(!emailVendedor.equals(userEmail) && aLaVenta!=0) {
                     deleteProductButton.setVisibility(View.GONE);
+                    addStockButton.setVisibility(View.GONE);
+                    tvSellerArea.setVisibility(View.GONE);
+                    etStockToAdd.setVisibility(View.GONE);
                 }
             }
             cursor.close();
@@ -112,7 +141,12 @@ public class ProductoDetallesActivity extends AppCompatActivity {
                 SQLiteOpenHelper almacenPagoDatabaseHelper = new AlmacenPagoDatabaseHelper(act);
                 try{
                     SQLiteDatabase db = almacenPagoDatabaseHelper.getWritableDatabase();
-                    db.delete("PRODUCTO", "_ID="+idProducto,null);
+
+                    //db.delete("PRODUCTO", "_ID="+idProducto,null);    //Esto eliminaba fisicamente
+
+                    ContentValues productoValues = new ContentValues();
+                    productoValues.put("aLaVenta", 0);
+                    db.update("PRODUCTO", productoValues,"idProducto = ?", new String[]{Integer.toString(idProducto)});
                     db.close();
                     act.finish();
                 }catch (SQLiteException e) {
@@ -125,18 +159,25 @@ public class ProductoDetallesActivity extends AppCompatActivity {
         buyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!userEmail.equals(NOT_LOGGED_IN) ){
-                    Activity act = (Activity) view.getContext();
-                    Intent intent = new Intent(act, ComprarProductoActivity.class);
-                    intent.putExtra(ComprarProductoActivity.EXTRA_PRODUCT_NAME, finalNombreProducto);
-                    intent.putExtra(ComprarProductoActivity.EXTRA_ID_PRODUCTO, productoId);
-                    intent.putExtra(ComprarProductoActivity.EXTRA_EMAIL_STRING, userEmail);
+                if (etCantProd.getText().toString().equals("")) {
+                    Toast.makeText(ProductoDetallesActivity.this, getString(R.string.input_value), Toast.LENGTH_SHORT).show();
+                } else {
+                    cantCompra = Integer.valueOf(etCantProd.getText().toString());
+                    if (!userEmail.equals(NOT_LOGGED_IN) && cantCompra < stock) {
 
-                    startActivity(intent);
-                    act.finish();
+                        Activity act = (Activity) view.getContext();
+                        Intent intent = new Intent(act, ComprarProductoActivity.class);
+                        intent.putExtra(ComprarProductoActivity.EXTRA_PRODUCT_NAME, finalNombreProducto);
+                        intent.putExtra(ComprarProductoActivity.EXTRA_ID_PRODUCTO, productoId);
+                        intent.putExtra(ComprarProductoActivity.EXTRA_EMAIL_STRING, userEmail);
+                        intent.putExtra(ComprarProductoActivity.EXTRA_CANT_PRODUCTO, cantCompra);
 
-                }else{
-                    Toast.makeText(ProductoDetallesActivity.this, getString(R.string.must_be_logged_in), Toast.LENGTH_SHORT).show();
+                        startActivity(intent);
+                        act.finish();
+
+                    } else {
+                        Toast.makeText(ProductoDetallesActivity.this, getString(R.string.must_be_logged_in), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

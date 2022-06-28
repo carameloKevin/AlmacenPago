@@ -10,61 +10,72 @@
         android:id="@+id/tv_email_usuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="16dp"
         android:text="Email"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_item_en_compra" />
+        app:layout_constraintStart_toStartOf="@+id/tvAmmount"
+        app:layout_constraintTop_toBottomOf="@+id/tvAmmount" />
 
     <TextView
         android:id="@+id/tv_item_en_compra"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:text="Item"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/et_numero_tarjeta"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/et_clave_tarjeta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:ems="10"
-        android:inputType="numberPassword"
         android:hint="@string/ingrese_clave_tarjeta"
-        app:layout_constraintBaseline_toBaselineOf="@+id/et_numero_tarjeta"
-        app:layout_constraintStart_toEndOf="@+id/et_numero_tarjeta" />
+        android:inputType="numberPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_numero_tarjeta" />
 
     <EditText
         android:id="@+id/et_numero_tarjeta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="@string/ingrese_numero_tarjeta"
         android:inputType="number"
-        app:layout_constraintStart_toStartOf="@+id/tv_email_usuario"
-        app:layout_constraintTop_toBottomOf="@+id/tv_email_usuario" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_producto" />
 
     <Button
         android:id="@+id/bt_finish_buy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="@string/buy"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_numero_tarjeta" />
+        app:layout_constraintTop_toBottomOf="@+id/et_clave_tarjeta" />
 
     <ImageView
         android:id="@+id/iv_producto"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/et_clave_tarjeta"
-        app:layout_constraintStart_toEndOf="@+id/tv_item_en_compra"
+        app:layout_constraintEnd_toEndOf="@+id/et_numero_tarjeta"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tv_email_usuario"
+        tools:layout_editor_absoluteY="24dp"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tvAmmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Ammount"
+        app:layout_constraintStart_toStartOf="@+id/tv_item_en_compra"
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_en_compra" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

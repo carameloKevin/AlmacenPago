@@ -52,12 +52,12 @@ public class LoginTabFragment extends Fragment {
                     SQLiteOpenHelper almacenPagoDBHelper = new AlmacenPagoDatabaseHelper(getContext());
                     try {
                         SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
-                        Cursor cursor = db.query("USUARIO", new String[]{"_ID", "EMAIL", "PASSWORD", "NOMBRE", "APELLIDO"}, "EMAIL=? AND PASSWORD=?",new String[]{email, password},null,null,null);
+                        Cursor cursor = db.query("USUARIO", new String[]{"email", "password", "nombre", "apellido"}, "email=? AND password=?",new String[]{email, password},null,null,null);
                         if(cursor.moveToFirst()){
                             //Email y nombre en los datos compartidos. Tambien le digo al padre que setee el estado de login
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString(MainActivity.SHAREDPREFS_EMAIL_USUARIO, email);
-                            editor.putString(MainActivity.SHAREDPREFS_NOMBRE_USUARIO, cursor.getString(3));
+                            editor.putString(MainActivity.SHAREDPREFS_NOMBRE_USUARIO, cursor.getString(2));
                             editor.commit();
                             listener.setLoginStatus();
                         }

@@ -44,4 +44,9 @@
     <string name="verify_input">Verificar los campos</string>
     <string name="favorito">Favorito</string>
     <string name="added_fav">Producto agregado a favoritos!</string>
+    <string name="insert_stock">Ingrese la cantidad</string>
+    <string name="cantidad">Cant Disponible</string>
+    <string name="input_value">Ingrese un valor</string>
+    <string name="seller_area">Area vendedor</string>
+    <string name="add_stock">Agregar Stock</string>
 </resources>
