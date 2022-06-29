@@ -50,6 +50,7 @@ public class ComprarProductoActivity extends AppCompatActivity {
         buyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setResult(RESULT_CANCELED);
                 if(numeroTarjeta.getText().toString().equals("") && claveTarjeta.getText().toString().equals("")){
                     Toast.makeText(ComprarProductoActivity.this, getString(R.string.missing_info), Toast.LENGTH_SHORT).show();
                 }else {
@@ -73,9 +74,7 @@ public class ComprarProductoActivity extends AppCompatActivity {
                         db = almacenPagoDatabaseHelper.getWritableDatabase();
                         //Agrego la compra a la lista de comprados del usuario
                         almacenPagoDatabaseHelper.insertCompra(db, Calendar.getInstance().getTime(), extras.getString(EXTRA_EMAIL_STRING), extras.getInt(EXTRA_ID_PRODUCTO), extras.getInt(EXTRA_CANT_PRODUCTO));
-//Actualizo la tabla para descontar el stock
-                        db.rawQuery("UPDATE PRODUCTO set stock="+stockFinal, null);
-
+                        setResult(RESULT_OK);
                         Toast.makeText(ComprarProductoActivity.this, getString(R.string.compra_exitosa), Toast.LENGTH_SHORT).show();
                     } catch (SQLiteException e) {
                         Toast.makeText(ComprarProductoActivity.this, getString(R.string.error_sql), Toast.LENGTH_SHORT).show();

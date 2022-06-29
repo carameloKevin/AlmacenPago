@@ -43,6 +43,7 @@ public class ProductoFragment extends Fragment {
             tituloProducto = getArguments().getStringArray(EXTRA_ARRAY_TITULOS);
             imagenIds = getArguments().getStringArray(EXTRA_ARRAY_IMAGENID);
             productoIds = getArguments().getIntArray(EXTRA_ARRAY_IDS);
+            precioProducto = getArguments().getDoubleArray(EXTRA_ARRAY_PRECIOS);
 
             ImagenSubAdapter adapter = new ImagenSubAdapter(tituloProducto, imagenIds, this.getContext());
             productoRecycler.setAdapter(adapter);
