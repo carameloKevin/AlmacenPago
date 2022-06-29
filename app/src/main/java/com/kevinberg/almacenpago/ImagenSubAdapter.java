@@ -40,6 +40,7 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
 
     private String[] subtitulos;
     private String[] imagenIds;
+    private double[] precios = new double[1];
     private Listener listener;
     private Context context;
 
@@ -68,11 +69,12 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
         }
     }
 
-    public ImagenSubAdapter(String[] subtitulos, String[] imagenIds, Context context){
+    public ImagenSubAdapter(String[] subtitulos, String[] imagenIds, double[] precios, Context context){
         //Le informo al adapter con que valores trabajar
         this.subtitulos = subtitulos;
         this.imagenIds = imagenIds;
         this.context = context;
+        this.precios = precios;
     }
 
     @NonNull
@@ -99,9 +101,14 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
                 imageView.setImageDrawable(ContextCompat.getDrawable(this.context, R.drawable.no_image));
             }
 
+            TextView tvPrecio = cardView.findViewById(R.id.info_price);
+            if(precios[position] != 0){
+                tvPrecio.setText("$" + precios[position] );
+            }
 
-            TextView textView = (TextView) cardView.findViewById(R.id.info_text);
-            textView.setText(subtitulos[position]);
+
+            TextView tvSubtitulo = (TextView) cardView.findViewById(R.id.info_text);
+            tvSubtitulo.setText(subtitulos[position]);
 
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override

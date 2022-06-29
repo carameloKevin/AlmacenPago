@@ -37,28 +37,6 @@ public class FavoritosActivity extends AppCompatActivity {
         double[] precioProducto = new double[0];
         try {
             SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
-
-            /*
-            sqLiteDatabase.execSQL("CREATE TABLE PRODUCTO(_idProducto INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "nombreProd TEXT," +
-                    "descripcion TEXT," +
-                    "precio DOUBLE," +
-                    "image_resource_id INTEGER," +
-                    "emailVendedor TEXT," +
-                    "stock INTEGER," +
-                    "aLaVenta INTEGER," +
-                    "FOREIGN KEY(emailVendedor) REFERENCES USUARIO(email));");
-
-            //Agergo tabla de que compro cada usuario
-            sqLiteDatabase.execSQL("CREATE TABLE COMPRA(fecha DATE PRIMARY KEY," +
-                    "idProducto INTEGER," +
-                    "emailUsuario TEXT," +
-                    "stock INTEGER," +
-                    "FOREIGN KEY(emailUsuario) REFERENCES USUARIO(email)," +
-                    "FOREIGN KEY(idProducto) REFERENCES PRODUCTO(_idProducto));");
-            */
-
-
             //obtengo la lista de los favoritos del usuario logueado
             Cursor cursor = db.rawQuery("SELECT idProducto, nombreProd, precio, image_resource_id  FROM PRODUCTO, FAVORITO  WHERE FAVORITO.emailUsuario=? AND PRODUCTO._idProducto=FAVORITO.idProducto" , new String[] {userEmail});
             Log.d(TAG, "onCreate: Llegue "+ cursor.getCount());
@@ -92,6 +70,7 @@ public class FavoritosActivity extends AppCompatActivity {
 
         //bundle con los datos con los que trabajar
         Bundle bundle = new Bundle();
+        bundle.putDoubleArray(ProductoFragment.EXTRA_ARRAY_PRECIOS, precioProducto);
         bundle.putIntArray(ProductoFragment.EXTRA_ARRAY_IDS, idProducto);
         bundle.putStringArray(ProductoFragment.EXTRA_ARRAY_TITULOS, tituloProducto);
         bundle.putStringArray(ProductoFragment.EXTRA_ARRAY_IMAGENID, imagenIds);

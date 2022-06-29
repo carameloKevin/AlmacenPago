@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //bundle con los datos con los que trabajar el adapter
         Bundle bundle = new Bundle();
+        bundle.putDoubleArray(ProductoFragment.EXTRA_ARRAY_PRECIOS, precioProducto);
         bundle.putIntArray(ProductoFragment.EXTRA_ARRAY_IDS, idProducto);
         bundle.putStringArray(ProductoFragment.EXTRA_ARRAY_TITULOS, tituloProducto);
         bundle.putStringArray(ProductoFragment.EXTRA_ARRAY_IMAGENID, imagenIds);
