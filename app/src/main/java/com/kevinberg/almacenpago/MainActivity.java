@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String SHAREDPREFS_EMAIL_USUARIO = "email";
     public static final String SHAREDPREFS_NOMBRE_USUARIO = "nombre";
     public static final String SHAREDPREFS_LOGIN    = "LOGIN";
+    public static final String SHAREDPREFS_LOOP     = "TRUE";
 
     private SharedPreferences sharedPreferences;
     private EditText textoBuscador;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.deleteDatabase("almacenPago"); //Linea para borrar la BD cuando cambio la id de las imagenes
+        //this.deleteDatabase("almacenPago"); //Linea para borrar la BD cuando cambio la id de las imagenes
         //agrego la toolbar arriba del toodo
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

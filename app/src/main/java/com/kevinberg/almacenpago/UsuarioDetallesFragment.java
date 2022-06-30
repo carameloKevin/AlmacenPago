@@ -29,16 +29,19 @@ public class UsuarioDetallesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_usuario_detalles, container, false);
 
-        Bundle extras = getArguments();
-        String userName = extras.getString(NOMBRE_USUARIO, FALLO);
-        String userLastName = extras.getString(APELLIDO_USUARIO, FALLO);
-        String userEmail = extras.getString(EMAIL_USUARIO, FALLO);
+        if(getArguments()!= null) {
+            Bundle extras = getArguments();
+            String userName = extras.getString(NOMBRE_USUARIO, FALLO);
+            String userLastName = extras.getString(APELLIDO_USUARIO, FALLO);
+            String userEmail = extras.getString(EMAIL_USUARIO, FALLO);
 
-        TextView nombreUsuarioET = view.findViewById(R.id.tv_username);
-        TextView emailUsuarioET = view.findViewById(R.id.tv_userEmail);
 
-        nombreUsuarioET.setText(userName + " " + userLastName);
-        emailUsuarioET.setText(userEmail);
+            TextView nombreUsuarioET = view.findViewById(R.id.tv_username);
+            TextView emailUsuarioET = view.findViewById(R.id.tv_userEmail);
+
+            nombreUsuarioET.setText(userName + " " + userLastName);
+            emailUsuarioET.setText(userEmail);
+        }
 
         return view;
     }

@@ -69,7 +69,9 @@ public class ProductoDetallesActivity extends AppCompatActivity {
         Button deleteProductButton = (Button) findViewById(R.id.bt_delete_item);
         Button favButton = (Button) findViewById(R.id.bt_fav);
         Button addStockButton = (Button) findViewById(R.id.bt_add_stock);
-        //
+        //Nombre de dueno en textview
+        TextView nombreDueno = (TextView) findViewById(R.id.tv_dueno_producto);
+        nombreDueno.setText("");
 
 
         idProducto = (Integer) getIntent().getExtras().get(EXTRA_PRODUCTO_ID);
@@ -114,6 +116,8 @@ public class ProductoDetallesActivity extends AppCompatActivity {
                 etStockToAdd = findViewById(R.id.etAgregarStock);
                 etStockToAdd.setHint(getString(R.string.add_stock));
 
+                nombreDueno.setText(emailVendedor);
+
 
                 /*No muestro el area del vendedor si el usuario (no esta logeado o no publico este producto) y
                  * si la publicacion no esta quitada de la venta
@@ -134,9 +138,10 @@ public class ProductoDetallesActivity extends AppCompatActivity {
             Toast.makeText(this, getString(R.string.error_sql), Toast.LENGTH_SHORT).show();
         }
 
-        //Nombre de dueno en textview
-        TextView nombreDueno = (TextView) findViewById(R.id.tv_dueno_producto);
-        nombreDueno.setText(emailVendedor);
+        //Si ya entro una vez al loop entonces le quito el boton de quien es el dueno para evitar esos loops
+        if(sharedPreferences.getString(MainActivity.SHAREDPREFS_LOOP, "FALSE").equalsIgnoreCase("TRUE")){
+            nombreDueno.setVisibility(View.GONE);
+        }
 
         String finalNombreProducto = nombreProducto;
 
@@ -216,6 +221,10 @@ public class ProductoDetallesActivity extends AppCompatActivity {
                 Intent intent = new Intent(view.getContext(), UsuarioDetallesActivity.class);
                 TextView v = (TextView) view;
                 intent.putExtra(UsuarioDetallesActivity.EMAIL_USUARIO, v.getText());
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(MainActivity.SHAREDPREFS_LOOP, "TRUE");
+                editor.commit();
+
                 startActivity(intent);
             }
         });
@@ -268,5 +277,14 @@ public class ProductoDetallesActivity extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        //le aviso que puede volver a ver los nombres
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(MainActivity.SHAREDPREFS_LOOP, "FALSE");
+        editor.commit();
     }
 }

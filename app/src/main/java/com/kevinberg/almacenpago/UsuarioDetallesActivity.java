@@ -39,15 +39,17 @@ public class UsuarioDetallesActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
+
             String emailUsuario = extras.getString(EMAIL_USUARIO);
+
 
             //Obtener todos los datos del Usuario
             AlmacenPagoDatabaseHelper almacenPagoDatabaseHelper = new AlmacenPagoDatabaseHelper(this);
             try {
                 SQLiteDatabase db = almacenPagoDatabaseHelper.getReadableDatabase();
 
-                Cursor cursor = db.query("USUARIO", new String[]{"EMAIL, NOMBRE", "APELLIDO"}, "EMAIL = ?", new String[] {emailUsuario}, null, null, null, null);
-
+                Cursor cursor = db.query("USUARIO", new String[]{"email, nombre", "apellido"}, "email = ?", new String[] {emailUsuario}, null, null, null, null);
+                Log.d(TAG, "onCreate: USUARIODETALLES " + emailUsuario + " Cursos "+ cursor.getCount());
                 if (cursor.moveToFirst()) {
                     Log.d(TAG, "UsuarioDetallActiviy - onCreate: Hay un elemento en el cursor. Leyendolo");
                         nombreUsuario = cursor.getString(1);
@@ -87,7 +89,7 @@ public class UsuarioDetallesActivity extends AppCompatActivity {
         try {
             SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
 
-            Cursor cursor = db.query("PRODUCTO", new String[]{"_ID, NOMBREPROD", "IMAGE_RESOURCE_ID", "PRECIO"}, "EMAIL = ?", new String[]{emailUsuario}, null, null, "_id DESC", "10");
+            Cursor cursor = db.query("PRODUCTO", new String[]{"_idProducto, nombreProd", "image_resource_id", "precio"}, "emailVendedor = ?", new String[]{emailUsuario}, null, null, "_idProducto DESC", "10");
 
             if (cursor.moveToFirst()) {
                 Log.d(TAG, "MainActivity - onCreate: Hay un elemento en el cursor. Leyendolo");
@@ -121,6 +123,7 @@ public class UsuarioDetallesActivity extends AppCompatActivity {
 
         //bundle con los datos con los que trabajar
         Bundle bundle = new Bundle();
+        bundle.putDoubleArray(ProductoFragment.EXTRA_ARRAY_PRECIOS, precioProducto);
         bundle.putIntArray(ProductoFragment.EXTRA_ARRAY_IDS, idProducto);
         bundle.putStringArray(ProductoFragment.EXTRA_ARRAY_TITULOS, tituloProducto);
         bundle.putStringArray(ProductoFragment.EXTRA_ARRAY_IMAGENID, imagenIds);
