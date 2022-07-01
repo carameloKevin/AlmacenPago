@@ -36,7 +36,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String SHAREDPREFS_NOMBRE_USUARIO = "nombre";
     public static final String SHAREDPREFS_LOGIN    = "LOGIN";
     public static final String SHAREDPREFS_LOOP     = "TRUE";
+    private boolean musicOn = false;
 
+    private BackgroundSoundService musicPlayer;
     private SharedPreferences sharedPreferences;
     private EditText textoBuscador;
 
@@ -235,6 +237,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
             return true;
+        }else if(id == R.id.action_sound){
+            if(musicOn){
+                stopService(new Intent(this, BackgroundSoundService.class));
+                musicOn = false;
+            }else{
+                startService(new Intent(this, BackgroundSoundService.class));
+                musicOn = true;
+            }
         }
 
         return super.onOptionsItemSelected(item);

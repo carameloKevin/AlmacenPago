@@ -74,6 +74,8 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+        <service android:enabled="true" android:name=".BackgroundSoundService"/>
     </application>
+
 
 </manifest>
