@@ -83,7 +83,7 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
         //Se "infla" la carta en el contexto
         CardView cv = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_subtitulo_imagen, parent, false);
         return new ViewHolder(cv);
-    }
+}
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -103,7 +103,8 @@ public class ImagenSubAdapter extends RecyclerView.Adapter<ImagenSubAdapter.View
 
             TextView tvPrecio = cardView.findViewById(R.id.info_price);
             if(precios[position] != 0){
-                tvPrecio.setText("$" + precios[position] );
+                String temp = String.format("$%.2f", precios[position]);
+                tvPrecio.setText(temp);
             }
 
 

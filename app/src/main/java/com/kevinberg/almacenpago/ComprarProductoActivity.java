@@ -57,20 +57,8 @@ public class ComprarProductoActivity extends AppCompatActivity {
                     AlmacenPagoDatabaseHelper almacenPagoDatabaseHelper = new AlmacenPagoDatabaseHelper(ComprarProductoActivity.this);
                     SQLiteDatabase db = null;
                     try {
-                        //El usuario puede comprar el mismo producto mas de una vez, lo que tendria que agregar mas adelante es la fecha y hora para distinguirlos, pero por ahora con id esta bien
+                        //El usuario puede comprar el mismo producto mas de una vez
                         Log.d(TAG, "onClick: Intentando insertar una Compra");
-                       int idProducto = extras.getInt(EXTRA_ID_PRODUCTO);
-
-                        db =almacenPagoDatabaseHelper.getReadableDatabase();
-                        //Solo obtengo el stock para poder actualizarlo al nuevo valor, horrible
-                        Cursor cursor = db.query("PRODUCTO",new String[]{"stock"},"_idProducto = ?", new String[]{Integer.toString(idProducto)},null,null,null);
-                        cursor.moveToFirst();   //Por alguna razon este cursor se tiene que mover al primer elemento, creo que lo otros no tuve que hacer eso
-                        Log.d(TAG, "ComprarPodructo onClick: "+ cursor.getColumnNames().length+ " " + cursor.getString(0));
-
-                        int pos = cursor.getColumnIndex("stock");
-                        int stockFinal = cursor.getInt(pos);
-                        // - extras.getInt(EXTRA_CANT_PRODUCTO);
-
                         db = almacenPagoDatabaseHelper.getWritableDatabase();
                         //Agrego la compra a la lista de comprados del usuario
                         almacenPagoDatabaseHelper.insertCompra(db, Calendar.getInstance().getTime(), extras.getString(EXTRA_EMAIL_STRING), extras.getInt(EXTRA_ID_PRODUCTO), extras.getInt(EXTRA_CANT_PRODUCTO));

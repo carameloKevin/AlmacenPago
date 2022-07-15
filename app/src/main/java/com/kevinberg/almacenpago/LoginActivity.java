@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity implements LogoutFragment.L
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //Esta actividad es para contener a los dos fragmentos de Login y logout. Si, admito que el nombre es confuso, pero me da cosa refactor
+        //Esta actividad es para contener a los dos fragmentos de Login y logout. Si, admito que el nombre es confuso, pero me da cosa hacer un refactor
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 

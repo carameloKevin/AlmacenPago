@@ -69,20 +69,21 @@ public class ProductoDetallesActivity extends AppCompatActivity {
         Button deleteProductButton = (Button) findViewById(R.id.bt_delete_item);
         Button favButton = (Button) findViewById(R.id.bt_fav);
         Button addStockButton = (Button) findViewById(R.id.bt_add_stock);
+
         //Nombre de dueno en textview
         TextView nombreDueno = (TextView) findViewById(R.id.tv_dueno_producto);
         nombreDueno.setText("");
 
-
         idProducto = (Integer) getIntent().getExtras().get(EXTRA_PRODUCTO_ID);
         SQLiteOpenHelper almacenPagoDatabaseHelper = new AlmacenPagoDatabaseHelper(this);
+
 
         try {
             SQLiteDatabase db = almacenPagoDatabaseHelper.getReadableDatabase();
             Cursor cursor = db.query("PRODUCTO", new String[]{"_idProducto, nombreProd", "descripcion", "precio", "image_resource_id, emailVendedor, stock, aLaVenta"}, "_idProducto = ?", new String[]{Integer.toString(idProducto)}, null, null, null);
 
 
-            //Si existe el producto obtengo todo
+            //Si existe el producto obtengo todoo
             if (cursor.moveToFirst()) {
                 idProducto = cursor.getInt(0);
                 nombreProducto = cursor.getString(1);
@@ -120,16 +121,23 @@ public class ProductoDetallesActivity extends AppCompatActivity {
 
 
                 /*No muestro el area del vendedor si el usuario (no esta logeado o no publico este producto) y
-                 * si la publicacion no esta quitada de la venta
                  * No puedo usar una LinearLayout para agrupar esto. Hay una cosa
                  * llamada GROUPS, pero no me funciono bien y se me rompio el layout
                  * Tengo que probar hacer una ContraintLayout dentro de esta
                  */
-                if (!emailVendedor.equals(userEmail) && aLaVenta != 0) {
+                if (!emailVendedor.equals(userEmail)) {
                     deleteProductButton.setVisibility(View.GONE);
                     addStockButton.setVisibility(View.GONE);
                     tvSellerArea.setVisibility(View.GONE);
                     etStockToAdd.setVisibility(View.GONE);
+                }
+
+                // Si el producto no tiene mas stock o se cancelo la venta se quitan algunos botones
+                if(aLaVenta == 0){
+                    //buyButton.setVisibility(View.GONE);
+                    buyButton.setAlpha(.5f);
+                    buyButton.setEnabled(false);
+                    etCantProd.setVisibility(View.GONE);
                 }
             }
             cursor.close();
@@ -175,7 +183,7 @@ public class ProductoDetallesActivity extends AppCompatActivity {
                     Toast.makeText(ProductoDetallesActivity.this, getString(R.string.input_value), Toast.LENGTH_SHORT).show();
                 } else {
                     cantCompra = Integer.valueOf(etCantProd.getText().toString());
-                    if (!userEmail.equals(NOT_LOGGED_IN) && cantCompra < stock) {
+                    if (!userEmail.equals(NOT_LOGGED_IN) && cantCompra <= stock) {
 
                         Activity act = (Activity) view.getContext();
                         Intent intent = new Intent(act, ComprarProductoActivity.class);
@@ -187,7 +195,11 @@ public class ProductoDetallesActivity extends AppCompatActivity {
                         startActivityForResult(intent, REQUEST_CODE);
 
                     } else {
-                        Toast.makeText(ProductoDetallesActivity.this, getString(R.string.must_be_logged_in), Toast.LENGTH_SHORT).show();
+                        if(cantCompra > stock){
+                            Toast.makeText(ProductoDetallesActivity.this, getString(R.string.no_stock), Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(ProductoDetallesActivity.this, getString(R.string.must_be_logged_in), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }
@@ -245,8 +257,10 @@ public class ProductoDetallesActivity extends AppCompatActivity {
                             //db.rawQuery("UPDATE PRODUCTO SET stock= " + stockAdd + " WHERE _idProducto = "+ idProducto.toString(), new String[]{});
                             ContentValues updateCv = new ContentValues();
                             updateCv.put("stock", stockAdd);
+                            updateCv.put("aLaVenta", 1);
                             db.update("PRODUCTO", updateCv, "_idProducto = ?", new String[]{idProducto.toString()});
                             db.close();
+                            recreate(); //Recreo la actividad para poder actualizar el valor de Stock mostrado
                         } catch (SQLiteException e) {
                             e.printStackTrace();
                             Toast.makeText(ProductoDetallesActivity.this, getString(R.string.error_sql), Toast.LENGTH_SHORT).show();
@@ -265,12 +279,17 @@ public class ProductoDetallesActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
+        //Estoy al tanto de que devuevle ComprarProducto para ver si le resto el stock o no
         if(requestCode == REQUEST_CODE) {
             if(resultCode == RESULT_OK) {
                 AlmacenPagoDatabaseHelper almacenPagoDatabaseHelper = new AlmacenPagoDatabaseHelper(this);
                 SQLiteDatabase db = almacenPagoDatabaseHelper.getWritableDatabase();
                 ContentValues updateCv = new ContentValues();
                 updateCv.put("stock", stock - cantCompra);
+                if(stock-cantCompra == 0){
+                    //si no queda stock lo saco de la venta
+                    updateCv.put("aLaVenta", 0);
+                }
                 db.update("PRODUCTO", updateCv, "_idProducto=?", new String[]{idProducto.toString()});
                 db.close();
             }

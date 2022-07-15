@@ -49,4 +49,6 @@
     <string name="input_value">Ingrese un valor</string>
     <string name="seller_area">Area vendedor</string>
     <string name="add_stock">Agregar Stock</string>
+    <string name="no_stock">No hay stock disponible</string>
+    <string name="error_datos">Algunos de los campos estan mal. Tenes una cuenta de usuario?</string>
 </resources>

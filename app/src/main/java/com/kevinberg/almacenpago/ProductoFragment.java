@@ -50,7 +50,7 @@ public class ProductoFragment extends Fragment {
             GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
             productoRecycler.setLayoutManager(layoutManager);
 
-
+            //Si hacen click en alguna carta, cargo el producto que se clickeo
             adapter.setListener(new ImagenSubAdapter.Listener() {
                 @Override
                 public void onClick(int position) {

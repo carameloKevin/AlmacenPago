@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void cargarFragmentoProductos(String tituloProd){
-        //Si se pasa el tituloProd vacio se obtiene todo
+        //Si se pasa el tituloProd vacio se obtiene todoo
         //Obtengo una query y lo paso a los arreglos necesarios para el fragmento;
         SQLiteOpenHelper almacenPagoDBHelper = new AlmacenPagoDatabaseHelper(this);
         String[] tituloProducto = new String[0];
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        //Que hacer cuando se selecciona un elemento
+        //Que hacer cuando se selecciona un elemento del drawer
         //Obtengo el id del item que selecciono y abro el fragmento/actividad
         int id = item.getItemId();
         Fragment fragment = null;
@@ -214,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        //Hay un solo item en la toolbar, el buscador
+        //Asigno las herramientas a la toolbar
         int id = item.getItemId();
         if(id == R.id.action_search && textoBuscador == null){  //Verifico que no este creado ya
             textoBuscador = new EditText(this);

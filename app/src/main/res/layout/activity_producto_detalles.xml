@@ -75,21 +75,19 @@
         android:id="@+id/bt_buy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/buy"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/producto_imagen" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/bt_fav"
+        app:layout_constraintEnd_toStartOf="@+id/bt_fav" />
 
     <Button
         android:id="@+id/bt_fav"
-        android:layout_width="wrap_content"
+        android:layout_width="88dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
         android:text="@string/favorito"
-        app:layout_constraintBaseline_toBaselineOf="@+id/bt_buy"
-        app:layout_constraintStart_toEndOf="@+id/bt_buy" />
+        app:layout_constraintEnd_toEndOf="@+id/producto_imagen"
+        app:layout_constraintTop_toBottomOf="@+id/producto_imagen" />
 
     <TextView
         android:id="@+id/tv_dueno_producto"
@@ -102,9 +100,9 @@
         android:text="@string/error_is_not_login"
         android:textColor="#0000ff"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/bt_buy"
-        app:layout_constraintStart_toStartOf="@+id/bt_buy"
-        app:layout_constraintTop_toBottomOf="@+id/bt_buy" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_fav" />
 
     <EditText
         android:id="@+id/etStockDisponible"

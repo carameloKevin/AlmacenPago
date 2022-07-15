@@ -70,13 +70,15 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
 
 
         /*
-        / Datos cargados cuando se crea la BD.
+        / Datos cargados cuando se crea la BD. Todoo super hardcodeado
         / Si queres volver a cargarlos tenes que eliminar la BD
         / Tecnicamente se deberia hacer con el UPDATE, pero es mucho trabajo para nada
          */
 
         insertUsuario(sqLiteDatabase, "bergkevin1996@gmail.com", "1234", "Kevin", "Berg");
         insertUsuario(sqLiteDatabase, "test@test.com", "1111", "YoSoy", "ElTest");
+        insertUsuario(sqLiteDatabase, "axelberg@gmail.com", "1111", "Axel", "Berg");
+
 
         Resources res = context.getResources();
         int resID = R.drawable.pringles;
@@ -86,14 +88,34 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
 
         resID = R.drawable.samsung;
         uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + res.getResourcePackageName(resID)+"/"+ res.getResourceTypeName(resID) + "/" + res.getResourceEntryName(resID));
-        insertProducto(sqLiteDatabase, "Celular Samsung01", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 3221,1, "bergkevin1996@gmail.com", true);
-        insertProducto(sqLiteDatabase, "Celular Samsung02", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 4324,2, "bergkevin19961@gmail.com", true);
-        insertProducto(sqLiteDatabase, "Celular Samsung03", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 3562,3, "bergkevin19962@gmail.com", false);
-        insertProducto(sqLiteDatabase, "Celular Samsung04", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 65436.32,4, "bergkevin19963@gmail.com", true);
-        insertProducto(sqLiteDatabase, "Celular Samsung05", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 2534,5, "bergkevin19964@gmail.com", false);
-        insertProducto(sqLiteDatabase, "Celular Samsung06", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 1020.23,6, "test@test.com",true);
+        insertProducto(sqLiteDatabase, "Celular Samsung", "Es un celular Samsung de 4\" con Mp3 y otras cosas", uri.toString(), 10123,1, "bergkevin1996@gmail.com", true);
 
-        insertFavorito(sqLiteDatabase, 2, "test@test.com");
+        resID = R.drawable.applewatch;
+        uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + res.getResourcePackageName(resID)+"/"+ res.getResourceTypeName(resID) + "/" + res.getResourceEntryName(resID));
+        insertProducto(sqLiteDatabase, "Smartwatch", "Reloj inteligente con todos los chiches", uri.toString(), 53213,10, "axelberg@gmail.com", true);
+
+        resID = R.drawable.banana;
+        uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + res.getResourcePackageName(resID)+"/"+ res.getResourceTypeName(resID) + "/" + res.getResourceEntryName(resID));
+        insertProducto(sqLiteDatabase, "Banana", "Banana. Que mas necesitas?", uri.toString(), 20,150, "bergkevin1996@gmail.com", false);
+
+        resID = R.drawable.echo;
+        uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + res.getResourcePackageName(resID)+"/"+ res.getResourceTypeName(resID) + "/" + res.getResourceEntryName(resID));
+        insertProducto(sqLiteDatabase, "Amazon Echo", "Te escucha en todo momento, incluso mientras dormis. Una joyita del futuro distopico en el que vamos a vivir", uri.toString(), 65436.32,7, "test@test.com", true);
+
+        resID = R.drawable.gameboy;
+        uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + res.getResourcePackageName(resID)+"/"+ res.getResourceTypeName(resID) + "/" + res.getResourceEntryName(resID));
+        insertProducto(sqLiteDatabase, "Gameboy Color Amarillo", "Un gameboy, un clasico de los fichines. Es como un Tetris, pero mejor porque tiene mas juegos aparte del tetris! Y a color!", uri.toString(), 30020.23,5, "axelberg@gmail.com", false);
+
+        resID = R.drawable.glasses;
+        uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + res.getResourcePackageName(resID)+"/"+ res.getResourceTypeName(resID) + "/" + res.getResourceEntryName(resID));
+        insertProducto(sqLiteDatabase, "Lentes de Sol", "Son lentes de sol caros para hacerte el lindo por la playa. \n" +
+                "\n" +
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi facilisis sem egestas urna finibus, ornare vulputate lacus ullamcorper. " +
+                "Nulla lectus felis, cursus sit amet pellentesque sed, sodales sed turpis. " +
+                "Mauris aliquam nibh sit amet malesuada viverra. Phasellus dignissim nibh non " +
+                "luctus ornare. Ut eleifend et massa nec egestas. Duis bibendum diam quis justo" +
+                "agittis tristique. Sed sed nulla dui. Maecenas " +
+                "sit amet sodales augue. ", uri.toString(), 1020.23,6, "test@test.com",true);
     }
 
 
