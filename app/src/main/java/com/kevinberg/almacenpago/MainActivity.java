@@ -10,13 +10,20 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ProcessLifecycleOwner;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -30,7 +37,7 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, LifecycleObserver {
     public static final String SHAREDPREFS_DATOS_USUARIO = "userdetails";
     public static final String SHAREDPREFS_EMAIL_USUARIO = "email";
     public static final String SHAREDPREFS_NOMBRE_USUARIO = "nombre";
@@ -38,9 +45,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String SHAREDPREFS_LOOP     = "TRUE";
     private boolean musicOn = false;
 
-    private BackgroundSoundService musicPlayer;
+    private MediaPlayer player;
     private SharedPreferences sharedPreferences;
     private EditText textoBuscador;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //this.deleteDatabase("almacenPago"); //Linea para borrar la BD cuando cambio la id de las imagenes
         //agrego la toolbar arriba del toodo
+        ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -206,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         cargarNombreUsuario();
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
@@ -236,7 +246,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     cargarFragmentoProductos(editable.toString());
                 }
             });
-            return true;
         }else if(id == R.id.action_sound){
             if(musicOn){
                 stopService(new Intent(this, BackgroundSoundService.class));
@@ -249,4 +258,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return super.onOptionsItemSelected(item);
     }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    public void onAppBackgrounded() {
+        // your app come to background
+        stopService(new Intent(this, BackgroundSoundService.class));
+    }
+
+
 }

@@ -1,16 +1,19 @@
 package com.kevinberg.almacenpago;
 
+import static java.lang.Integer.parseInt;
+
 import android.app.Service;
+
 import android.content.Intent;
+
 import android.media.MediaPlayer;
 import android.os.IBinder;
 
-import androidx.annotation.Nullable;
 
 public class BackgroundSoundService extends Service {
     private static final String TAG = null;
+
     MediaPlayer player;
-    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -19,13 +22,13 @@ public class BackgroundSoundService extends Service {
     @Override
     public void onCreate(){
         super.onCreate();
-        player = MediaPlayer.create(this, R.raw.background);
+
+        player = MediaPlayer.create(this, R.raw.allstar);
         player.setLooping(true);
         player.setVolume(100,100);
     }
 
     public int onStartCommand(Intent intent, int flags, int startID){
-        player.setLooping(true);
         player.start();
         return Service.START_STICKY;
     }
@@ -36,7 +39,7 @@ public class BackgroundSoundService extends Service {
     }
 
     public void onPause(){
-        player.stop();
+        player.pause();
     }
 
 
