@@ -77,7 +77,7 @@ public class LogoutFragment extends Fragment {
             String emailUsuario = sharedPreferences.getString("email", "null");
 
             //Unico gran cambiio
-            Cursor cursor = db.query("PRODUCTO", new String[]{"_ID, NOMBREPROD", "IMAGE_RESOURCE_ID", "PRECIO"}, "EMAIL = ?", new String[] {emailUsuario}, null, null, "_id DESC", "10");
+            Cursor cursor = db.query("PRODUCTO", new String[]{"_idProducto, nombreProd", "image_resource_id", "precio"}, "emailVendedor = ?", new String[] {emailUsuario}, null, null, "_idProducto DESC", "10");
 
             if (cursor.moveToFirst()) {
                 Log.d(TAG, "MainActivity - onCreate: Hay un elemento en el cursor. Leyendolo");
@@ -91,10 +91,13 @@ public class LogoutFragment extends Fragment {
 
                 int pos = 0;
                 do {
+
                     idProducto[pos] = cursor.getInt(0);
                     tituloProducto[pos] = cursor.getString(1);
                     imagenIds[pos] = cursor.getString(2);
                     precioProducto[pos] = Double.parseDouble(cursor.getString(3));
+
+                    Log.d(TAG, idProducto[pos] + " " + tituloProducto[pos] + " " + precioProducto[pos]);
 
                     pos++;
                 } while (cursor.moveToNext());
@@ -113,6 +116,7 @@ public class LogoutFragment extends Fragment {
         bundle.putIntArray(ProductoFragment.EXTRA_ARRAY_IDS, idProducto);
         bundle.putStringArray(ProductoFragment.EXTRA_ARRAY_TITULOS, tituloProducto);
         bundle.putStringArray(ProductoFragment.EXTRA_ARRAY_IMAGENID, imagenIds);
+        bundle.putDoubleArray(ProductoFragment.EXTRA_ARRAY_PRECIOS, precioProducto);
         productosFragment.setArguments(bundle);
 
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();

@@ -115,7 +115,7 @@ public class AlmacenPagoDatabaseHelper  extends SQLiteOpenHelper {
                 "Mauris aliquam nibh sit amet malesuada viverra. Phasellus dignissim nibh non " +
                 "luctus ornare. Ut eleifend et massa nec egestas. Duis bibendum diam quis justo" +
                 "agittis tristique. Sed sed nulla dui. Maecenas " +
-                "sit amet sodales augue. ", uri.toString(), 1020.23,6, "test@test.com",true);
+                "sit amet sodales augue. ", uri.toString(), 1029,6, "test@test.com",true);
     }
 
 
