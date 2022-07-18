@@ -50,5 +50,6 @@
     <string name="add_stock">Add Stock</string>
     <string name="no_stock">There is no stock</string>
     <string name="error_datos">Some of the fields are wrong. Do you have an account?</string>
+    <string name="resell">Start selling</string>
 
 </resources>

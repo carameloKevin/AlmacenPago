@@ -37,7 +37,7 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, LifecycleObserver {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public static final String SHAREDPREFS_DATOS_USUARIO = "userdetails";
     public static final String SHAREDPREFS_EMAIL_USUARIO = "email";
     public static final String SHAREDPREFS_NOMBRE_USUARIO = "nombre";
@@ -57,11 +57,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //this.deleteDatabase("almacenPago"); //Linea para borrar la BD cuando cambio la id de las imagenes
         //agrego la toolbar arriba del toodo
-        ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
 
         //--Drawer--
         //Seleccion el drawer y le digo que ponga el simbolo en la toolbar

@@ -43,7 +43,7 @@ public class ProductoDetallesActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private String nombreProducto = "", descripcionProducto, precioProducto, imagenProducto, emailVendedor;
     private EditText etCantProd, etStockToAdd;
-    private Integer idProducto, stock, aLaVenta, cantCompra = -1;
+    private Integer idProducto, stock, aLaVenta =0, cantCompra = -1;
 
 
     @Override
@@ -154,26 +154,36 @@ public class ProductoDetallesActivity extends AppCompatActivity {
         String finalNombreProducto = nombreProducto;
 
         //Agrego funcion al Delete
-        deleteProductButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Activity act = (Activity) view.getContext();
-                SQLiteOpenHelper almacenPagoDatabaseHelper = new AlmacenPagoDatabaseHelper(act);
-                try {
-                    SQLiteDatabase db = almacenPagoDatabaseHelper.getWritableDatabase();
+        if(aLaVenta == 0){
+            //Si ya lo habia sacado de la venta u otro, se le cambia la funcion al boton
+            deleteProductButton.setText(getString(R.string.resell));
+        }
+            deleteProductButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int auxALaVentaNuevo = 0;   //Tiene que ser lo opuesto a aLaVenta. No es boolean
+                    Activity act = (Activity) view.getContext();
+                    if(aLaVenta == 0){
 
-                    //db.delete("PRODUCTO", "_ID="+idProducto,null);    //Esto eliminaba fisicamente
+                        auxALaVentaNuevo = 1;
+                    }
 
-                    ContentValues productoValues = new ContentValues();
-                    productoValues.put("aLaVenta", 0);
-                    db.update("PRODUCTO", productoValues, "idProducto = ?", new String[]{Integer.toString(idProducto)});
-                    db.close();
-                    act.finish();
-                } catch (SQLiteException e) {
-                    Toast.makeText(ProductoDetallesActivity.this, getString(R.string.error_sql), Toast.LENGTH_SHORT).show();
+                    SQLiteOpenHelper almacenPagoDatabaseHelper = new AlmacenPagoDatabaseHelper(act);
+                    try {
+                        SQLiteDatabase db = almacenPagoDatabaseHelper.getWritableDatabase();
+
+                        //db.delete("PRODUCTO", "_ID="+idProducto,null);    //Esto eliminaba fisicamente
+
+                        ContentValues productoValues = new ContentValues();
+                        productoValues.put("aLaVenta", auxALaVentaNuevo);
+                        db.update("PRODUCTO", productoValues, "_idProducto = ?", new String[]{Integer.toString(idProducto)});
+                        db.close();
+                        act.finish();
+                    } catch (SQLiteException e) {
+                        Toast.makeText(ProductoDetallesActivity.this, getString(R.string.error_sql), Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
 
         //Funciones del boton comprar
         buyButton.setOnClickListener(new View.OnClickListener() {
@@ -254,7 +264,6 @@ public class ProductoDetallesActivity extends AppCompatActivity {
                         try {
                             Log.d(TAG, "onClick: "+ idProducto);
                             stockAdd += stock;
-                            //db.rawQuery("UPDATE PRODUCTO SET stock= " + stockAdd + " WHERE _idProducto = "+ idProducto.toString(), new String[]{});
                             ContentValues updateCv = new ContentValues();
                             updateCv.put("stock", stockAdd);
                             updateCv.put("aLaVenta", 1);
