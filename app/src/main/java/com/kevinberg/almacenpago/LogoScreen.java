@@ -26,7 +26,7 @@ public class LogoScreen extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        }, 2000);
+        }, 1000);
 
 
     }

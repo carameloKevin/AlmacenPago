@@ -25,8 +25,7 @@ import android.widget.Toast;
 
 public class LogoutFragment extends Fragment {
 
-    public final String USER_NAME = "username";
-
+    //Interfaz para interactuar con la actividad Padre
     public interface LogoutListener {
         void setLogoutStatus();
     }
@@ -40,6 +39,8 @@ public class LogoutFragment extends Fragment {
         sharedPreferences = this.getContext().getApplicationContext().getSharedPreferences(MainActivity.SHAREDPREFS_DATOS_USUARIO, 0);
 
         String nombreUsuario = sharedPreferences.getString(MainActivity.SHAREDPREFS_NOMBRE_USUARIO, "Usuario");//savedInstanceState.getString(USER_NAME);
+        String emailUsuario = sharedPreferences.getString("email", "null");
+
         View view = inflater.inflate(R.layout.fragment_logout, container, false);
 
         TextView isLoggedIn = view.findViewById(R.id.tv_isLoggedIn);
@@ -57,12 +58,12 @@ public class LogoutFragment extends Fragment {
             }
         });
 
-        cargarFragmentoProductos();
+        cargarFragmentoProductos(emailUsuario);
 
         return view;
     }
 
-    private void cargarFragmentoProductos(){
+    private void cargarFragmentoProductos(String emailUsuario){
         //Copiado y pegado de MainActivity, codigo CASI repetido
         //Obtengo una query y lo paso a los arreglos necesarios para el fragmento;
         SQLiteOpenHelper almacenPagoDBHelper = new AlmacenPagoDatabaseHelper(this.getContext());
@@ -73,14 +74,12 @@ public class LogoutFragment extends Fragment {
         try {
             SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
 
-            sharedPreferences = this.getContext().getApplicationContext().getSharedPreferences("userdetails", 0);
-            String emailUsuario = sharedPreferences.getString("email", "null");
 
             //Unico gran cambiio
             Cursor cursor = db.query("PRODUCTO", new String[]{"_idProducto, nombreProd", "image_resource_id", "precio"}, "emailVendedor = ?", new String[] {emailUsuario}, null, null, "_idProducto DESC", "10");
 
             if (cursor.moveToFirst()) {
-                Log.d(TAG, "MainActivity - onCreate: Hay un elemento en el cursor. Leyendolo");
+                Log.d(TAG, "LogoutFragment - cargarFragmentoProducto: Hay un elemento en el cursor. Leyendolo");
 
                 int largoCursor = cursor.getCount();
                 tituloProducto = new String[largoCursor];

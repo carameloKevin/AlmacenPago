@@ -49,7 +49,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
         etNombreProducto = findViewById(R.id.etNombreProducto);
         etDescripcionProducto = findViewById(R.id.etDescripcionProducto);
         etPrecioProducto = findViewById(R.id.etPrecio);
-        etStock = findViewById(R.id.etStock);
+        etStock          = findViewById(R.id.etStock);
         ivImagen = findViewById(R.id.iv_imagen_producto);
         btInput = findViewById(R.id.btLoad);
         btInputImage = findViewById(R.id.button_add_image);
@@ -92,7 +92,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
                 descripcion = etDescripcionProducto.getText().toString();
                 email = sharedPreferences.getString(MainActivity.SHAREDPREFS_EMAIL_USUARIO, "wrongEmail"); //No deberia haber podido llegar hasta aca si no esta logueado
                 precio = Double.parseDouble(etPrecioProducto.getText().toString());
-                stock = Integer.getInteger(etStock.getText().toString());
+                stock = Integer.parseInt(etStock.getText().toString());
 
                 if(imageUri != null){
                     //Esto se tiene que cargar en la registerForActivityResult, aca solo lo formateo para guardar en BD
@@ -105,7 +105,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
                     try{
                         //verifico que no haya un producto con el mismo nombre y el mismo usuario. No es de los mejores chequeos, pero sirve para la pequena escala que manejo
                         SQLiteDatabase db = almacenPagoDatabaseHelper.getReadableDatabase();
-                            Cursor cursor = db.query("PRODUCTO", new String[]{"_ID", "NOMBREPROD", "EMAIL"}, "NOMBREPROD=? AND EMAIL=?",new String[]{nombre, email},null,null,null);
+                            Cursor cursor = db.query("PRODUCTO", new String[]{"_idProducto", "nombreProd", "emailVendedor"}, "nombreProd=? AND emailVendedor=?",new String[]{nombre, email},null,null,null);
                             if(cursor.moveToFirst()){
                                 Toast.makeText(AgregarProductoActivity.this, getString(R.string.ya_existe_producto), Toast.LENGTH_SHORT).show();
                             }else{
@@ -123,6 +123,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
                 }else{
                     Toast.makeText(AgregarProductoActivity.this, getString(R.string.campos_incompletos), Toast.LENGTH_SHORT).show();
                 }
+                finish();
             }
         });
     }

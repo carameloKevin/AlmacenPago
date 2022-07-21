@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String SHAREDPREFS_LOOP     = "TRUE";
     private boolean musicOn = false;
 
-    private MediaPlayer player;
     private SharedPreferences sharedPreferences;
     private EditText textoBuscador;
 
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //this.deleteDatabase("almacenPago"); //Linea para borrar la BD cuando cambio la id de las imagenes
+        //this.deleteDatabase("almacenPago"); //Linea para borrar la BD asi se vuelve a crear de 0.
         //agrego la toolbar arriba del toodo
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -64,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //--Drawer--
         //Seleccion el drawer y le digo que ponga el simbolo en la toolbar
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toogle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.nav_abrir_drawer, R.string.nav_cerrar_drawer);
+        ActionBarDrawerToggle toogle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.nav_abrir_drawer, R.string.nav_cerrar_drawer);
         drawer.addDrawerListener(toogle);
         toogle.syncState();
         //Basicamente le agrego las funciones al drawer
@@ -87,10 +87,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         try {
             SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
 
-            Cursor cursor = db.query("PRODUCTO", new String[]{"_idProducto, nombreProd", "image_resource_id", "precio"}, "nombreProd LIKE ?", new String[]{"%"+ tituloProd + "%"}, null, null, "_idProducto ASC", "10");
+            Cursor cursor = db.query("PRODUCTO", new String[]{"_idProducto, nombreProd", "image_resource_id", "precio"},
+                    "nombreProd LIKE ?", new String[]{"%"+ tituloProd + "%"},
+                    null, null, "_idProducto ASC", "50");
 
             if (cursor.moveToFirst()) {
-                Log.d(TAG, "MainActivity - onCreate: Hay elemento/s en el cursor. Leyendolo");
+                Log.d(TAG, "MainActivity - CargarFragmentoProductos: Hay elementos en el cursor. Leyendo");
 
                 int largoCursor = cursor.getCount();
                 tituloProducto = new String[largoCursor];
@@ -98,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 idProducto = new int[largoCursor];
                 precioProducto = new double[largoCursor];
 
-                //Cargo todos los elementos para pasarlos al adapter
+                //Cargo todos los elementos para pasarlos al fragmento -> adapter
                 int pos = 0;
                 do {
                     idProducto[pos] = cursor.getInt(0);
@@ -108,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     pos++;
                 } while (cursor.moveToNext());
+
             }
             cursor.close();
             db.close();
@@ -190,20 +193,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        //Si apreto para atras y esta el drawer, cerralo. Si no, hace lo que haga super
+        //Si apreto para atras y esta el drawer abierto, cerralo.
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if(drawer.isDrawerOpen(GravityCompat.START)){
             drawer.closeDrawer(GravityCompat.START);
-        }else{
-            super.onBackPressed();
         }
+            super.onBackPressed();
     }
 
     @Override
     protected void onResume() {
-        //Recarga los productos cuando resumas
         super.onResume();
-        cargarFragmentoProductos("");
+        //Recarga los productos cuando se resuma
+        //cargarFragmentoProductos("");
     }
 
     @Override
@@ -224,9 +226,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         //Asigno las herramientas a la toolbar
         int id = item.getItemId();
+        //Busqueda de elemento
         if(id == R.id.action_search && textoBuscador == null){  //Verifico que no este creado ya
             textoBuscador = new EditText(this);
-            textoBuscador.setLayoutParams(new Toolbar.LayoutParams(Toolbar.LayoutParams.FILL_PARENT, Toolbar.LayoutParams.WRAP_CONTENT));
+            textoBuscador.setLayoutParams(new Toolbar.LayoutParams(Toolbar.LayoutParams.FILL_PARENT,
+                    Toolbar.LayoutParams.WRAP_CONTENT));
             Toolbar layout = findViewById(R.id.toolbar);
             layout.addView(textoBuscador);
 
@@ -244,7 +248,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     cargarFragmentoProductos(editable.toString());
                 }
             });
-        }else if(id == R.id.action_sound){
+        }else
+            //Reproducir o pausar musica
+            if(id == R.id.action_sound){
             if(musicOn){
                 stopService(new Intent(this, BackgroundSoundService.class));
                 musicOn = false;

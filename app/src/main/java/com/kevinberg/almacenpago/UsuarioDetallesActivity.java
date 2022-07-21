@@ -32,16 +32,11 @@ public class UsuarioDetallesActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //cargo los dos fragmentos
-
-        UsuarioDetallesFragment usuarioDetallesFragment = new UsuarioDetallesFragment();
-        ProductoFragment productosPublicadosFragment =new ProductoFragment();
-
+        UsuarioDetallesFragment usuarioDetallesFragment = new UsuarioDetallesFragment();    //Se pasa por un bundle los datos en el sql de abajo
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
 
             String emailUsuario = extras.getString(EMAIL_USUARIO);
-
 
             //Obtener todos los datos del Usuario
             AlmacenPagoDatabaseHelper almacenPagoDatabaseHelper = new AlmacenPagoDatabaseHelper(this);
@@ -118,7 +113,6 @@ public class UsuarioDetallesActivity extends AppCompatActivity {
         }
 
         //Agrego un ProductoFragment al frame layout. Cuando creo el fragment le envio tambien el bundle con los datos
-
         Fragment productosFragment = new ProductoFragment();
 
         //bundle con los datos con los que trabajar

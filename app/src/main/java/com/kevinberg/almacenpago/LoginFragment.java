@@ -50,7 +50,7 @@ public class LoginFragment extends Fragment {
                 case 0:
                     return new LoginTabFragment();
                 case 1:
-                    return new SignUpFragment();
+                    return new SignUpTabFragment();
             }
             return null;
         }

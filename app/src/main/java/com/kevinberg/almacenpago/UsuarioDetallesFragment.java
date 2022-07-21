@@ -21,12 +21,13 @@ public class UsuarioDetallesFragment extends Fragment {
         // Required empty public constructor
     }
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        /* El proposito de este fragmento fue que si en algun futuro se desea agregar mas, o intentar
+        hacer una especie de carta cuando se selecciona un usuario se pueda usar este fragmento de igual
+        manera en todos lados. Basicamente, cumplir su funcion de fragmento
+        * */
         View view = inflater.inflate(R.layout.fragment_usuario_detalles, container, false);
 
         if(getArguments()!= null) {
@@ -34,7 +35,6 @@ public class UsuarioDetallesFragment extends Fragment {
             String userName = extras.getString(NOMBRE_USUARIO, FALLO);
             String userLastName = extras.getString(APELLIDO_USUARIO, FALLO);
             String userEmail = extras.getString(EMAIL_USUARIO, FALLO);
-
 
             TextView nombreUsuarioET = view.findViewById(R.id.tv_username);
             TextView emailUsuarioET = view.findViewById(R.id.tv_userEmail);
