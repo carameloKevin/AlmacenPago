@@ -69,7 +69,6 @@ public class UsuarioDetallesActivity extends AppCompatActivity {
 
             cargarFragmentoProductosUsuario(emailUsuario);
 
-
         }
     }
 

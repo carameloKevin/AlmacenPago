@@ -4,16 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FavoritosActivity">
+    tools:context=".FavoritosActivity"
+    android:orientation="vertical">
 
-        <include
-            layout="@layout/toolbar_main"
-            android:id="@+id/toolbar"/>
+    <include
+        layout="@layout/toolbar_main"
+        android:id="@+id/toolbar_fav"/>
 
     <FrameLayout
         android:id="@+id/fragment_favoritos_usuario"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="16dp" />
+        android:layout_height="wrap_content"/>
+        <!--tools:layout_editor_absoluteX="16dp" /> -->
 
 </LinearLayout>

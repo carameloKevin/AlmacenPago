@@ -15,22 +15,24 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
+import org.w3c.dom.Text;
+
 public class CompradosListAdapater  extends ArrayAdapter {
     private final String TAG = "CompradosListAdapater";
 
-    private String[] nombreProducto;
+    private String[] nombreProducto, imageId, fechaCompras;
     private double[] precioProducto;
     private int[] idProducto;
-    private String[] imageId;
     private  Activity context;
 
-    public CompradosListAdapater(Activity context,int[] idProducto, String[] nombreProducto, double[] precioProducto, String[] imageId){
+    public CompradosListAdapater(Activity context,int[] idProducto, String[] nombreProducto, double[] precioProducto, String[] imageId, String[] fechaProducto){
         super(context, R.layout.row_item, nombreProducto);
         this.context = context;
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.precioProducto = precioProducto;
         this.imageId = imageId;
+        this.fechaCompras = fechaProducto;
     }
 
     @NonNull
@@ -45,10 +47,12 @@ public class CompradosListAdapater  extends ArrayAdapter {
         }
         TextView textViewNombreProducto =   row.findViewById(R.id.textViewNombreProducto);
         TextView textViewPrecioProducto =   row.findViewById(R.id.textViewPrecioProducto);
+        TextView textViewFechaCompra =      row.findViewById(R.id.fechaCompra);
         ImageView imagenProducto =          row.findViewById(R.id.imageViewProducto);
 
         textViewNombreProducto.setText(nombreProducto[position]);
-        textViewPrecioProducto.setText(String.valueOf(precioProducto[position]));
+        textViewPrecioProducto.setText("$"+String.valueOf(precioProducto[position]));
+        textViewFechaCompra.setText(fechaCompras[position]);    //getContext().getString(R.string.compra_fecha)+ " " +
 
         imagenProducto.setImageURI(Uri.parse(imageId[position]));
         return row;

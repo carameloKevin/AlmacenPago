@@ -3,6 +3,7 @@ package com.kevinberg.almacenpago;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -10,10 +11,13 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ProcessLifecycleOwner;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.app.Activity;
 import android.app.Application;
@@ -37,12 +41,15 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, DefaultLifecycleObserver /*, Application.ActivityLifecycleCallbacks*/{
     public static final String SHAREDPREFS_DATOS_USUARIO = "userdetails";
     public static final String SHAREDPREFS_EMAIL_USUARIO = "email";
     public static final String SHAREDPREFS_NOMBRE_USUARIO = "nombre";
     public static final String SHAREDPREFS_LOGIN    = "LOGIN";
     public static final String SHAREDPREFS_LOOP     = "TRUE";
+
+    //Musica
+    private static String currentActivity;
     private boolean musicOn = false;
 
     private SharedPreferences sharedPreferences;
@@ -53,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getLifecycle().addObserver(this);
 
         //this.deleteDatabase("almacenPago"); //Linea para borrar la BD asi se vuelve a crear de 0.
         //agrego la toolbar arriba del toodo
@@ -204,8 +212,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
+        //send_status(1);
         //Recarga los productos cuando se resuma
-        //cargarFragmentoProductos("");
+        cargarFragmentoProductos("");
+    }
+
+    @Override
+    protected void onPause() {
+        //send_status(0);
+        super.onPause();
     }
 
     @Override
@@ -263,11 +278,73 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    public void onAppBackgrounded() {
-        // your app come to background
-        stopService(new Intent(this, BackgroundSoundService.class));
+
+
+    ///Codigo musica
+    //Lo dejo, pero la verdad que no funciona
+/*
+    @Override
+    public void onResume(@NonNull LifecycleOwner owner) {
+        send_status(1);
+        DefaultLifecycleObserver.super.onResume(owner);
+    }
+
+    @Override
+    public void onDestroy(@NonNull LifecycleOwner owner) {
+        send_status(2);
+        DefaultLifecycleObserver.super.onDestroy(owner);
+    }
+
+    @Override
+    public void onPause(@NonNull LifecycleOwner owner) {
+        DefaultLifecycleObserver.super.onPause(owner);
+        //send_status(0);
     }
 
 
+    private void send_status(int status_counter) {
+        Intent intent = new Intent("status");
+        intent.putExtra("status", String.valueOf(status_counter));
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+*/
+
+    /*
+    //Application LifeCycle
+    @Override
+    public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onActivityStarted(@NonNull Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityResumed(@NonNull Activity activity) {
+        send_status(1);
+    }
+
+    @Override
+    public void onActivityPaused(@NonNull Activity activity) {
+        send_status(0);
+    }
+
+    @Override
+    public void onActivityStopped(@NonNull Activity activity) {
+
+    }
+
+    @Override
+    public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle bundle) {
+
+    }
+
+    @Override
+    public void onActivityDestroyed(@NonNull Activity activity) {
+        send_status(2);
+    }
+
+     */
 }

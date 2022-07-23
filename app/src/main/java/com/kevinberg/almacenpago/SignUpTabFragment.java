@@ -52,7 +52,7 @@ public class SignUpTabFragment extends Fragment {
                     AlmacenPagoDatabaseHelper almacenPagoDBHelper = new AlmacenPagoDatabaseHelper(getContext());
                     SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
                     try {
-                        Cursor cursor = db.query("USUARIO", new String[]{"_ID", "EMAIL"}, "EMAIL=?", new String[]{email}, null, null, null);
+                        Cursor cursor = db.query("USUARIO", new String[]{"email"}, "email=?", new String[]{email}, null, null, null);
                         if (cursor.moveToFirst()) {
                             //Si encuentro un usuario en la lista significa que ya existe, dah
                             Toast.makeText(getContext(), getString(R.string.user_alredy_exists), Toast.LENGTH_SHORT).show();

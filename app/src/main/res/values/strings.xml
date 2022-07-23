@@ -39,7 +39,7 @@
     <string name="logut_exitoso">Successful logout</string>
     <string name="error_is_not_login">Error. Are you Logged In?</string>
     <string name="user_alredy_exists">User alredy exists!</string>
-    <string name="user_created_success">User created successfully</string>
+    <string name="user_created_success">User created successfully. Now you can Login</string>
     <string name="verify_input">Verify input</string>
     <string name="favorito">Star</string>
     <string name="added_fav">"Added to favorites!"</string>
@@ -51,5 +51,6 @@
     <string name="no_stock">There is no stock</string>
     <string name="error_datos">Some of the fields are wrong. Do you have an account?</string>
     <string name="resell">Start selling</string>
+    <string name="compra_fecha">Date bought</string>
 
 </resources>

@@ -133,7 +133,7 @@ public class ProductoDetallesActivity extends AppCompatActivity {
                 }
 
                 // Si el producto no tiene mas stock o se cancelo la venta se quitan algunos botones
-                if(aLaVenta == 0){
+                if(aLaVenta == 0 || !isLoggedIn){
                     //buyButton.setVisibility(View.GONE);
                     buyButton.setAlpha(.5f);
                     buyButton.setEnabled(false);

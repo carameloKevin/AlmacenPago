@@ -27,8 +27,10 @@ public class FavoritosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_favoritos);
 
         //toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_fav);
         setSupportActionBar(toolbar);
+
 
         //Para tener los datos del usuario logueado
         sharedPreferences = getApplicationContext().getSharedPreferences(MainActivity.SHAREDPREFS_DATOS_USUARIO, 0);
@@ -44,7 +46,10 @@ public class FavoritosActivity extends AppCompatActivity {
         try {
             SQLiteDatabase db = almacenPagoDBHelper.getReadableDatabase();
             //obtengo la lista de los favoritos del usuario logueado
-            Cursor cursor = db.rawQuery("SELECT idProducto, nombreProd, precio, image_resource_id  FROM PRODUCTO, FAVORITO  WHERE FAVORITO.emailUsuario=? AND PRODUCTO._idProducto=FAVORITO.idProducto" , new String[] {userEmail});
+            Cursor cursor = db.rawQuery("SELECT idProducto, nombreProd, precio, image_resource_id  " +
+                    "FROM PRODUCTO, FAVORITO  " +
+                    "WHERE FAVORITO.emailUsuario=? AND PRODUCTO._idProducto=FAVORITO.idProducto" ,
+                    new String[] {userEmail});
             Log.d(TAG, "onCreate: Llegue "+ cursor.getCount());
             if (cursor.moveToFirst()) {
                 Log.d(TAG, "FavoritosActivity - onCreate: Hay un elemento en el cursor.");
@@ -83,7 +88,7 @@ public class FavoritosActivity extends AppCompatActivity {
         productosFragment.setArguments(bundle);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_favoritos_usuario, productosFragment);  //Uso replace en vez de add para que no se vean las imagenes repetidas en el fondo
+        ft.add(R.id.fragment_favoritos_usuario, productosFragment);  //Uso replace en vez de add para que no se vean las imagenes repetidas en el fondo
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
     }
