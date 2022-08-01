@@ -59,10 +59,13 @@ public class AgregarProductoActivity extends AppCompatActivity {
          new ActivityResultCallback<Uri>() {
                 @Override
                 public void onActivityResult(Uri result) {
-                    getContentResolver().takePersistableUriPermission(result, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    getContentResolver().takePersistableUriPermission(result, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                    getContentResolver().takePersistableUriPermission(result,
+                            Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    getContentResolver().takePersistableUriPermission(result,
+                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                     ivImagen.setImageURI(result);
-                    Log.d(TAG, "el path de la imagen es: " + result.getPath());
+                    Log.d(TAG, "AgregarProductoActivty - El path de la imagen es: "
+                            + result.getPath());
                     imageUri = result;
                 }
             });
@@ -101,27 +104,36 @@ public class AgregarProductoActivity extends AppCompatActivity {
 
                 if(!nombre.isEmpty() && !descripcion.isEmpty() && precio >0 && !uri.isEmpty()){
                     //Creo un nuevo helper para que me ayude a cargar y obtener los datos
-                    AlmacenPagoDatabaseHelper almacenPagoDatabaseHelper = new AlmacenPagoDatabaseHelper(AgregarProductoActivity.this);
+                    AlmacenPagoDatabaseHelper almacenPagoDatabaseHelper =
+                            new AlmacenPagoDatabaseHelper(AgregarProductoActivity.this);
                     try{
                         //verifico que no haya un producto con el mismo nombre y el mismo usuario. No es de los mejores chequeos, pero sirve para la pequena escala que manejo
                         SQLiteDatabase db = almacenPagoDatabaseHelper.getReadableDatabase();
-                            Cursor cursor = db.query("PRODUCTO", new String[]{"_idProducto", "nombreProd", "emailVendedor"}, "nombreProd=? AND emailVendedor=?",new String[]{nombre, email},null,null,null);
+                            Cursor cursor = db.query("PRODUCTO",
+                                    new String[]{"_idProducto", "nombreProd", "emailVendedor"},
+                                    "nombreProd=? AND emailVendedor=?",new String[]{nombre, email},
+                                    null,null,null);
                             if(cursor.moveToFirst()){
-                                Toast.makeText(AgregarProductoActivity.this, getString(R.string.ya_existe_producto), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AgregarProductoActivity.this,
+                                        getString(R.string.ya_existe_producto), Toast.LENGTH_SHORT).show();
                             }else{
                                 Log.d(TAG, "AgregarProductoActivity onClick: Intentando insertar producto");
                                 db.close();
                                 db = almacenPagoDatabaseHelper.getWritableDatabase();
-                                almacenPagoDatabaseHelper.insertProducto(db,nombre, descripcion, uri, precio,stock, email, true);
-                                Toast.makeText(AgregarProductoActivity.this, getString(R.string.producto_agregado_exito), Toast.LENGTH_SHORT).show();
+                                almacenPagoDatabaseHelper.insertProducto(db,nombre, descripcion, uri,
+                                        precio,stock, email, true);
+                                Toast.makeText(AgregarProductoActivity.this, getString(R.string.producto_agregado_exito),
+                                        Toast.LENGTH_SHORT).show();
                             }
                             cursor.close();
                             db.close();
                     }catch (SQLiteException e){
-                        Toast.makeText(AgregarProductoActivity.this, getString(R.string.error_sql), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AgregarProductoActivity.this, getString(R.string.error_sql),
+                                Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(AgregarProductoActivity.this, getString(R.string.campos_incompletos), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AgregarProductoActivity.this, getString(R.string.campos_incompletos),
+                            Toast.LENGTH_SHORT).show();
                 }
                 finish();
             }
