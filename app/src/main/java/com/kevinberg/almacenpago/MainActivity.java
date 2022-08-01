@@ -41,7 +41,7 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, DefaultLifecycleObserver /*, Application.ActivityLifecycleCallbacks*/{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener /*,DefaultLifecycleObserver , Application.ActivityLifecycleCallbacks*/{
     public static final String SHAREDPREFS_DATOS_USUARIO = "userdetails";
     public static final String SHAREDPREFS_EMAIL_USUARIO = "email";
     public static final String SHAREDPREFS_NOMBRE_USUARIO = "nombre";
@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getLifecycle().addObserver(this);
 
         //this.deleteDatabase("almacenPago"); //Linea para borrar la BD asi se vuelve a crear de 0.
         //agrego la toolbar arriba del toodo
@@ -267,7 +266,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //Reproducir o pausar musica
             if(id == R.id.action_sound){
             if(musicOn){
-                stopService(new Intent(this, BackgroundSoundService.class));
+                //stopService(new Intent(this, BackgroundSoundService.class));
+                send_status(0);
                 musicOn = false;
             }else{
                 startService(new Intent(this, BackgroundSoundService.class));
@@ -302,14 +302,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+
+*/
+
+
     private void send_status(int status_counter) {
         Intent intent = new Intent("status");
         intent.putExtra("status", String.valueOf(status_counter));
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
-*/
-
-    /*
+/*
     //Application LifeCycle
     @Override
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle bundle) {
@@ -345,6 +347,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onActivityDestroyed(@NonNull Activity activity) {
         send_status(2);
     }
+*/
 
-     */
 }

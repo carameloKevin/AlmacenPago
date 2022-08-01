@@ -19,7 +19,7 @@ public class BackgroundSoundService extends Service {
     private static final String TAG = null;
     MediaPlayer player;
 
-    /*
+
     private BroadcastReceiver StateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -40,7 +40,7 @@ public class BackgroundSoundService extends Service {
             }
         }
     };
-     */
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -51,7 +51,7 @@ public class BackgroundSoundService extends Service {
     public void onCreate(){
         super.onCreate();
 
-        //LocalBroadcastManager.getInstance(this).registerReceiver(StateReceiver, new IntentFilter("status"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(StateReceiver, new IntentFilter("status"));
 
         player = MediaPlayer.create(this, R.raw.allstar);
         player.setLooping(true);
@@ -59,6 +59,11 @@ public class BackgroundSoundService extends Service {
 
     public int onStartCommand(Intent intent, int flags, int startID){
         player.start();
+        /*
+         START_STICKY tells the OS to recreate the service after it
+         has enough memory and call onStartCommand() again with a null intent.
+         START_NOT_STICKY tells the OS to not bother recreating the service again.
+         */
         return Service.START_NOT_STICKY;
     }
 

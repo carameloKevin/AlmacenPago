@@ -4,9 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Almacen_Pago.iml" filepath="$PROJECT_DIR$/.idea/modules/Almacen_Pago.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Almacen_Pago.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Almacen_Pago.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Almacen_Pago.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Almacen_Pago.app.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Almacen_Pago.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Almacen_Pago.app.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Almacen_Pago.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Almacen_Pago.app.unitTest.iml" />
     </modules>
   </component>
 </project>
